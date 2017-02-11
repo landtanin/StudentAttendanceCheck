@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/height_list_item_add_module"
+                >
+
+    <TextView
+        android:id="@+id/addModuleModuleNameTxt"
+        android:text="sample module text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/margin_left_txt_add_module"
+        android:layout_marginTop="@dimen/margin_top_module_txt_add_module"
+        android:textSize="@dimen/txt_module_add_module_list"
+        android:textColor="@color/colorAddModuleListModuletxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/addModuleModuleIdTxt"
+        android:text="sample module id"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/margin_left_txt_add_module"
+        android:layout_marginBottom="@dimen/margin_bottom_id_txt_add_module"
+        android:textSize="@dimen/txt_id_add_module_list"
+        android:textColor="@color/colorAddModuleListIdtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <CheckBox
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/addModuleCheckbox"
+        android:layout_marginRight="@dimen/margin_right_checkbox_add_module"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAddModuleListLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+</RelativeLayout>

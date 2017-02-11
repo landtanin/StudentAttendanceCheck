@@ -2,4 +2,14 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="txt_module_add_module_list">20sp</dimen>
+    <dimen name="txt_id_add_module_list">15sp</dimen>
+
+    <dimen name="height_list_item_add_module">62dp</dimen>
+
+    <dimen name="margin_top_module_txt_add_module">9dp</dimen>
+    <dimen name="margin_bottom_id_txt_add_module">8dp</dimen>
+    <dimen name="margin_left_txt_add_module">8dp</dimen>
+    <dimen name="margin_right_checkbox_add_module">8dp</dimen>
 </resources>
