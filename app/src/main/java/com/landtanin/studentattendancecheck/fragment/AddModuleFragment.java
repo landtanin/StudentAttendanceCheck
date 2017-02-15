@@ -2,17 +2,22 @@ package com.landtanin.studentattendancecheck.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.adapter.AddModuleAdapter;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 public class AddModuleFragment extends Fragment {
+
+    RecyclerView rv;
+    AddModuleAdapter mAddModuleAdapter;
 
     public AddModuleFragment() {
         super();
