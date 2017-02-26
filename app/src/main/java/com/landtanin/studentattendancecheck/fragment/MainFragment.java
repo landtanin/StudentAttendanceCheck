@@ -57,7 +57,23 @@ public class MainFragment extends Fragment {
 
     private void initInstances(View rootView) {
         // Init 'View' instance(s) with rootView.findViewById here
+        b.plusSignImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                MainFragment mainFragment = (MainFragment)
+                        getFragmentManager().findFragmentByTag("MainFragment");
+                AddModuleFragment addModuleFragment = (AddModuleFragment)
+                        getFragmentManager().findFragmentByTag("AddModuleFragment");
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.from_right, R.anim.to_left,
+                                R.anim.from_left, R.anim.to_right)
+                        .attach(addModuleFragment)
+                        .detach(mainFragment)
+                        .commit();
+            }
+        });
 
     }
 

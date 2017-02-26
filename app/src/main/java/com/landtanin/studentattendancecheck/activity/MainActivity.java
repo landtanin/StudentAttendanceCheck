@@ -20,17 +20,20 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState==null) {
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.contentContainer, MainFragment.newInstance())
+                    .add(R.id.contentContainer,
+                            MainFragment.newInstance(),
+                            "MainFragment")
                     .commit();
 
             AddModuleFragment addModuleFragment = AddModuleFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.contentContainer, addModuleFragment)
+                    .add(R.id.contentContainer,
+                            addModuleFragment,
+                            "AddModuleFragment")
                     .detach(addModuleFragment)
                     .commit();
 
         }
-
 
     }
 
