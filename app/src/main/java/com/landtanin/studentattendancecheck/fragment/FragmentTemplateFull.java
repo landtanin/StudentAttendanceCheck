@@ -3,29 +3,24 @@ package com.landtanin.studentattendancecheck.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
-import com.landtanin.studentattendancecheck.adapter.AddModuleAdapter;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
-public class AddModuleFragment extends Fragment {
+public class FragmentTemplateFull extends Fragment {
 
-    RecyclerView rv;
-    AddModuleAdapter mAddModuleAdapter;
-
-    public AddModuleFragment() {
+    public FragmentTemplateFull() {
         super();
     }
 
-    public static AddModuleFragment newInstance() {
-        AddModuleFragment fragment = new AddModuleFragment();
+    public static FragmentTemplateFull newInstance() {
+        FragmentTemplateFull fragment = new FragmentTemplateFull();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -43,8 +38,8 @@ public class AddModuleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_add_module, container, false);
-        initInstances(rootView);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        initInstances(rootView, savedInstanceState);
         return rootView;
     }
 
@@ -53,37 +48,22 @@ public class AddModuleFragment extends Fragment {
         // Init Fragment level's variable(s) here
     }
 
-    private void initInstances(View rootView) {
+    @SuppressWarnings("UnusedParameters")
+    private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
-        rv = (RecyclerView) rootView.findViewById(R.id.rv_add_module);
-        mAddModuleAdapter = new AddModuleAdapter();
-        rv.setAdapter(mAddModuleAdapter);
+        // Note: State of variable initialized here could not be saved
+        //       in onSavedInstanceState
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    /*
-     * Save Instance State Here
-     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // Save Instance State here
+        // Save Instance (Fragment level's variables) State here
     }
 
-    /*
-     * Restore Instance State Here
-     */
     @SuppressWarnings("UnusedParameters")
     private void onRestoreInstanceState(Bundle savedInstanceState) {
         // Restore Instance (Fragment level's variables) State here
     }
+
 }
