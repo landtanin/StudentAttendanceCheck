@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,9 +56,17 @@ public class AddModuleFragment extends Fragment {
 
     private void initInstances(View rootView) {
         // Init 'View' instance(s) with rootView.findViewById here
+
+        StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
+
         rv = (RecyclerView) rootView.findViewById(R.id.rv_add_module);
+        rv.setLayoutManager(rvLayoutManager);
         mAddModuleAdapter = new AddModuleAdapter();
+
         rv.setAdapter(mAddModuleAdapter);
+        rv.setHasFixedSize(true);
+
+        // TODO: update data into Adapter of RecyclerView
     }
 
     @Override

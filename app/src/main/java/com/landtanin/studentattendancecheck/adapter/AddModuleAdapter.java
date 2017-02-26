@@ -24,7 +24,7 @@ public class AddModuleAdapter extends RecyclerView.Adapter<AddModuleAdapter.Recy
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
 
         holder.addModuleModuleNameTxt.setText("Module" + position);
-        holder.addModuleModuleIdTxt.setText(position);
+        holder.addModuleModuleIdTxt.setText("00000" + position);
         holder.addModuleCheckBox.setChecked(false);
 
     }
