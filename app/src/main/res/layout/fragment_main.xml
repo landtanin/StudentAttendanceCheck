@@ -1,17 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:text="I'm a CEO bitch!"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
 
-    <Button
-        android:id="@+id/btnSample"
+    <ImageView
+        android:id="@+id/plusSignImg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="120dp"
+        android:src="@drawable/plus"
+        android:layout_weight="1"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"/>
+
+    <TextView
+        android:id="@+id/clickToAddModuleTxt"
+        android:text="click to add module"
+        android:textAlignment="center"
+        android:layout_weight="1"
+        android:textSize="@dimen/txt_plus_sign_fragment_des"
+        android:textColor="@color/colorTxtFragmentMain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
 
 </LinearLayout>
+</layout>

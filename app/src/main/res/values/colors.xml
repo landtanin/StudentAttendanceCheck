@@ -7,4 +7,6 @@
     <color name='colorAddModuleListLine'>#000000</color>
     <color name='colorAddModuleListModuletxt'>#000000</color>
     <color name='colorAddModuleListIdtxt'>#000000</color>
+
+    <color name='colorTxtFragmentMain'>#000000</color>
 </resources>

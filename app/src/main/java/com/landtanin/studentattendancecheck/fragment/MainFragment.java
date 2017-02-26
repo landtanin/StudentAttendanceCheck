@@ -1,19 +1,25 @@
 package com.landtanin.studentattendancecheck.fragment;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.databinding.FragmentMainBinding;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 public class MainFragment extends Fragment {
+
+    ImageView plusSignImg;
+    FragmentMainBinding b;
 
     public MainFragment() {
         super();
@@ -38,7 +44,8 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        b = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        View rootView = b.getRoot();
         initInstances(rootView);
         return rootView;
     }
@@ -50,6 +57,8 @@ public class MainFragment extends Fragment {
 
     private void initInstances(View rootView) {
         // Init 'View' instance(s) with rootView.findViewById here
+
+
     }
 
     @Override

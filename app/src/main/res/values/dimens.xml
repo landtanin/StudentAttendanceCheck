@@ -5,6 +5,7 @@
 
     <dimen name="txt_module_add_module_list">20sp</dimen>
     <dimen name="txt_id_add_module_list">15sp</dimen>
+    <dimen name="txt_plus_sign_fragment_des">20sp</dimen>
 
     <dimen name="height_list_item_add_module">62dp</dimen>
 
@@ -12,4 +13,6 @@
     <dimen name="margin_bottom_id_txt_add_module">8dp</dimen>
     <dimen name="margin_left_txt_add_module">8dp</dimen>
     <dimen name="margin_right_checkbox_add_module">8dp</dimen>
+
+
 </resources>

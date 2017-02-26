@@ -26,6 +26,7 @@ public class AddModuleAdapter extends RecyclerView.Adapter<AddModuleAdapter.Recy
         holder.addModuleModuleNameTxt.setText("Module" + position);
         holder.addModuleModuleIdTxt.setText(position);
         holder.addModuleCheckBox.setChecked(false);
+
     }
 
     @Override
