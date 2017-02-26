@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.adapter.AddModuleAdapter;
+import com.landtanin.studentattendancecheck.adapter.AddModuleItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,6 +24,7 @@ public class AddModuleFragment extends Fragment {
 
     RecyclerView rv;
     AddModuleAdapter mAddModuleAdapter;
+    List<AddModuleItem> mModuleItemList = new ArrayList<>();
 
     public AddModuleFragment() {
         super();
@@ -61,12 +66,31 @@ public class AddModuleFragment extends Fragment {
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_add_module);
         rv.setLayoutManager(rvLayoutManager);
-        mAddModuleAdapter = new AddModuleAdapter();
+        mAddModuleAdapter = new AddModuleAdapter(mModuleItemList, getContext());
 
         rv.setAdapter(mAddModuleAdapter);
         rv.setHasFixedSize(true);
 
+        connectToDataBase();
+
         // TODO: update data into Adapter of RecyclerView
+    }
+
+    /********
+     * This is where we add item to list
+     */
+    private void connectToDataBase() {
+
+        // hardcoded item to RecyclerView
+        for (int i = 0; i < 100; i++) {
+
+            AddModuleItem addModuleItem = new AddModuleItem("item " + i, "item2 " + i, false);
+            mModuleItemList.add(addModuleItem);
+
+        }
+
+        mAddModuleAdapter.notifyDataSetChanged();
+
     }
 
     @Override

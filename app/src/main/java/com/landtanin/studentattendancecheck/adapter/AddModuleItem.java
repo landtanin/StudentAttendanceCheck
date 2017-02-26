@@ -16,6 +16,8 @@ public class AddModuleItem {
         this.checkboxStatus = checkboxStatus;
     }
 
+
+
     public String getModuleText() {
         return moduleText;
     }
