@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="com.landtanin.studentattendancecheck.activity.MainActivity">
-
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:tools="http://schemas.android.com/tools"
+         tools:context="com.landtanin.studentattendancecheck.activity.AddModuleActivity">
 <RelativeLayout
 
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_add_module_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -21,7 +19,7 @@
             android:contentInsetStart="0dp"
             android:contentInsetRight="0dp"
             android:contentInsetEnd="0dp"
-            android:id="@+id/mainActivityToolbar"
+            android:id="@+id/addModuleActivityToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary">
@@ -38,7 +36,7 @@
 
                 <TextView
                     android:id="@+id/txtToolbarMainActivity"
-                    android:text="@string/txt_home_toolbar"
+                    android:text="@string/txt_add_module_toolbar"
                     android:textColor="@android:color/white"
                     android:textAlignment="center"
 
@@ -60,10 +58,11 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <FrameLayout
-            android:id="@+id/contentContainer"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_add_module"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

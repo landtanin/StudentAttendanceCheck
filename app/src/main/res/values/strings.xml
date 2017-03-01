@@ -2,4 +2,7 @@
     <string name="app_name">StudentAttendanceCheck</string>
 
     <string name="btn_name_add_module">done</string>
+
+    <string name="txt_home_toolbar">HOME</string>
+    <string name="txt_add_module_toolbar">ADD MODULE</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.landtanin.studentattendancecheck.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.activity.AddModuleActivity;
 import com.landtanin.studentattendancecheck.databinding.FragmentMainBinding;
 
 
@@ -61,17 +63,21 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                MainFragment mainFragment = (MainFragment)
-                        getFragmentManager().findFragmentByTag("MainFragment");
-                AddModuleFragment addModuleFragment = (AddModuleFragment)
-                        getFragmentManager().findFragmentByTag("AddModuleFragment");
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(
-                                R.anim.from_right, R.anim.to_left,
-                                R.anim.from_left, R.anim.to_right)
-                        .attach(addModuleFragment)
-                        .detach(mainFragment)
-                        .commit();
+                // from MainFragment to AddModuleFragment
+//                MainFragment mainFragment = (MainFragment)
+//                        getFragmentManager().findFragmentByTag("MainFragment");
+//                AddModuleFragment addModuleFragment = (AddModuleFragment)
+//                        getFragmentManager().findFragmentByTag("AddModuleFragment");
+//                getFragmentManager().beginTransaction()
+//                        .setCustomAnimations(
+//                                R.anim.from_right, R.anim.to_left,
+//                                R.anim.from_left, R.anim.to_right)
+//                        .attach(addModuleFragment)
+//                        .detach(mainFragment)
+//                        .commit();
+
+                Intent objIntent = new Intent(getContext(), AddModuleActivity.class);
+                startActivity(objIntent);
             }
         });
 
