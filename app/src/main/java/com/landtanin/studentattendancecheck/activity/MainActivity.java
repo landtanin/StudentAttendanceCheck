@@ -54,4 +54,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        MainFragment mainFragment = (MainFragment)
+//                getSupportFragmentManager().findFragmentByTag("MainFragment");
+//        AddModuleFragment addModuleFragment = (AddModuleFragment)
+//                getSupportFragmentManager().findFragmentByTag("AddModuleFragment");
+//        getFragmentManager().beginTransaction()
+////                .setCustomAnimations(
+////                        R.anim.from_right, R.anim.to_left,
+////                        R.anim.from_left, R.anim.to_right)
+////                .attach(mainFragment)
+//                .detach(addModuleFragment)
+//                .commit();
+//    }
 }

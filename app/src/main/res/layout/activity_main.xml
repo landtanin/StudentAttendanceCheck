@@ -7,9 +7,64 @@
     android:layout_height="match_parent"
     tools:context="com.landtanin.studentattendancecheck.activity.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/contentContainer"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            android:id="@+id/mainActivityToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.22"/>
+
+                <TextView
+                    android:id="@+id/txtToolbarMainActivity"
+                    android:text="HOME"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+
+                    android:textSize="@dimen/txt_toolbar_main_activity"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/btnDoneAddModule"
+                    android:text="@string/btn_name_add_module"
+                    android:textColor="@android:color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:background="@android:color/transparent"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/contentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>

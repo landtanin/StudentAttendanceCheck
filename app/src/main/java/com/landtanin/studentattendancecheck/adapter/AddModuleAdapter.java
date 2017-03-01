@@ -45,7 +45,7 @@ public class AddModuleAdapter extends RecyclerView.Adapter<AddModuleAdapter.Recy
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 100;
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder{
