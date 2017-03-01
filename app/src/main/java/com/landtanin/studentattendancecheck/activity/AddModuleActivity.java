@@ -1,9 +1,12 @@
 package com.landtanin.studentattendancecheck.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.adapter.AddModuleAdapter;
@@ -24,7 +27,11 @@ public class AddModuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this, R.layout.activity_add_module);
-        
+
+        if (savedInstanceState != null) {
+            onRestoreInstanceState(savedInstanceState);
+        }
+
         initInstance();
         
     }
@@ -45,7 +52,19 @@ public class AddModuleActivity extends AppCompatActivity {
 
         connectToDataBase();
 
+        // **** done button
+        b.btnDoneAddModule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", "test");
+                setResult(RESULT_OK, returnIntent);
+
+                finish();
+
+            }
+        });
 
     }
 
@@ -63,5 +82,14 @@ public class AddModuleActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+
+    }
 
 }

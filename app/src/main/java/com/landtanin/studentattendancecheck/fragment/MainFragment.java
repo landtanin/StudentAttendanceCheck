@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.activity.AddModuleActivity;
 import com.landtanin.studentattendancecheck.databinding.FragmentMainBinding;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -64,9 +67,25 @@ public class MainFragment extends Fragment {
             public void onClick(View view) {
 
                 Intent objIntent = new Intent(getContext(), AddModuleActivity.class);
-                startActivity(objIntent);
+                startActivityForResult(objIntent, 001);
+
             }
         });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 001) {
+            if (resultCode == RESULT_OK) {
+
+                String strToast = data.getStringExtra("result");
+                Toast.makeText(getContext(), strToast, Toast.LENGTH_SHORT).show();
+
+            }
+        }
 
     }
 
