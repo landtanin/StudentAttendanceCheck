@@ -28,7 +28,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <View
@@ -47,14 +47,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
 
-                <Button
-                    android:id="@+id/btnDoneAddModule"
-                    android:text="@string/btn_name_add_module"
-                    android:textColor="@android:color/white"
+                <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.15"
-                    android:background="@android:color/transparent"/>
+                    android:layout_weight="0.15"/>
 
             </LinearLayout>
 

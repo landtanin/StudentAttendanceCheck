@@ -63,8 +63,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-
-
                 Intent objIntent = new Intent(getContext(), AddModuleActivity.class);
                 startActivity(objIntent);
             }
