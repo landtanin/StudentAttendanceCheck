@@ -63,18 +63,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // from MainFragment to AddModuleFragment
-//                MainFragment mainFragment = (MainFragment)
-//                        getFragmentManager().findFragmentByTag("MainFragment");
-//                AddModuleFragment addModuleFragment = (AddModuleFragment)
-//                        getFragmentManager().findFragmentByTag("AddModuleFragment");
-//                getFragmentManager().beginTransaction()
-//                        .setCustomAnimations(
-//                                R.anim.from_right, R.anim.to_left,
-//                                R.anim.from_left, R.anim.to_right)
-//                        .attach(addModuleFragment)
-//                        .detach(mainFragment)
-//                        .commit();
+
 
                 Intent objIntent = new Intent(getContext(), AddModuleActivity.class);
                 startActivity(objIntent);
