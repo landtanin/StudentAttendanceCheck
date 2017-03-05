@@ -1,31 +1,26 @@
 package com.landtanin.studentattendancecheck.fragment;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
-import com.landtanin.studentattendancecheck.databinding.FragmentHomeBinding;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
-public class FragmentHome extends Fragment {
+public class FragmentTimeTable extends Fragment {
 
-    FragmentHomeBinding b;
-
-    public FragmentHome() {
+    public FragmentTimeTable() {
         super();
     }
 
-    public static FragmentHome newInstance() {
-        FragmentHome fragment = new FragmentHome();
+    public static FragmentTimeTable newInstance() {
+        FragmentTimeTable fragment = new FragmentTimeTable();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -43,9 +38,7 @@ public class FragmentHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        b = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        View rootView = b.getRoot();
+        View rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
         initInstances(rootView, savedInstanceState);
         return rootView;
     }
@@ -60,42 +53,6 @@ public class FragmentHome extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
-
-        b.homeFragmentViewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-
-                switch (position) {
-                    case 0:
-                        return FragmentNow.newInstance();
-                    case 1:
-                        return FragmentTimeTable.newInstance();
-                    default:
-                        return null;
-                }
-
-            }
-
-            @Override
-            public int getCount() {
-                return 2;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return "NOW";
-                    case 1:
-                        return "TIME TABLE";
-                    default:
-                        return null;
-                }
-            }
-        });
-
-        b.homeFragmentSlidingTabLayout.setViewPager(b.homeFragmentViewPager);
-
     }
 
     @Override
