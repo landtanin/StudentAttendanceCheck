@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
                             "MainFragment")
                     .commit();
 
-
-
         }
 
     }
@@ -38,6 +36,5 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(b.mainActivityToolbar);
 
     }
-
 
 }
