@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.inthecheesefactory.thecheeselibrary.view.SlidingTabLayout;
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.databinding.FragmentHomeBinding;
 
@@ -94,7 +95,18 @@ public class FragmentHome extends Fragment {
             }
         });
 
+        b.homeFragmentSlidingTabLayout.setDistributeEvenly(true);
+
+        // slideable bar color
+        b.homeFragmentSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.colorPrimary);
+            }
+        });
+
         b.homeFragmentSlidingTabLayout.setViewPager(b.homeFragmentViewPager);
+
 
     }
 

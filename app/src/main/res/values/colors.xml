@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorWhite">#FF4081</color>
+
     <color name='colorAddModuleListLine'>#000000</color>
     <color name='colorAddModuleListModuletxt'>#000000</color>
     <color name='colorAddModuleListIdtxt'>#000000</color>
