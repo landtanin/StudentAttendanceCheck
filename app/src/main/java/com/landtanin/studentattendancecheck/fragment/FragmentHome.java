@@ -3,15 +3,17 @@ package com.landtanin.studentattendancecheck.fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.inthecheesefactory.thecheeselibrary.view.SlidingTabLayout;
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.databinding.FragmentHomeBinding;
+import com.landtanin.studentattendancecheck.manager.SmartFragmentStatePagerAdapter;
 
 
 /**
@@ -62,51 +64,83 @@ public class FragmentHome extends Fragment {
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
 
-        b.homeFragmentViewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
+        // slidingTablayout
+//        b.homeFragmentViewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
+//            @Override
+//            public Fragment getItem(int position) {
+//
+//                switch (position) {
+//                    case 0:
+//                        return FragmentNow.newInstance();
+//                    case 1:
+//                        return FragmentTimeTable.newInstance();
+//                    default:
+//                        return null;
+//                }
+//
+//            }
+//
+//            @Override
+//            public int getCount() {
+//                return 2;
+//            }
+//
+//            @Override
+//            public CharSequence getPageTitle(int position) {
+//                switch (position) {
+//                    case 0:
+//                        return "NOW";
+//                    case 1:
+//                        return "TIME TABLE";
+//                    default:
+//                        return null;
+//                }
+//            }
+//        });
+//
+//        b.homeFragmentSlidingTabLayout.setDistributeEvenly(true);
+//
+//        // slideable bar color
+//        b.homeFragmentSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+//            @Override
+//            public int getIndicatorColor(int position) {
+//                return getResources().getColor(R.color.colorPrimary);
+//            }
+//        });
+//
+//        b.homeFragmentSlidingTabLayout.setViewPager(b.homeFragmentViewPager);
+
+        FragmentHomePagerAdapter fragmentHomePagerAdapter = new FragmentHomePagerAdapter(getChildFragmentManager());
+
+        b.fragmentHomeNonSwipViewPager.setAdapter(fragmentHomePagerAdapter);
+        b.fragmentHomeNonSwipViewPager.setOffscreenPageLimit(2);
+
+        b.fragHomeTabLayout.setupWithViewPager(b.fragmentHomeNonSwipViewPager);
+        b.fragHomeTabLayout.setClipToPadding(true);
+
+        for(int i = 0; i < b.fragHomeTabLayout.getTabCount(); i++) {
+
+            TabLayout.Tab tab = b.fragHomeTabLayout.getTabAt(i);
+            tab.setText(fragmentHomePagerAdapter.tabString[i]);
+
+        }
+
+        b.fragHomeTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public Fragment getItem(int position) {
-
-                switch (position) {
-                    case 0:
-                        return FragmentNow.newInstance();
-                    case 1:
-                        return FragmentTimeTable.newInstance();
-                    default:
-                        return null;
-                }
-
+            public void onTabSelected(TabLayout.Tab tab) {
+//                Toast.makeText(getContext(), "Tab has been selected", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public int getCount() {
-                return 2;
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Toast.makeText(getContext(), "Tab has been unselected", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return "NOW";
-                    case 1:
-                        return "TIME TABLE";
-                    default:
-                        return null;
-                }
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
-
-        b.homeFragmentSlidingTabLayout.setDistributeEvenly(true);
-
-        // slideable bar color
-        b.homeFragmentSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.colorPrimary);
-            }
-        });
-
-        b.homeFragmentSlidingTabLayout.setViewPager(b.homeFragmentViewPager);
-
 
     }
 
@@ -119,6 +153,38 @@ public class FragmentHome extends Fragment {
     @SuppressWarnings("UnusedParameters")
     private void onRestoreInstanceState(Bundle savedInstanceState) {
         // Restore Instance (Fragment level's variables) State here
+    }
+
+    public class FragmentHomePagerAdapter extends SmartFragmentStatePagerAdapter {
+
+        private SmartFragmentStatePagerAdapter adapterViewPager;
+
+
+        public String[] tabString = {"NOW", "TIME TABLE"};
+
+        public FragmentHomePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return FragmentNow.newInstance();
+                case 1:
+                    return FragmentTimeTable.newInstance();
+
+                default:
+                    return MainFragment.newInstance();
+            }
+        }
+
+        @Override
+        public int getCount() {
+
+            return tabString.length;
+
+        }
     }
 
 }
