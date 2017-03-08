@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.landtanin.studentattendancecheck.R;
@@ -16,22 +15,16 @@ import java.util.List;
  * Created by landtanin on 2/15/2017 AD.
  */
 
-public class AddModuleAdapter extends RecyclerView.Adapter<AddModuleAdapter.RecyclerViewHolder> {
+public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdapter.RecyclerViewHolder> {
 
     private List<AddModuleItem> mModuleItemList;
     Context mContext;
 
-
-
-
-    public AddModuleAdapter(List<AddModuleItem> moduleItemList, Context context) {
-        mModuleItemList = moduleItemList;
-        mContext = context;
-    }
+    // TODO: Constructor
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_add_module, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_time_table, parent, false);
         return new RecyclerViewHolder(itemView);
     }
 
@@ -40,9 +33,9 @@ public class AddModuleAdapter extends RecyclerView.Adapter<AddModuleAdapter.Recy
 
         AddModuleItem addModuleItem = mModuleItemList.get(position);
 
-        holder.addModuleModuleNameTxt.setText(addModuleItem.getModuleText());
-        holder.addModuleModuleIdTxt.setText(addModuleItem.getModuleId());
-        holder.addModuleCheckBox.setChecked(false);
+//        holder.addModuleModuleNameTxt.setText(addModuleItem.getModuleText());
+//        holder.addModuleModuleIdTxt.setText(addModuleItem.getModuleId());
+//        holder.addModuleCheckBox.setChecked(false);
 
     }
 
@@ -51,18 +44,20 @@ public class AddModuleAdapter extends RecyclerView.Adapter<AddModuleAdapter.Recy
         return 100;
     }
 
+
+
     public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
-        TextView addModuleModuleNameTxt;
-        TextView addModuleModuleIdTxt;
-        CheckBox addModuleCheckBox;
+        TextView moduleNameTxt, moduleIdTxt, statusTxt, timeTxt, locationTxt;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
 
-            addModuleModuleNameTxt = (TextView) itemView.findViewById(R.id.addModuleModuleNameTxt);
-            addModuleModuleIdTxt = (TextView) itemView.findViewById(R.id.addModuleModuleIdTxt);
-            addModuleCheckBox = (CheckBox) itemView.findViewById(R.id.addModuleCheckbox);
+            moduleNameTxt = (TextView) itemView.findViewById(R.id.moduleIdTxt);
+            moduleIdTxt = (TextView) itemView.findViewById(R.id.moduleIdTxt);
+            statusTxt = (TextView) itemView.findViewById(R.id.statusTxt);
+            timeTxt = (TextView) itemView.findViewById(R.id.timeTxt);
+            locationTxt = (TextView) itemView.findViewById(R.id.locationTxt);
 
         }
     }

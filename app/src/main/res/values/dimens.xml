@@ -8,11 +8,22 @@
     <dimen name="txt_plus_sign_fragment_des">20sp</dimen>
     <dimen name="txt_toolbar_main_activity">25sp</dimen>
 
+    <dimen name="txt_module_name_now_fragment">30sp</dimen>
+    <dimen name="txt_module_id_now_fragment">15sp</dimen>
+    <dimen name="txt_time_now_fragment">22sp</dimen>
+    <dimen name="txt_lecture_now_fragment">22sp</dimen>
+    <dimen name="txt_location_now_fragment">22sp</dimen>
+    <dimen name="txt_check_in_btn_now_fragment">15sp</dimen>
+    <dimen name="txt_status_now_fragment">18sp</dimen>
+
     <dimen name="height_list_item_add_module">62dp</dimen>
 
     <dimen name="margin_top_module_txt_add_module">9dp</dimen>
     <dimen name="margin_bottom_id_txt_add_module">8dp</dimen>
     <dimen name="margin_left_txt_add_module">8dp</dimen>
-    <dimen name="margin_right_checkbox_add_module">8dp</dimen>
+    <dimen name="margin_right_right_views_lists">8dp</dimen>
+
+    <dimen name="btn_check_in_height">50dp</dimen>
+    <dimen name="btn_check_in_width">150dp</dimen>
 
 </resources>

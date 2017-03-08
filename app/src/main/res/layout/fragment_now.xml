@@ -4,9 +4,107 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <View
+        android:layout_weight="2.2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
+
     <TextView
-        android:text="fragmentNow"
+        android:text="Module Name"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_module_name_now_fragment"
+        android:id="@+id/moduleNameTxt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:textAlignment="center"/>
+
+    <View
+        android:layout_weight="0.3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:text="Module Id"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/txt_module_id_now_fragment"
+        android:id="@+id/moduleIdTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"/>
+
+    <View
+        android:layout_weight="1.5"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:text="When to when?"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_time_now_fragment"
+        android:id="@+id/timeTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"/>
+
+    <View
+        android:layout_weight="0.7"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:text="lecturer name"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_lecture_now_fragment"
+        android:id="@+id/lecturerTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"/>
+
+    <View
+        android:layout_weight="0.7"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:text="location"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_location_now_fragment"
+        android:id="@+id/locationTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"/>
+
+    <View
+        android:layout_weight="3.2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
+
+    <Button
+        android:layout_gravity="center"
+        android:text="check-in"
+        android:id="@+id/statusBtn"
+        android:textSize="@dimen/txt_check_in_btn_now_fragment"
+        android:layout_width="@dimen/btn_check_in_width"
+        android:layout_height="@dimen/btn_check_in_height"
+        android:textAlignment="center"/>
+
+    <View
+        android:layout_weight="0.7"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:text="What's the module status?"
+        android:textColor="@android:color/black"
+        android:id="@+id/statusTxt"
+        android:textSize="@dimen/txt_status_now_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"/>
+
+    <View
+        android:layout_weight="3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
 
 </LinearLayout>
