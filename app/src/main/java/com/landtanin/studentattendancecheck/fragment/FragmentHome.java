@@ -23,6 +23,7 @@ public class FragmentHome extends Fragment {
 
     FragmentHomeBinding b;
 
+
     public FragmentHome() {
         super();
     }
@@ -128,7 +129,7 @@ public class FragmentHome extends Fragment {
         b.fragHomeTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                Toast.makeText(getContext(), "Tab has been selected", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

@@ -5,4 +5,17 @@
 
     <string name="txt_home_toolbar">HOME</string>
     <string name="txt_add_module_toolbar">ADD MODULE</string>
+
+    <string-array name="date">
+
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+
+    </string-array>
+
 </resources>
