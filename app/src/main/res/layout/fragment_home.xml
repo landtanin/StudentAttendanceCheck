@@ -25,11 +25,12 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorColor="@android:color/white"
         app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
         app:tabPaddingEnd="-1dp"
-        app:tabSelectedTextColor="@color/colorPrimary"
+        android:background="@color/colorPrimary"
+        app:tabSelectedTextColor="@android:color/black"
         app:tabTextColor="@color/colorPrimaryDark"
         android:fillViewport="false"/>
 
