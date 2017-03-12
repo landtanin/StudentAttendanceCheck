@@ -17,10 +17,14 @@ import java.util.List;
 
 public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdapter.RecyclerViewHolder> {
 
-    private List<AddModuleItem> mModuleItemList;
+    private List<TimeTableListItem> mtimeTableItemList;
     Context mContext;
 
-    // TODO: Constructor
+
+    public TimeTableListAdapter(List<TimeTableListItem> moduleItemList, Context context) {
+        mtimeTableItemList = moduleItemList;
+        mContext = context;
+    }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,11 +35,13 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
 
-        AddModuleItem addModuleItem = mModuleItemList.get(position);
+        TimeTableListItem timeTableItem = mtimeTableItemList.get(position);
 
-//        holder.addModuleModuleNameTxt.setText(addModuleItem.getModuleText());
-//        holder.addModuleModuleIdTxt.setText(addModuleItem.getModuleId());
-//        holder.addModuleCheckBox.setChecked(false);
+        holder.moduleNameTxt.setText(timeTableItem.getModuleNameTxt());
+        holder.moduleIdTxt.setText(timeTableItem.getModuleIdTxt());
+        holder.statusTxt.setText(timeTableItem.getStatusTxt());
+        holder.timeTxt.setText(timeTableItem.getTimeTxt());
+        holder.locationTxt.setText(timeTableItem.getLocationTxt());
 
     }
 
@@ -53,7 +59,7 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
         public RecyclerViewHolder(View itemView) {
             super(itemView);
 
-            moduleNameTxt = (TextView) itemView.findViewById(R.id.moduleIdTxt);
+            moduleNameTxt = (TextView) itemView.findViewById(R.id.moduleNameTxt);
             moduleIdTxt = (TextView) itemView.findViewById(R.id.moduleIdTxt);
             statusTxt = (TextView) itemView.findViewById(R.id.statusTxt);
             timeTxt = (TextView) itemView.findViewById(R.id.timeTxt);

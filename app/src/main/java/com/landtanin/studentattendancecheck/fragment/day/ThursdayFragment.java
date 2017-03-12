@@ -1,19 +1,32 @@
 package com.landtanin.studentattendancecheck.fragment.day;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.adapter.TimeTableListAdapter;
+import com.landtanin.studentattendancecheck.adapter.TimeTableListItem;
+import com.landtanin.studentattendancecheck.databinding.FragmentThursdayBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 public class ThursdayFragment extends Fragment {
+
+    private TimeTableListAdapter mTimeTableListAdapter;
+    private List<TimeTableListItem> mTimeTableListItems = new ArrayList<>();
+    private FragmentThursdayBinding b;
+
 
     public ThursdayFragment() {
         super();
@@ -38,7 +51,8 @@ public class ThursdayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_thursday, container, false);
+        b = DataBindingUtil.inflate(inflater, R.layout.fragment_thursday, container, false);
+        View rootView = b.getRoot();
         initInstances(rootView, savedInstanceState);
         return rootView;
     }
@@ -53,6 +67,30 @@ public class ThursdayFragment extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
+        StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
+        b.rvThursdayTimeTable.setLayoutManager(rvLayoutManager);
+        mTimeTableListAdapter = new TimeTableListAdapter(mTimeTableListItems, getContext());
+
+        b.rvThursdayTimeTable.setAdapter(mTimeTableListAdapter);
+        b.rvThursdayTimeTable.setHasFixedSize(true);
+
+        connectToDataBase();
+
+    }
+
+    private void connectToDataBase() {
+
+        // hardcoded item to RecyclerView
+        for (int i = 0; i < 100; i++) {
+
+//            AddModuleItem addModuleItem = new AddModuleItem("item " + i, "item2 " + i, false);
+            TimeTableListItem timeTableListItem = new TimeTableListItem("Tue module " + i, "A000" + i, i % 2 == 0 ? "active" : "inactive", "9-12", "School of Engineering");
+            mTimeTableListItems.add(timeTableListItem);
+
+        }
+
+        mTimeTableListAdapter.notifyDataSetChanged();
+
     }
 
     @Override
