@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.landtanin.studentattendancecheck.activity.CheckInActivity">
+
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+        <android.support.v7.widget.Toolbar
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            android:id="@+id/checkInActivityToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.12"/>
+
+                <TextView
+                    android:id="@+id/txtToolbarMainActivity"
+                    android:text="@string/txt_check_in_toolbar"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+
+                    android:textSize="@dimen/txt_toolbar_main_activity"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.15"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/checkInContentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+</LinearLayout>
+</layout>

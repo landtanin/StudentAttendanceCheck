@@ -47,7 +47,7 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
 
     @Override
     public int getItemCount() {
-        return 100;
+        return 10;
     }
 
 

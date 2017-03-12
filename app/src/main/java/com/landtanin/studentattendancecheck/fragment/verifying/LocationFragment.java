@@ -1,7 +1,5 @@
-package com.landtanin.studentattendancecheck.fragment;
+package com.landtanin.studentattendancecheck.fragment.verifying;
 
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,23 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
-import com.landtanin.studentattendancecheck.activity.CheckInActivity;
-import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
-public class FragmentNow extends Fragment {
+public class LocationFragment extends Fragment {
 
-    FragmentNowBinding b;
-
-    public FragmentNow() {
+    public LocationFragment() {
         super();
     }
 
-    public static FragmentNow newInstance() {
-        FragmentNow fragment = new FragmentNow();
+    public static LocationFragment newInstance() {
+        LocationFragment fragment = new LocationFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -44,8 +38,7 @@ public class FragmentNow extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        b = DataBindingUtil.inflate(inflater, R.layout.fragment_now, container, false);
-        View rootView = b.getRoot();
+        View rootView = inflater.inflate(R.layout.fragment_location, container, false);
         initInstances(rootView, savedInstanceState);
         return rootView;
     }
@@ -56,21 +49,10 @@ public class FragmentNow extends Fragment {
     }
 
     @SuppressWarnings("UnusedParameters")
-    private void initInstances(final View rootView, Bundle savedInstanceState) {
+    private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
-
-        b.statusBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getActivity(), CheckInActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
     }
 
     @Override

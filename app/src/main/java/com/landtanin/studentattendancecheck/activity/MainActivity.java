@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if (fakeBol) {
             fakeBol = false;
             super.onResume();
+
         } else {
 
             MainFragment mainFragment = (MainFragment)

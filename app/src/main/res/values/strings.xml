@@ -5,6 +5,7 @@
 
     <string name="txt_home_toolbar">HOME</string>
     <string name="txt_add_module_toolbar">ADD MODULE</string>
+    <string name="txt_check_in_toolbar">CHECK IN</string>
 
     <string-array name="date">
 
