@@ -10,6 +10,7 @@ import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.databinding.ActivityAddModuleBinding;
 import com.landtanin.studentattendancecheck.fragment.FragmentAddModule;
 
+
 public class AddModuleActivity extends AppCompatActivity {
 
     ActivityAddModuleBinding b;
@@ -17,6 +18,7 @@ public class AddModuleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        b = DataBindingUtil.setContentView(this, R.layout.activity_add_module);
         b = DataBindingUtil.setContentView(this, R.layout.activity_add_module);
 
         initInstance();

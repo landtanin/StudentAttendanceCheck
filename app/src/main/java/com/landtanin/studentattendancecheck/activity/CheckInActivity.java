@@ -22,19 +22,22 @@ public class CheckInActivity extends AppCompatActivity {
 
         if (savedInstanceState==null) {
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.checkInContentContainer,
-                            FaceRecogFragment.newInstance(),
-                            "LocationFragment")
-                    .commit();
-
             LocationFragment locationFragment = LocationFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.checkInContentContainer,
                             locationFragment,
-                            "FaceRecogFragment")
-                    .detach(locationFragment)
+                            "LocationFragment")
                     .commit();
+
+            FaceRecogFragment faceRecogFragment = FaceRecogFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.checkInContentContainer,
+                            faceRecogFragment,
+                            "FaceRecogFragment")
+                    .detach(faceRecogFragment)
+                    .commit();
+
+
 
         }
 

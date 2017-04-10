@@ -6,6 +6,7 @@
     <dimen name="txt_module_add_module_list">20sp</dimen>
     <dimen name="txt_id_add_module_list">15sp</dimen>
     <dimen name="txt_plus_sign_fragment_des">20sp</dimen>
+    <dimen name="txt_location_verify_fragment_des">20sp</dimen>
     <dimen name="txt_toolbar_main_activity">25sp</dimen>
 
     <dimen name="txt_module_name_now_fragment">30sp</dimen>
