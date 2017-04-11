@@ -3,8 +3,10 @@ package com.landtanin.studentattendancecheck;
 import android.app.Application;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.landtanin.studentattendancecheck.manager.Contextor;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
@@ -22,6 +24,7 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         Contextor.getInstance().init(getApplicationContext());
 
