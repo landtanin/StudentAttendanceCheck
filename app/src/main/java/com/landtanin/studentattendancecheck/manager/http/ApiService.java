@@ -2,6 +2,7 @@ package com.landtanin.studentattendancecheck.manager.http;
 
 import com.landtanin.studentattendancecheck.dao.StudentModuleCollectionDao;
 
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -12,6 +13,8 @@ import rx.Observable;
 
 public interface ApiService {
 
+
+
 //    @POST("studentModuleGET.php")
 //    Call<StudentModuleCollectionDao> loadStudentModule();
 
@@ -21,6 +24,6 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("studentModuleGET.php")
-    Observable<StudentModuleCollectionDao> loadStudentModule();
+    Observable<StudentModuleCollectionDao> loadStudentModule(@Field("bla") String bla);
 
 }

@@ -12,10 +12,15 @@ import android.view.ViewGroup;
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.adapter.TimeTableListAdapter;
 import com.landtanin.studentattendancecheck.adapter.TimeTableListItem;
+import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentMondayBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Case;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 /**
@@ -88,6 +93,15 @@ public class MondayFragment extends Fragment {
             mTimeTableListItems.add(timeTableListItem);
 
         }
+
+        Realm realm = Realm.getDefaultInstance();
+//        RealmResults<StudentModuleDao> student = realm.where(StudentModuleDao.class).findAll();
+
+//        Log.w("REALM QUERY", student.get(0).getName());
+
+        RealmResults<StudentModuleDao> student2 = realm.where(StudentModuleDao.class).contains("day","mon",Case.SENSITIVE).findAll();
+
+
 
         mTimeTableListAdapter.notifyDataSetChanged();
 

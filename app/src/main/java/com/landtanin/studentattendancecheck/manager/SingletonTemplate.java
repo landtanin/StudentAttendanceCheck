@@ -2,7 +2,6 @@ package com.landtanin.studentattendancecheck.manager;
 
 import android.content.Context;
 
-import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 /**
  * Created by nuuneoi on 11/16/2014.

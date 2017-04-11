@@ -22,7 +22,7 @@
         app:tabTextColor="@color/colorPrimaryDark"
         android:fillViewport="false"/>
 
-    <com.inthecheesefactory.thecheeselibrary.view.NonSwipeableViewPager
+    <com.landtanin.studentattendancecheck.view.NonSwipableViewPager
         android:id="@+id/fragmentHomeNonSwipViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

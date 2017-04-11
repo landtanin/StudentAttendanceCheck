@@ -195,11 +195,11 @@ public class FragmentTimeTable extends Fragment {
     private void getStudent(){
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-        apiService.loadStudentModule()
+        apiService.loadStudentModule("")
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())
-//                .unsubscribeOn(Utils.getInstance().defaultSubscribeScheduler())
+                .subscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
+                .unsubscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
                 .subscribe(new Action1<StudentModuleCollectionDao>() {
                     @Override
                     public void call(StudentModuleCollectionDao response) {
@@ -217,9 +217,9 @@ public class FragmentTimeTable extends Fragment {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-//                        Utils.getInstance().onHoneyToast(throwable.getLocalizedMessage());
 
-                        Toast.makeText(getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                        Utils.getInstance().onHoneyToast(throwable.getLocalizedMessage());
+                        com.landtanin.studentattendancecheck.util.Utils.getInstance().onHoneyToast(throwable.getLocalizedMessage());
 
                     }
                 });

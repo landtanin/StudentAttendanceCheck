@@ -1,1 +1,1 @@
-include ':app', 'TheCheeseLibrary'
+include ':app'

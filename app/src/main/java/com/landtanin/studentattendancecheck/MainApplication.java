@@ -3,7 +3,7 @@ package com.landtanin.studentattendancecheck;
 import android.app.Application;
 import android.util.Log;
 
-import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
+import com.landtanin.studentattendancecheck.manager.Contextor;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
