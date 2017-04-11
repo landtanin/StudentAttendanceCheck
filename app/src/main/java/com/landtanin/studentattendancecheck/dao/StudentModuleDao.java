@@ -41,7 +41,7 @@ public class StudentModuleDao extends RealmObject implements RealmModel{
     private String checkInEnd;
     @SerializedName("LocLat")
     @Expose
-    private Object locLat;
+    private String locLat;
     @SerializedName("LocLng")
     @Expose
     private String locLng;
@@ -122,11 +122,11 @@ public class StudentModuleDao extends RealmObject implements RealmModel{
         this.checkInEnd = checkInEnd;
     }
 
-    public Object getLocLat() {
+    public String getLocLat() {
         return locLat;
     }
 
-    public void setLocLat(Object locLat) {
+    public void setLocLat(String locLat) {
         this.locLat = locLat;
     }
 

@@ -9,10 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
-import com.landtanin.studentattendancecheck.dao.StudentModuleCollectionDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentTimeTableBinding;
 import com.landtanin.studentattendancecheck.fragment.day.FridayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.MondayFragment;
@@ -21,14 +19,7 @@ import com.landtanin.studentattendancecheck.fragment.day.SundayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.ThursdayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.TuesdayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.WednesdayFragment;
-import com.landtanin.studentattendancecheck.manager.HttpManager;
 import com.landtanin.studentattendancecheck.manager.SmartFragmentStatePagerAdapter;
-
-import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
@@ -110,30 +101,32 @@ public class FragmentTimeTable extends Fragment {
             }
         });
 
-        Call<StudentModuleCollectionDao> call = HttpManager.getInstance().getService().loadStudentModule();
-        call.enqueue(new Callback<StudentModuleCollectionDao>() {
-            @Override
-            public void onResponse(Call<StudentModuleCollectionDao> call,
-                                   Response<StudentModuleCollectionDao> response) {
+//        Call<StudentModuleCollectionDao> call = HttpManager.getInstance().getService().loadStudentModule();
+//        call.enqueue(new Callback<StudentModuleCollectionDao>() {
+//            @Override
+//            public void onResponse(Call<StudentModuleCollectionDao> call,
+//                                   Response<StudentModuleCollectionDao> response) {
+//
+//                if (response.isSuccessful()) {
+//                    StudentModuleCollectionDao dao = response.body();
+//                    Toast.makeText(getActivity(), dao.getData().get(0).getDay(), Toast.LENGTH_SHORT).show();
+//                } else {
+//                    try {
+//                        Toast.makeText(getActivity(), response.errorBody().string(), Toast.LENGTH_SHORT).show();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<StudentModuleCollectionDao> call, Throwable t) {
+//                Toast.makeText(getActivity(), "Fail" + t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-                if (response.isSuccessful()) {
-                    StudentModuleCollectionDao dao = response.body();
-                    Toast.makeText(getActivity(), dao.getData().get(0).getDay(), Toast.LENGTH_SHORT).show();
-                } else {
-                    try {
-                        Toast.makeText(getActivity(), response.errorBody().string(), Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<StudentModuleCollectionDao> call, Throwable t) {
-                Toast.makeText(getActivity(), "Fail" + t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        // TODO: retrieve data from Realm
 
     }
 
