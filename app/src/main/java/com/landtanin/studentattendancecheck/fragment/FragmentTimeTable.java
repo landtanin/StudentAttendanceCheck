@@ -9,8 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.dao.StudentModuleCollectionDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentTimeTableBinding;
 import com.landtanin.studentattendancecheck.fragment.day.FridayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.MondayFragment;
@@ -19,7 +21,13 @@ import com.landtanin.studentattendancecheck.fragment.day.SundayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.ThursdayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.TuesdayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.WednesdayFragment;
+import com.landtanin.studentattendancecheck.manager.HttpManager;
 import com.landtanin.studentattendancecheck.manager.SmartFragmentStatePagerAdapter;
+import com.landtanin.studentattendancecheck.manager.http.ApiService;
+
+import io.realm.Realm;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 
 /**
@@ -127,6 +135,7 @@ public class FragmentTimeTable extends Fragment {
 //        });
 
         // TODO: retrieve data from Realm
+        getStudent();
 
     }
 
@@ -181,6 +190,40 @@ public class FragmentTimeTable extends Fragment {
             return tabString.length;
 
         }
+    }
+
+    private void getStudent(){
+        ApiService apiService = HttpManager.getInstance().create(ApiService.class);
+//        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
+        apiService.loadStudentModule()
+                .asObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())
+//                .unsubscribeOn(Utils.getInstance().defaultSubscribeScheduler())
+                .subscribe(new Action1<StudentModuleCollectionDao>() {
+                    @Override
+                    public void call(StudentModuleCollectionDao response) {
+
+                        Realm realm = Realm.getDefaultInstance();
+                        realm.beginTransaction();
+//                        realm.delete(ListReply.class);
+                        realm.copyToRealmOrUpdate(response.getData());
+                        realm.commitTransaction();
+
+                        Toast.makeText(getContext(), "call success", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+//                        Utils.getInstance().onHoneyToast(throwable.getLocalizedMessage());
+
+                        Toast.makeText(getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
     }
 
 }
