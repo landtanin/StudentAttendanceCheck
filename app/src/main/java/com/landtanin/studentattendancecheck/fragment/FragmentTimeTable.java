@@ -9,8 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.dao.StudentModuleCollectionDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentTimeTableBinding;
 import com.landtanin.studentattendancecheck.fragment.day.FridayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.MondayFragment;
@@ -19,7 +21,14 @@ import com.landtanin.studentattendancecheck.fragment.day.SundayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.ThursdayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.TuesdayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.WednesdayFragment;
+import com.landtanin.studentattendancecheck.manager.HttpManager;
 import com.landtanin.studentattendancecheck.manager.SmartFragmentStatePagerAdapter;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -69,70 +78,6 @@ public class FragmentTimeTable extends Fragment {
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
 
-        // Sliding TabLayout
-//        Resources res = getResources();
-//        final String[] tabString = res.getStringArray(R.array.date);
-//
-//        FragmentStatePagerAdapter fragmentTimeTablePagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
-//            @Override
-//            public Fragment getItem(int position) {
-//                switch (position) {
-//                    case 0:
-//                        return MondayFragment.newInstance();
-//                    case 1:
-//                        return TuesdayFragment.newInstance();
-//                    case 2:
-//                        return WednesdayFragment.newInstance();
-//                    case 3:
-//                        return ThursdayFragment.newInstance();
-//                    case 4:
-//                        return FridayFragment.newInstance();
-//                    case 5:
-//                        return SaturdayFragment.newInstance();
-//                    case 6:
-//                        return SundayFragment.newInstance();
-//                    default:
-//                        return FragmentTimeTable.newInstance();
-//                }
-//            }
-//
-//            @Override
-//            public int getCount() {
-//                return tabString.length;
-//            }
-//
-//            @Override
-//            public CharSequence getPageTitle(int position) {
-//                switch (position) {
-//                    case 0:
-//                        return tabString[position];
-//                    case 1:
-//                        return tabString[position];
-//                    case 2:
-//                        return tabString[position];
-//                    case 3:
-//                        return tabString[position];
-//                    case 4:
-//                        return tabString[position];
-//                    case 5:
-//                        return tabString[position];
-//                    case 6:
-//                        return tabString[position];
-//                    default:
-//                        return null;
-//                }
-//            }
-//        };
-//
-//        b.fragmentTimeTableViewPager.setAdapter(fragmentTimeTablePagerAdapter);
-//        b.timeTableFragmentSlidingTabLayout.setDistributeEvenly(true);
-//        b.timeTableFragmentSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-//            @Override
-//            public int getIndicatorColor(int position) {
-//                return getResources().getColor(R.color.colorPrimary);
-//            }
-//        });
-//        b.timeTableFragmentSlidingTabLayout.setViewPager(b.fragmentTimeTableViewPager);
 
         FragmentTimeTablePagerAdapter fragmentTimeTablePagerAdapter = new FragmentTimeTablePagerAdapter(getChildFragmentManager());
 
@@ -162,6 +107,31 @@ public class FragmentTimeTable extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        Call<StudentModuleCollectionDao> call = HttpManager.getInstance().getService().loadStudentModule();
+        call.enqueue(new Callback<StudentModuleCollectionDao>() {
+            @Override
+            public void onResponse(Call<StudentModuleCollectionDao> call,
+                                   Response<StudentModuleCollectionDao> response) {
+
+                if (response.isSuccessful()) {
+                    StudentModuleCollectionDao dao = response.body();
+                    Toast.makeText(getActivity(), dao.getData().get(0).getDay(), Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Toast.makeText(getActivity(), response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<StudentModuleCollectionDao> call, Throwable t) {
+                Toast.makeText(getActivity(), "Fail" + t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 

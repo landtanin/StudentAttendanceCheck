@@ -2,6 +2,8 @@ package com.landtanin.studentattendancecheck.manager;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 import com.landtanin.studentattendancecheck.manager.http.ApiService;
 
@@ -27,9 +29,14 @@ public class HttpManager {
     private HttpManager() {
         mContext = Contextor.getInstance().getContext();
 
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("192.168.0.19/api/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://192.168.0.19/api/")
+//                .baseUrl("https://nuuneoi.com/courses/500px/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         service = retrofit.create(ApiService.class);

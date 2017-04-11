@@ -13,6 +13,7 @@ import com.landtanin.studentattendancecheck.fragment.FragmentAddModule;
 
 public class AddModuleActivity extends AppCompatActivity {
 
+//    ActivityAddModuleBinding b;
     ActivityAddModuleBinding b;
 
     @Override
