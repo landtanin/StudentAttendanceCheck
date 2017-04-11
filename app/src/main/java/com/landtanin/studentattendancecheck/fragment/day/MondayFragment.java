@@ -4,7 +4,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ public class MondayFragment extends Fragment {
     private List<TimeTableListItem> mTimeTableListItems = new ArrayList<>();
     private FragmentMondayBinding b;
 
+    LinearLayoutManager mLayoutManager;
+    TimeTableListAdapter TimeTableAdapter;
 
     public MondayFragment() {
         super();
@@ -86,24 +90,34 @@ public class MondayFragment extends Fragment {
     private void connectToDataBase() {
 
         // hardcoded item to RecyclerView
-        for (int i = 0; i < 100; i++) {
-
-//            AddModuleItem addModuleItem = new AddModuleItem("item " + i, "item2 " + i, false);
-            TimeTableListItem timeTableListItem = new TimeTableListItem("Mon module " + i, "A000" + i, i % 2 == 0 ? "active" : "inactive", "9-12", "School of Engineering");
-            mTimeTableListItems.add(timeTableListItem);
-
-        }
+//        for (int i = 0; i < 100; i++) {
+//
+////            AddModuleItem addModuleItem = new AddModuleItem("item " + i, "item2 " + i, false);
+//            TimeTableListItem timeTableListItem = new TimeTableListItem("Mon module " + i, "A000" + i, i % 2 == 0 ? "active" : "inactive", "9-12", "School of Engineering");
+//            mTimeTableListItems.add(timeTableListItem);
+//
+//        }
 
         Realm realm = Realm.getDefaultInstance();
 //        RealmResults<StudentModuleDao> student = realm.where(StudentModuleDao.class).findAll();
 
 //        Log.w("REALM QUERY", student.get(0).getName());
 
-        RealmResults<StudentModuleDao> student2 = realm.where(StudentModuleDao.class).contains("day","mon",Case.SENSITIVE).findAll();
+        RealmResults<StudentModuleDao> student = realm.where(StudentModuleDao.class).contains("day","mon",Case.SENSITIVE).findAll();
 
 
 
-        mTimeTableListAdapter.notifyDataSetChanged();
+        mLayoutManager=new LinearLayoutManager(getContext());
+        b.rvMondayTimeTable.setLayoutManager(mLayoutManager);
+        b.rvMondayTimeTable.setHasFixedSize(true);
+
+        Log.e("onResume: ", String.valueOf(student.size()));
+        if (TimeTableAdapter == null) {
+            TimeTableAdapter = new TimeTableListAdapter(student, getContext());
+            b.rvMondayTimeTable.setAdapter(TimeTableAdapter);
+        }
+
+//        mTimeTableListAdapter.notifyDataSetChanged();
 
     }
 

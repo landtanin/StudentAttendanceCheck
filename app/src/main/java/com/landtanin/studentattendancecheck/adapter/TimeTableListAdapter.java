@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 
 import java.util.List;
+
+import io.realm.RealmResults;
 
 /**
  * Created by landtanin on 2/15/2017 AD.
@@ -17,11 +20,11 @@ import java.util.List;
 
 public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdapter.RecyclerViewHolder> {
 
-    private List<TimeTableListItem> mtimeTableItemList;
+    private RealmResults<StudentModuleDao> mtimeTableItemList;
     Context mContext;
 
 
-    public TimeTableListAdapter(List<TimeTableListItem> moduleItemList, Context context) {
+    public TimeTableListAdapter(RealmResults<StudentModuleDao> moduleItemList, Context context) {
         mtimeTableItemList = moduleItemList;
         mContext = context;
     }
