@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 
-import java.util.List;
-
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
@@ -31,9 +29,7 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
         super(context, data, autoUpdate);
         mContext = context;
 
-
     }
-
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,7 +42,6 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final RecyclerViewHolder itemHolder = (RecyclerViewHolder) holder;
         StudentModuleDao timeTableItem = getData().get(position);
-
 
         itemHolder.moduleNameTxt.setText(timeTableItem.getName());
         itemHolder.moduleIdTxt.setText(timeTableItem.getId());
@@ -63,8 +58,6 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
         return getData().size();
     }
 
-
-
     public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
         TextView moduleNameTxt, moduleIdTxt, statusTxt, timeTxt, locationTxt;
@@ -80,7 +73,5 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 
         }
     }
-
-
 
 }
