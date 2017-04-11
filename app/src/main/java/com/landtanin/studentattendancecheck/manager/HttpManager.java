@@ -1,12 +1,9 @@
 package com.landtanin.studentattendancecheck.manager;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
-import com.landtanin.studentattendancecheck.manager.http.ApiService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +19,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * Created by nuuneoi on 11/16/2014.
@@ -111,27 +109,27 @@ public class HttpManager {
 
     // ----------------------------------------------------------------
 
-    private Context mContext;
-    private ApiService service;
-
-    private HttpManager() {
-        mContext = Contextor.getInstance().getContext();
-
-        Gson gson2 = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd HH:mm:ss")
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-//                .baseUrl("https://nuuneoi.com/courses/500px/")
-                .addConverterFactory(GsonConverterFactory.create(gson2))
-                .build();
-
-        service = retrofit.create(ApiService.class);
-
-    }
-
-    public ApiService getService() {
-        return service;
-    }
+//    private Context mContext;
+//    private ApiService service;
+//
+//    private HttpManager() {
+//        mContext = Contextor.getInstance().getContext();
+//
+//        Gson gson2 = new GsonBuilder()
+//                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+//                .create();
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(BASE_URL)
+////                .baseUrl("https://nuuneoi.com/courses/500px/")
+//                .addConverterFactory(GsonConverterFactory.create(gson2))
+//                .build();
+//
+//        service = retrofit.create(ApiService.class);
+//
+//    }
+//
+//    public ApiService getService() {
+//        return service;
+//    }
 }
