@@ -1,6 +1,8 @@
 package com.landtanin.studentattendancecheck.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,22 +14,26 @@ import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 
 import java.util.List;
 
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 
 /**
  * Created by landtanin on 2/15/2017 AD.
  */
 
-public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdapter.RecyclerViewHolder> {
+public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModuleDao,RecyclerView.ViewHolder>{
 
     private RealmResults<StudentModuleDao> mtimeTableItemList;
     Context mContext;
 
-
-    public TimeTableListAdapter(RealmResults<StudentModuleDao> moduleItemList, Context context) {
-        mtimeTableItemList = moduleItemList;
+    public TimeTableListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<StudentModuleDao> data, boolean autoUpdate) {
+        super(context, data, autoUpdate);
         mContext = context;
+
+
     }
+
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,22 +41,26 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
         return new RecyclerViewHolder(itemView);
     }
 
+
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        final RecyclerViewHolder itemHolder = (RecyclerViewHolder) holder;
+        StudentModuleDao timeTableItem = getData().get(position);
 
-        TimeTableListItem timeTableItem = mtimeTableItemList.get(position);
 
-        holder.moduleNameTxt.setText(timeTableItem.getModuleNameTxt());
-        holder.moduleIdTxt.setText(timeTableItem.getModuleIdTxt());
-        holder.statusTxt.setText(timeTableItem.getStatusTxt());
-        holder.timeTxt.setText(timeTableItem.getTimeTxt());
-        holder.locationTxt.setText(timeTableItem.getLocationTxt());
+        itemHolder.moduleNameTxt.setText(timeTableItem.getName());
+        itemHolder.moduleIdTxt.setText(timeTableItem.getId());
+        itemHolder.statusTxt.setText(timeTableItem.getModStatus());
+        itemHolder.timeTxt.setText(timeTableItem.getDay());
+//        ต้องหาค่า LatLng
+
+        itemHolder.locationTxt.setText(timeTableItem.getCheckInStart());
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return getData().size();
     }
 
 
@@ -70,4 +80,7 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
 
         }
     }
+
+
+
 }

@@ -1,73 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/height_list_item_add_module"
-                >
+<layout>
 
-    <TextView
-        android:id="@+id/moduleNameTxt"
-        android:text="sample module text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="@dimen/margin_left_txt_add_module"
-        android:layout_marginTop="@dimen/margin_top_module_txt_add_module"
-        android:textSize="@dimen/txt_module_add_module_list"
-        android:textColor="@color/colorAddModuleListModuletxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/moduleIdTxt"
-        android:text="sample module id"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/margin_left_txt_add_module"
-        android:layout_marginBottom="@dimen/margin_bottom_id_txt_add_module"
-        android:textSize="@dimen/txt_id_add_module_list"
-        android:textColor="@color/colorAddModuleListIdtxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:textSize="15sp"
-        android:layout_marginTop="4dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_right_right_views_lists"
-        android:text="status"
-        android:textColor="@android:color/black"
-        android:id="@+id/statusTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:textSize="15sp"
-        android:layout_centerVertical="true"
-        android:textColor="@android:color/black"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_right_right_views_lists"
-        android:text="time"
-        android:id="@+id/timeTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:textSize="15sp"
-        android:layout_marginBottom="4dp"
-        android:layout_alignParentBottom="true"
-        android:textColor="@android:color/black"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_right_right_views_lists"
-        android:text="location"
-        android:id="@+id/locationTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <View
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorAddModuleListLine"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
+        android:layout_height="@dimen/height_list_item_add_module"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/moduleNameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/margin_left_txt_add_module"
+            android:layout_marginTop="@dimen/margin_top_module_txt_add_module"
+            android:text="sample module text"
+            android:textColor="@color/colorAddModuleListModuletxt"
+            android:textSize="@dimen/txt_module_add_module_list" />
+
+        <TextView
+            android:id="@+id/moduleIdTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/margin_bottom_id_txt_add_module"
+            android:layout_marginLeft="@dimen/margin_left_txt_add_module"
+            android:text="sample module id"
+            android:textColor="@color/colorAddModuleListIdtxt"
+            android:textSize="@dimen/txt_id_add_module_list" />
+
+        <TextView
+            android:id="@+id/statusTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/margin_right_right_views_lists"
+            android:layout_marginTop="4dp"
+            android:text="status"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/timeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_right_views_lists"
+            android:text="time"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/locationTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="@dimen/margin_right_right_views_lists"
+            android:text="location"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorAddModuleListLine" />
+
+    </RelativeLayout>
+</layout>

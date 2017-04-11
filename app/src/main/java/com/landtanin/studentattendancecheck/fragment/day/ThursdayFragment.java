@@ -12,10 +12,15 @@ import android.view.ViewGroup;
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.adapter.TimeTableListAdapter;
 import com.landtanin.studentattendancecheck.adapter.TimeTableListItem;
+import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentThursdayBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Case;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 /**
@@ -67,9 +72,10 @@ public class ThursdayFragment extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
+        RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","thu", Case.SENSITIVE).findAll();
         StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
         b.rvThursdayTimeTable.setLayoutManager(rvLayoutManager);
-        mTimeTableListAdapter = new TimeTableListAdapter(mTimeTableListItems, getContext());
+        mTimeTableListAdapter = new TimeTableListAdapter(getContext(),studentModuleDao,true);
 
         b.rvThursdayTimeTable.setAdapter(mTimeTableListAdapter);
         b.rvThursdayTimeTable.setHasFixedSize(true);

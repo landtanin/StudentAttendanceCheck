@@ -76,9 +76,10 @@ public class MondayFragment extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
+        RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","mon",Case.SENSITIVE).findAll();
         StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
         b.rvMondayTimeTable.setLayoutManager(rvLayoutManager);
-        mTimeTableListAdapter = new TimeTableListAdapter(mTimeTableListItems, getContext());
+        mTimeTableListAdapter = new TimeTableListAdapter(getContext(),studentModuleDao ,true);
 
         b.rvMondayTimeTable.setAdapter(mTimeTableListAdapter);
         b.rvMondayTimeTable.setHasFixedSize(true);
@@ -104,16 +105,13 @@ public class MondayFragment extends Fragment {
 //        Log.w("REALM QUERY", student.get(0).getName());
 
         RealmResults<StudentModuleDao> student = realm.where(StudentModuleDao.class).contains("day","mon",Case.SENSITIVE).findAll();
-
-
-
         mLayoutManager=new LinearLayoutManager(getContext());
         b.rvMondayTimeTable.setLayoutManager(mLayoutManager);
         b.rvMondayTimeTable.setHasFixedSize(true);
 
         Log.e("onResume: ", String.valueOf(student.size()));
         if (TimeTableAdapter == null) {
-            TimeTableAdapter = new TimeTableListAdapter(student, getContext());
+            TimeTableAdapter = new TimeTableListAdapter(getContext(),student ,true);
             b.rvMondayTimeTable.setAdapter(TimeTableAdapter);
         }
 
