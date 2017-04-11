@@ -1,50 +1,69 @@
 package com.landtanin.studentattendancecheck.dao;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by landtanin on 4/10/2017 AD.
  */
 
-public class StudentModuleDao {
+public class StudentModuleDao extends RealmObject implements RealmModel{
 
+    @PrimaryKey
     @SerializedName("_id")
-    private int _id;
+    @Expose
+    private String id;
+
     @SerializedName("name")
+    @Expose
     private String name;
     @SerializedName("moduleId")
+    @Expose
     private String moduleId;
     @SerializedName("startDate")
-    private Date startDate;
+    @Expose
+    private String startDate;
     @SerializedName("endDate")
-    private Date endDate;
+    @Expose
+    private String endDate;
     @SerializedName("repeatStatus")
+    @Expose
     private String repeatStatus;
     @SerializedName("checkInStart")
-    private Date checkInStart;
+    @Expose
+    private String checkInStart;
     @SerializedName("checkInEnd")
-    private Date checkInEnd;
+    @Expose
+    private String checkInEnd;
     @SerializedName("LocLat")
-    private double locLat;
+    @Expose
+    private Object locLat;
     @SerializedName("LocLng")
-    private double locLng;
+    @Expose
+    private String locLng;
     @SerializedName("ModATTRate")
-    private int modATTRate;
+    @Expose
+    private String modATTRate;
     @SerializedName("ModStatus")
+    @Expose
     private String modStatus;
     @SerializedName("Day")
+    @Expose
     private String day;
     @SerializedName("Description")
+    @Expose
     private String description;
 
-    public int get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -63,19 +82,19 @@ public class StudentModuleDao {
         this.moduleId = moduleId;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -87,43 +106,43 @@ public class StudentModuleDao {
         this.repeatStatus = repeatStatus;
     }
 
-    public Date getCheckInStart() {
+    public String getCheckInStart() {
         return checkInStart;
     }
 
-    public void setCheckInStart(Date checkInStart) {
+    public void setCheckInStart(String checkInStart) {
         this.checkInStart = checkInStart;
     }
 
-    public Date getCheckInEnd() {
+    public String getCheckInEnd() {
         return checkInEnd;
     }
 
-    public void setCheckInEnd(Date checkInEnd) {
+    public void setCheckInEnd(String checkInEnd) {
         this.checkInEnd = checkInEnd;
     }
 
-    public double getLocLat() {
+    public Object getLocLat() {
         return locLat;
     }
 
-    public void setLocLat(double locLat) {
+    public void setLocLat(Object locLat) {
         this.locLat = locLat;
     }
 
-    public double getLocLng() {
+    public String getLocLng() {
         return locLng;
     }
 
-    public void setLocLng(double locLng) {
+    public void setLocLng(String locLng) {
         this.locLng = locLng;
     }
 
-    public int getModATTRate() {
+    public String getModATTRate() {
         return modATTRate;
     }
 
-    public void setModATTRate(int modATTRate) {
+    public void setModATTRate(String modATTRate) {
         this.modATTRate = modATTRate;
     }
 

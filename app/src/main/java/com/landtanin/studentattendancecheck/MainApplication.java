@@ -36,7 +36,7 @@ public class MainApplication extends Application {
                     .rxFactory(new RealmObservableFactory())
                     .build();
             Realm.setDefaultConfiguration(config);
-        } catch (RealmMigrationNeededException rme) {//มีการเปลี่ยนแปลงโครงสร้าง DB
+        } catch (RealmMigrationNeededException rme) {
             config = new RealmConfiguration.Builder()
                     .name(DATABASE_NAME)
                     .deleteRealmIfMigrationNeeded()
@@ -44,6 +44,7 @@ public class MainApplication extends Application {
             Realm.setDefaultConfiguration(config);
 
         } catch (Exception e) {
+            Realm.init(this);
             config = new RealmConfiguration.Builder()
                     .name(DATABASE_NAME)
                     .deleteRealmIfMigrationNeeded()
@@ -52,8 +53,9 @@ public class MainApplication extends Application {
             Log.e("initListener: " + e.getMessage(),e.toString());
         }
         finally {
+            Realm.init(this);
             Realm.getDefaultInstance().setAutoRefresh(true);
-            Log.e("MonTest: ", Realm.getDefaultInstance().getPath() );
+            Log.e("TaninTest: ", Realm.getDefaultInstance().getPath() );
         }
 
 

@@ -1,5 +1,6 @@
 package com.landtanin.studentattendancecheck.dao;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.List;
 public class StudentModuleCollectionDao {
 
     @SerializedName("students")
-    private List<StudentModuleDao> data;
+    @Expose
+    private List<StudentModuleDao> data = null;
 
     public StudentModuleCollectionDao() {
 
