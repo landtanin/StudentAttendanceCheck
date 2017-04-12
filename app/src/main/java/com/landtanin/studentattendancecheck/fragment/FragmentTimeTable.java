@@ -193,9 +193,13 @@ public class FragmentTimeTable extends Fragment {
     }
 
     private void getStudent(){
+
+        //TODO: delete fake id
+        int fakeId = 4;
+
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-        apiService.loadStudentModule("")
+        apiService.loadStudentModule("", fakeId)
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
@@ -206,6 +210,7 @@ public class FragmentTimeTable extends Fragment {
 
                         Realm realm = Realm.getDefaultInstance();
                         realm.beginTransaction();
+                        realm.deleteAll();
 //                        realm.delete(ListReply.class);
                         realm.copyToRealmOrUpdate(response.getData());
                         realm.commitTransaction();

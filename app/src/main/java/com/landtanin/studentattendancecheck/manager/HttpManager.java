@@ -69,13 +69,14 @@ public class HttpManager {
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
 
+            // Log query Url
             long t1 = System.nanoTime();
             System.out.println(
                     String.format("intercept Sending request %s on %s%n%s", request.url(), chain.connection(),
                             request.headers()));
 
-            //Logข้อมูลทั้งหมด
 
+            // Log all JSON data
             Log.e("intercept: ", String.valueOf(request.url()));
 
             Response response = chain.proceed(request);

@@ -3,16 +3,22 @@ package com.landtanin.studentattendancecheck.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.databinding.ActivityMainBinding;
 import com.landtanin.studentattendancecheck.fragment.FragmentHome;
 import com.landtanin.studentattendancecheck.fragment.MainFragment;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding b;
     private boolean fakeBol = true;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_logout) {
+
+            realm = Realm.getDefaultInstance();
+            RealmConfiguration realmConfig = realm.getConfiguration();
+            Realm.deleteRealm(realmConfig);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onResume() {
 
         // TODO: check if there's data in the database, delete fakeBol
@@ -68,5 +94,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }

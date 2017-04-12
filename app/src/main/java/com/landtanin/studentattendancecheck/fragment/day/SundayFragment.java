@@ -31,6 +31,7 @@ public class SundayFragment extends Fragment {
     private TimeTableListAdapter mTimeTableListAdapter;
     private List<TimeTableListItem> mTimeTableListItems = new ArrayList<>();
     private FragmentSundayBinding b;
+    private Realm realm;
 
 
     public SundayFragment() {
@@ -72,7 +73,8 @@ public class SundayFragment extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
-        RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","sun", Case.SENSITIVE).findAll();
+        realm = Realm.getDefaultInstance();
+        RealmResults<StudentModuleDao> studentModuleDao = realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","sun", Case.SENSITIVE).findAll();
         StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
         b.rvSundayTimeTable.setLayoutManager(rvLayoutManager);
         mTimeTableListAdapter = new TimeTableListAdapter( getContext(),studentModuleDao,true);
@@ -80,7 +82,7 @@ public class SundayFragment extends Fragment {
         b.rvSundayTimeTable.setAdapter(mTimeTableListAdapter);
         b.rvSundayTimeTable.setHasFixedSize(true);
 
-        connectToDataBase();
+//        connectToDataBase();
 
     }
 
@@ -110,4 +112,9 @@ public class SundayFragment extends Fragment {
         // Restore Instance (Fragment level's variables) State here
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
+    }
 }

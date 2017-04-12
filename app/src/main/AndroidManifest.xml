@@ -23,9 +23,13 @@
         </activity>
         <activity android:name=".activity.CheckInActivity">
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="30622b972a5f3a88b7dbfa7cc6fce4163e600781" />
+            android:value="30622b972a5f3a88b7dbfa7cc6fce4163e600781"/>
+
+        <activity android:name=".activity.LoginActivity">
+        </activity>
     </application>
 
 </manifest>

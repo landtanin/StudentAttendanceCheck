@@ -35,7 +35,8 @@ public class MondayFragment extends Fragment {
     private FragmentMondayBinding b;
 
     LinearLayoutManager mLayoutManager;
-    TimeTableListAdapter TimeTableAdapter;
+    TimeTableListAdapter TimeTableListAdapter;
+    private Realm realm;
 
     public MondayFragment() {
         super();
@@ -76,7 +77,8 @@ public class MondayFragment extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
-        RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","mon",Case.SENSITIVE).findAll();
+        realm = Realm.getDefaultInstance();
+        RealmResults<StudentModuleDao> studentModuleDao = realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","mon",Case.SENSITIVE).findAll();
         StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
         b.rvMondayTimeTable.setLayoutManager(rvLayoutManager);
         mTimeTableListAdapter = new TimeTableListAdapter(getContext(),studentModuleDao ,true);
@@ -84,7 +86,7 @@ public class MondayFragment extends Fragment {
         b.rvMondayTimeTable.setAdapter(mTimeTableListAdapter);
         b.rvMondayTimeTable.setHasFixedSize(true);
 
-        connectToDataBase();
+//        connectToDataBase();
 
     }
 
@@ -99,20 +101,21 @@ public class MondayFragment extends Fragment {
 //
 //        }
 
-        Realm realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
 //        RealmResults<StudentModuleDao> student = realm.where(StudentModuleDao.class).findAll();
 
 //        Log.w("REALM QUERY", student.get(0).getName());
 
         RealmResults<StudentModuleDao> student = realm.where(StudentModuleDao.class).contains("day","mon",Case.SENSITIVE).findAll();
-        mLayoutManager=new LinearLayoutManager(getContext());
-        b.rvMondayTimeTable.setLayoutManager(mLayoutManager);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        b.rvMondayTimeTable.setLayoutManager(mLayoutManager); // set layout manager of recycler view
         b.rvMondayTimeTable.setHasFixedSize(true);
 
         Log.e("onResume: ", String.valueOf(student.size()));
-        if (TimeTableAdapter == null) {
-            TimeTableAdapter = new TimeTableListAdapter(getContext(),student ,true);
-            b.rvMondayTimeTable.setAdapter(TimeTableAdapter);
+
+        if (TimeTableListAdapter == null) {
+            TimeTableListAdapter = new TimeTableListAdapter(getContext(),student ,true); // throw data from Realm into recyclerView
+            b.rvMondayTimeTable.setAdapter(TimeTableListAdapter);
         }
 
 //        mTimeTableListAdapter.notifyDataSetChanged();
@@ -130,4 +133,9 @@ public class MondayFragment extends Fragment {
         // Restore Instance (Fragment level's variables) State here
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
+    }
 }
