@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.dao.StudentModuleCollectionDao;
+import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentTimeTableBinding;
 import com.landtanin.studentattendancecheck.fragment.day.FridayFragment;
 import com.landtanin.studentattendancecheck.fragment.day.MondayFragment;
@@ -199,7 +200,7 @@ public class FragmentTimeTable extends Fragment {
 
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-        apiService.loadStudentModule("", fakeId)
+        apiService.loadStudentModule("heyhey",fakeId)
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
@@ -210,8 +211,8 @@ public class FragmentTimeTable extends Fragment {
 
                         Realm realm = Realm.getDefaultInstance();
                         realm.beginTransaction();
-                        realm.deleteAll();
-//                        realm.delete(ListReply.class);
+//                        realm.deleteAll(); // clear the current data before load new data
+                        realm.delete(StudentModuleDao.class); // delete only specific class
                         realm.copyToRealmOrUpdate(response.getData());
                         realm.commitTransaction();
 

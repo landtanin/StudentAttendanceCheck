@@ -19,7 +19,6 @@ public class AddModuleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        b = DataBindingUtil.setContentView(this, R.layout.activity_add_module);
         b = DataBindingUtil.setContentView(this, R.layout.activity_add_module);
 
         initInstance();

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"/>
+
+        <EditText
+            android:id="@+id/edt_login_email"
+            android:background="@android:drawable/edit_text"
+            android:layout_gravity="center_horizontal"
+            android:hint="email"
+            android:layout_width="@dimen/edit_txt_login_width"
+            android:layout_height="@dimen/edit_txt_login_height"/>
+
+        <View
+            android:layout_weight=".03"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"/>
+
+        <EditText
+            android:id="@+id/edt_login_password"
+            android:background="@android:drawable/edit_text"
+            android:layout_gravity="center_horizontal"
+            android:hint="password"
+            android:layout_width="@dimen/edit_txt_login_width"
+            android:layout_height="@dimen/edit_txt_login_height"/>
+
+        <View
+            android:layout_weight=".3"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:text="Login"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_weight=".7"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+</layout>

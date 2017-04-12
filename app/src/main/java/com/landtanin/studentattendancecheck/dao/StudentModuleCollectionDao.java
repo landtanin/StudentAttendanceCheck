@@ -22,4 +22,16 @@ public class StudentModuleCollectionDao{
     public void setData(List<StudentModuleDao> data) {
         this.data = data;
     }
+
+    @SerializedName("students_login")
+    @Expose
+    private StudentLoginStatusDao studentsLogin;
+
+    public StudentLoginStatusDao getStudentsLogin() {
+        return studentsLogin;
+    }
+
+    public void setStudentsLogin(StudentLoginStatusDao studentsLogin) {
+        this.studentsLogin = studentsLogin;
+    }
 }

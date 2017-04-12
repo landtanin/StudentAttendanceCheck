@@ -72,7 +72,8 @@ public class HttpManager {
             // Log query Url
             long t1 = System.nanoTime();
             System.out.println(
-                    String.format("intercept Sending request %s on %s%n%s", request.url(), chain.connection(),
+                    String.format("intercept Sending request %s, method %s, body %s, tag %s on %s%n%s",
+                            request.url(), request.method(), request.body(), request.tag(), chain.connection(),
                             request.headers()));
 
 
