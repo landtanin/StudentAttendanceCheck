@@ -92,7 +92,7 @@ public class HttpManager {
 
             //Logข้อมูลทั้งหมด
 
-            Log.e( "intercept: ", bodyString);
+            Log.e( "intercept bodyString: ", bodyString);
             try {
                 JSONObject jsonObject = new JSONObject(bodyString);
 

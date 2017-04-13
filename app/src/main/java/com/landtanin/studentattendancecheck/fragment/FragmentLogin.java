@@ -1,6 +1,8 @@
 package com.landtanin.studentattendancecheck.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,17 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
-import com.landtanin.studentattendancecheck.dao.StudentLoginStatusDao;
 import com.landtanin.studentattendancecheck.dao.StudentModuleCollectionDao;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
+import com.landtanin.studentattendancecheck.dao.User;
 import com.landtanin.studentattendancecheck.databinding.FragmentLoginBinding;
 import com.landtanin.studentattendancecheck.manager.HttpManager;
 import com.landtanin.studentattendancecheck.manager.http.ApiService;
 import com.landtanin.studentattendancecheck.util.Utils;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
@@ -117,51 +121,51 @@ public class FragmentLogin extends Fragment {
 
                 //TODO: make sure getLogin is fnished before the id is send to getStudent in link 105
 
-//                // if success = 1, intent, else, toast fail
-//                RealmResults<StudentLoginStatusDao> studentLoginStatusDao = Realm.getDefaultInstance().where(StudentLoginStatusDao.class)
-//                        .findAllAsync();
-//                        // alternative from findAll
+                // if success = 1, intent, else, toast fail
+                RealmResults<User> user = Realm.getDefaultInstance().where(User.class)
+                        .findAll();
+                        // alternative from findAll
+
+                Log.w("LOGIN", user.toString());
+
+//                SharedPreferences prefs = getContext().getSharedPreferences("login_state", Context.MODE_PRIVATE);
+//                String loginState = prefs.getString("login_state_var", null);
+
+//                if (loginState.equals("success")) {
+
+                    //retrieve student data and check whether he or she already registered for any module
+                    getStudent(user.get(0).getStudentId()); // dump student data of this student_id into Realm
+
+                    RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class)
+                          .findAll();
+
+//                    Log.w("Mr." + user.get(0).getName() + " first module",
+//                            studentModuleDao.get(0).getName());
+                Log.w("STUDENT", studentModuleDao.toString());
+
+
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+
+//                    if (studentModuleDao.get(0) != null) {
 //
-//                while(studentLoginStatusDao==null){
+//                        // he is ...... who study ......
+//                        Log.w("he is " + user.get(0).getName() + " who study ",
+//                                studentModuleDao.get(0).getName());
 //
-//                    Log.w("LOGIN", studentLoginStatusDao.toString());
+//                        intent.putExtra("add_or_not", "not_add");
 //
-//                }
+//                    } else {
 //
-//                if (studentLoginStatusDao.get(0).getSuccess()==1) {
+//                        intent.putExtra("add_or_not", "add");
 //
-//                     //TODO: sharepreference to store login state
-//
-//                    //retrieve student data and check whether he or she already registered for any module
-//                    getStudent(studentLoginStatusDao.get(0).getUser().getStudentId()); // dump data into Realm
-//
-//                    RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class)
-//                          .findAllAsync();
-//
-//                    Log.w("Mr." + studentLoginStatusDao.get(0).getUser().getName() + " first module",
-//                            studentModuleDao.get(0).getName().toString());
-//
-////                    Intent intent = new Intent(getActivity(), MainActivity.class);
-////
-////                    if (studentModuleDao.get(0) != null) {
-////
-////                        // he is ...... who study ......
-////                        Log.w("he is " + studentLoginStatusDao.get(0).getUser().getName() + " who study ",
-////                                studentModuleDao.get(0).getName());
-////
-////                        intent.putExtra("add_or_not", "not_add");
-////
-////                    } else {
-////
-////                        intent.putExtra("add_or_not", "add");
-////
-////                    }
-////
-////                    startActivity(intent);
-//
-//
+//                    }
+
+//                    startActivity(intent);
+
 //                } else {
+//
 //                    Utils.getInstance().onHoneyToast("invalid email or password");
+//
 //                }
 
 
@@ -178,20 +182,36 @@ public class FragmentLogin extends Fragment {
         apiService.studentLoginCheck(tag , email, password)
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
-                .unsubscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
+                .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())
+                .unsubscribeOn(Utils.getInstance().defaultSubscribeScheduler())
                 .subscribe(new Action1<StudentModuleCollectionDao>() {
                     @Override
                     public void call(StudentModuleCollectionDao response) {
 
+                        SharedPreferences prefs = getContext().getSharedPreferences("login_state", Context.MODE_PRIVATE);
+
                         Realm realm = Realm.getDefaultInstance();
                         realm.beginTransaction();
 //                        realm.deleteAll(); // clear the current data before load new data
-                        realm.delete(StudentLoginStatusDao.class); // delete only data of a specific class
-                        realm.copyToRealmOrUpdate(response.getStudentsLogin());
-                        realm.commitTransaction();
+                        realm.delete(User.class); // delete only data of a specific class
 
-                        Log.d("getLogin", "login success");
+                        if (response.getResult().equals("success")) {
+
+                            SharedPreferences.Editor editor = prefs.edit();
+                            // Add/Edit/Delete
+                            editor.putString("login_state_var", response.getResult());
+                            editor.apply();
+
+                            realm.copyToRealmOrUpdate(response.getUser());
+                            realm.commitTransaction();
+
+                        } else {
+
+                            Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        Log.w("getLogin", response.getResult());
 
                     }
 
@@ -199,7 +219,7 @@ public class FragmentLogin extends Fragment {
                     @Override
                     public void call(Throwable throwable) {
 
-                        Utils.getInstance().onHoneyToast(throwable.getLocalizedMessage());
+                        Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
 
                     }
                 });
@@ -218,8 +238,8 @@ public class FragmentLogin extends Fragment {
         apiService.loadStudentModule("heyhey", Integer.parseInt(studentId))
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
-                .unsubscribeOn(com.landtanin.studentattendancecheck.util.Utils.getInstance().defaultSubscribeScheduler())
+                .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())
+                .unsubscribeOn(Utils.getInstance().defaultSubscribeScheduler())
                 .subscribe(new Action1<StudentModuleCollectionDao>() {
                     @Override
                     public void call(StudentModuleCollectionDao response) {
@@ -239,7 +259,7 @@ public class FragmentLogin extends Fragment {
                     @Override
                     public void call(Throwable throwable) {
 
-                        com.landtanin.studentattendancecheck.util.Utils.getInstance().onHoneyToast(throwable.getLocalizedMessage());
+                        Utils.getInstance().onHoneyToast("STUDENT "+throwable.getLocalizedMessage());
 
                     }
                 });

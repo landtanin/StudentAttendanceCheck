@@ -23,15 +23,55 @@ public class StudentModuleCollectionDao{
         this.data = data;
     }
 
-    @SerializedName("students_login")
+    //----------------------------------------------------------------------
+//
+//    @SerializedName("students_login")
+//    @Expose
+//    private StudentLoginStatusDao studentsLogin;
+//
+//    public StudentLoginStatusDao getStudentsLogin() {
+//        return studentsLogin;
+//    }
+//
+//    public void setStudentsLogin(StudentLoginStatusDao studentsLogin) {
+//        this.studentsLogin = studentsLogin;
+//    }
+
+    //----------------------------------------------------------------------
+
+
+    @SerializedName("result")
     @Expose
-    private StudentLoginStatusDao studentsLogin;
+    private String result;
+    @SerializedName("message")
+    @Expose
+    private String message;
+    @SerializedName("user")
+    @Expose
+    private User user;
 
-    public StudentLoginStatusDao getStudentsLogin() {
-        return studentsLogin;
+    public String getResult() {
+        return result;
     }
 
-    public void setStudentsLogin(StudentLoginStatusDao studentsLogin) {
-        this.studentsLogin = studentsLogin;
+    public void setResult(String result) {
+        this.result = result;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
