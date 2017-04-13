@@ -16,7 +16,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("login/index.php")
-    Observable<StudentModuleCollectionDao> studentLoginCheck(@Field("email") String email, @Field("password") String password);
+    Observable<StudentModuleCollectionDao> studentLoginCheck(@Field("tag") String tag, @Field("email") String email, @Field("password") String password);
     // in @Field "email" and "password" need to be matched with the php code of the api
 
 //    @FormUrlEncoded

@@ -28,7 +28,8 @@ public class HttpManager {
 
     private static HttpManager instance;
 
-    public static final String BASE_URL = "http://192.168.0.19/api/";
+//    public static final String BASE_URL = "http://192.168.0.19/api/";
+    public static final String BASE_URL = "http://landtanin.bitnami.com/api/";
     private static Retrofit retrofit = null;
     private static Gson gson;
 

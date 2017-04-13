@@ -77,11 +77,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
 
         // TODO: check if there's data in the database, delete fakeBol
-        if (fakeBol) {
-            fakeBol = false;
+        String add_or_not = getIntent().getStringExtra("add_or_not");
+
+        if (add_or_not.equals("add")) {
+
+            // TODO: go to add module
+
             super.onResume();
 
-        } else {
+        } else if (add_or_not.equals("not_add")) {
 
             MainFragment mainFragment = (MainFragment)
                     getSupportFragmentManager().findFragmentByTag("MainFragment");
@@ -99,6 +103,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
     }
 }

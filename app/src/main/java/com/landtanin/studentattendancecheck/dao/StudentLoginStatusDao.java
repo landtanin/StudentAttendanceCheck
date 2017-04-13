@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmModel;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by landtanin on 4/12/2017 AD.
@@ -12,9 +13,11 @@ import io.realm.RealmObject;
 
 public class StudentLoginStatusDao extends RealmObject implements RealmModel{
 
+    @PrimaryKey
     @SerializedName("tag")
     @Expose
     private String tag;
+
     @SerializedName("success")
     @Expose
     private Integer success;

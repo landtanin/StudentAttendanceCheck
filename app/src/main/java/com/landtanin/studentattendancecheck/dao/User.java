@@ -13,18 +13,15 @@ import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject implements RealmModel{
 
-    @SerializedName("fname")
+    @SerializedName("name")
     @Expose
-    private String fname;
-    @SerializedName("lname")
-    @Expose
-    private String lname;
+    private String name;
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("uname")
+    @SerializedName("student_id")
     @Expose
-    private String uname;
+    private String studentId;
 
     @PrimaryKey
     @SerializedName("uid")
@@ -34,20 +31,12 @@ public class User extends RealmObject implements RealmModel{
     @Expose
     private String createdAt;
 
-    public String getFname() {
-        return fname;
+    public String getName() {
+        return name;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -58,12 +47,12 @@ public class User extends RealmObject implements RealmModel{
         this.email = email;
     }
 
-    public String getUname() {
-        return uname;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getUid() {
@@ -81,6 +70,5 @@ public class User extends RealmObject implements RealmModel{
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-
 
 }
