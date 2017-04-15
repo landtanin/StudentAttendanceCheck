@@ -1,19 +1,25 @@
 package com.landtanin.studentattendancecheck.fragment;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
-import com.landtanin.studentattendancecheck.activity.CheckInActivity;
+import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
+import io.realm.Case;
+import io.realm.Realm;
+import io.realm.RealmResults;
 /**
  * Created by nuuneoi on 11/16/2014.
  */
@@ -61,12 +67,41 @@ public class FragmentNow extends Fragment {
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
 
+        String weekDay;
+        SimpleDateFormat dayFormat = new SimpleDateFormat("E", Locale.UK);
+
+        Calendar calendar = Calendar.getInstance();
+        weekDay = dayFormat.format(calendar.getTime());
+
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<StudentModuleDao> studentModuleDao = realm.getDefaultInstance()
+                .where(StudentModuleDao.class)
+                .equalTo("day",weekDay.trim(), Case.SENSITIVE).findAll();
+//                .equalTo("day","Wed", Case.SENSITIVE).findAll();
+
+        Log.w("WEEKDAY", weekDay.toString());
+        Log.w("todayModule", String.valueOf(studentModuleDao));
+
+        b.moduleNameTxt.setText(studentModuleDao.get(0).getName());
+        b.moduleIdTxt.setText(studentModuleDao.get(0).getId());
+
+        String startTime = studentModuleDao.get(0).getStartDate().substring(11,16);
+        String endTime = studentModuleDao.get(0).getEndDate().substring(11,16);
+        b.startTimeTxt.setText(startTime);
+        b.endTimeTxt.setText(endTime);
+        b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
+
+//        b.lecturerTxt.setText(studentModuleDao.get(0).get);
+
+
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), CheckInActivity.class);
-                startActivity(intent);
+//                Log.w("todayModuleClick", String.valueOf(studentModuleDao));
+//                Intent intent = new Intent(getActivity(), CheckInActivity.class);
+//                startActivity(intent);
 
             }
         });

@@ -48,7 +48,7 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
         StudentModuleDao timeTableItem = getData().get(position);
 
         itemHolder.moduleNameTxt.setText(timeTableItem.getName());
-        itemHolder.moduleIdTxt.setText(timeTableItem.getId());
+        itemHolder.moduleIdTxt.setText(timeTableItem.getModuleId());
         itemHolder.statusTxt.setText(timeTableItem.getModStatus());
         itemHolder.timeTxt.setText(timeTableItem.getDay());
 //        ต้องหาค่า LatLng

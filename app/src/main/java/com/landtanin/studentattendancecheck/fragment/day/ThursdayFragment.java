@@ -74,7 +74,7 @@ public class ThursdayFragment extends Fragment {
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
         realm = Realm.getDefaultInstance();
-        RealmResults<StudentModuleDao> studentModuleDao = realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","thu", Case.SENSITIVE).findAll();
+        RealmResults<StudentModuleDao> studentModuleDao = realm.getDefaultInstance().where(StudentModuleDao.class).equalTo("day","Thu", Case.SENSITIVE).findAll();
         StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
         b.rvThursdayTimeTable.setLayoutManager(rvLayoutManager);
         mTimeTableListAdapter = new TimeTableListAdapter(getContext(),studentModuleDao,true);

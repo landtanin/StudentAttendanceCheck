@@ -17,26 +17,52 @@
             android:layout_height="0dp"
             android:layout_width="wrap_content"/>
 
-        <EditText
-            android:id="@+id/edt_login_email"
-            android:background="@android:drawable/edit_text"
-            android:layout_gravity="center_horizontal"
-            android:hint="email"
-            android:layout_width="@dimen/edit_txt_login_width"
-            android:layout_height="@dimen/edit_txt_login_height"/>
+
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">>
+
+
+            <EditText
+                android:text="johndoe@johndoe.com"
+                android:layout_gravity="center_horizontal"
+                android:hint="Email"
+                android:id="@+id/edt_login_email"
+                android:drawableRight="@drawable/ic_email"
+                android:inputType="textEmailAddress"
+                android:layout_width="@dimen/edit_txt_login_width"
+                android:layout_height="@dimen/edit_txt_login_height"/>
+
+        </android.support.design.widget.TextInputLayout>
 
         <View
             android:layout_weight=".03"
             android:layout_height="0dp"
             android:layout_width="wrap_content"/>
 
-        <EditText
-            android:id="@+id/edt_login_password"
-            android:background="@android:drawable/edit_text"
-            android:layout_gravity="center_horizontal"
-            android:hint="password"
-            android:layout_width="@dimen/edit_txt_login_width"
-            android:layout_height="@dimen/edit_txt_login_height"/>
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">>
+
+
+            <EditText
+                android:text="johndoe"
+                android:layout_gravity="center_horizontal"
+                android:hint="Password"
+                android:id="@+id/edt_login_password"
+                android:drawableRight="@drawable/ic_key"
+                android:inputType="textEmailAddress"
+                android:layout_width="@dimen/edit_txt_login_width"
+                android:layout_height="@dimen/edit_txt_login_height"/>
+
+
+        </android.support.design.widget.TextInputLayout>
 
         <View
             android:layout_weight=".3"

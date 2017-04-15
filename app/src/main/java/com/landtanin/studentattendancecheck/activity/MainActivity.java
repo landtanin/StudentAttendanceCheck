@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.databinding.ActivityMainBinding;
 import com.landtanin.studentattendancecheck.fragment.FragmentHome;
-import com.landtanin.studentattendancecheck.fragment.MainFragment;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -31,17 +30,23 @@ public class MainActivity extends AppCompatActivity {
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.contentContainer,
-                            MainFragment.newInstance(),
-                            "MainFragment")
+                            FragmentHome.newInstance(),
+                            "FragmentHome")
                     .commit();
 
-            FragmentHome fragmentHome = FragmentHome.newInstance();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.contentContainer,
-                            fragmentHome,
-                            "FragmentHome")
-                    .detach(fragmentHome)
-                    .commit();
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.contentContainer,
+//                            MainFragment.newInstance(),
+//                            "MainFragment")
+//                    .commit();
+//
+//            FragmentHome fragmentHome = FragmentHome.newInstance();
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.contentContainer,
+//                            fragmentHome,
+//                            "FragmentHome")
+//                    .detach(fragmentHome)
+//                    .commit();
 
         }
 
@@ -76,27 +81,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
 
-        // TODO: check if there's data in the database, delete fakeBol
-        String add_or_not = getIntent().getStringExtra("add_or_not");
+        // TODO: check if there's data in the database using SharePreference, delete fakeBol
+//        String add_or_not = getIntent().getStringExtra("add_or_not");
 
-        if (add_or_not.equals("add")) {
-
-            // TODO: go to add module
-
-            super.onResume();
-
-        } else if (add_or_not.equals("not_add")) {
-
-            MainFragment mainFragment = (MainFragment)
-                    getSupportFragmentManager().findFragmentByTag("MainFragment");
-            FragmentHome fragmentHome = (FragmentHome)
-                    getSupportFragmentManager().findFragmentByTag("FragmentHome");
-            getSupportFragmentManager().beginTransaction()
-                    .attach(fragmentHome)
-                    .detach(mainFragment)
-                    .commit();
-
-        }
+//        SharedPreferences prefs = getSharedPreferences("login_state", Context.MODE_PRIVATE);
+//        String loginState = prefs.getString("registered_or_not", null);
+//
+//        if (loginState.equals("no")) {
+//
+//            // TODO: go to add module
+//
+//            super.onResume();
+//
+//        } else if (loginState.equals("yes")) {
+//
+//            MainFragment mainFragment = (MainFragment)
+//                    getSupportFragmentManager().findFragmentByTag("MainFragment");
+//            FragmentHome fragmentHome = (FragmentHome)
+//                    getSupportFragmentManager().findFragmentByTag("FragmentHome");
+//            getSupportFragmentManager().beginTransaction()
+//                    .attach(fragmentHome)
+//                    .detach(mainFragment)
+//                    .commit();
+//
+//        }
         super.onResume();
     }
 

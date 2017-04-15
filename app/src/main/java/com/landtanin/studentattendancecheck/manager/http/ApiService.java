@@ -22,6 +22,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("new_login/index.php")
     Observable<StudentModuleCollectionDao> studentLoginCheck(@Field("tag") String tag, @Field("email") String email, @Field("password") String password);
+//    Call<StudentModuleCollectionDao> studentLoginCheck(@Field("tag") String tag, @Field("email") String email, @Field("password") String password);
 
 
 //    @FormUrlEncoded

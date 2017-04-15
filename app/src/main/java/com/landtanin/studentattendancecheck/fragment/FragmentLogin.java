@@ -2,6 +2,7 @@ package com.landtanin.studentattendancecheck.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.activity.MainActivity;
 import com.landtanin.studentattendancecheck.dao.StudentModuleCollectionDao;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.dao.User;
@@ -131,20 +133,40 @@ public class FragmentLogin extends Fragment {
 //                SharedPreferences prefs = getContext().getSharedPreferences("login_state", Context.MODE_PRIVATE);
 //                String loginState = prefs.getString("login_state_var", null);
 
+//                while (user.toString().equals("[]")) {
+//
+//                    Log.w("LOGIN", user.toString());
+//                    Log.w("WAIT", "WAIT");
+//                    user = Realm.getDefaultInstance().where(User.class)
+//                            .findAll();
+//
+//                }
+
 //                if (loginState.equals("success")) {
 
-                    //retrieve student data and check whether he or she already registered for any module
+//                    retrieve student data and check whether he or she already registered for any module
                     getStudent(user.get(0).getStudentId()); // dump student data of this student_id into Realm
 
-                    RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class)
-                          .findAll();
+//                    RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class)
+//                          .findAll();
 
 //                    Log.w("Mr." + user.get(0).getName() + " first module",
 //                            studentModuleDao.get(0).getName());
-                Log.w("STUDENT", studentModuleDao.toString());
+//                    Log.w("STUDENT", studentModuleDao.toString());
 
+//                    if (studentModuleDao.get(0) != null) {
+//
+//                        prefs.edit().putString("registered_or_not", "yes");
+//
+//                    } else {
+//
+//                        prefs.edit().putString("registered_or_not", "no");
+//
+//                    }
 
-//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    prefs.edit().apply();
+
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
 
 //                    if (studentModuleDao.get(0) != null) {
 //
@@ -160,7 +182,7 @@ public class FragmentLogin extends Fragment {
 //
 //                    }
 
-//                    startActivity(intent);
+                    startActivity(intent);
 
 //                } else {
 //
@@ -211,7 +233,10 @@ public class FragmentLogin extends Fragment {
 
                         }
 
+                        String sharePrefVar = prefs.getString("login_state_var", null);
+
                         Log.w("getLogin", response.getResult());
+                        Log.w("SharePrefs", sharePrefVar);
 
                     }
 
