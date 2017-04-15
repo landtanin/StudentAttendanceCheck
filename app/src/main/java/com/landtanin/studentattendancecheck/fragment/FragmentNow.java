@@ -1,6 +1,5 @@
 package com.landtanin.studentattendancecheck.fragment;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
-import com.landtanin.studentattendancecheck.activity.CheckInActivity;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
 import com.landtanin.studentattendancecheck.util.TodayModule;
 
 import io.realm.RealmResults;
+
+import static android.os.SystemClock.currentThreadTimeMillis;
+
 /**
  * Created by nuuneoi on 11/16/2014.
  */
@@ -92,14 +93,24 @@ public class FragmentNow extends Fragment {
         b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
         b.locationTxt.setText(studentModuleDao.get(0).getRoom());
 
+        // TODO: SET TIME TO check whether they're stil on time
+//        long currentTime =
+        long currentClock = currentThreadTimeMillis();
+        Log.w("currentClock", String.valueOf(currentClock));
+
+
+        // TODO: set button color and class's status indicator
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                long currentClock = currentThreadTimeMillis();
+                Log.w("currentClock", String.valueOf(currentClock));
+
 //                Log.w("todayModuleClick", String.valueOf(studentModuleDao));
-                Intent intent = new Intent(getActivity(), CheckInActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), CheckInActivity.class);
+//                startActivity(intent);
 
             }
         });

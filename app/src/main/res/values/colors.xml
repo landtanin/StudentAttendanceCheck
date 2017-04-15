@@ -14,4 +14,7 @@
     <color name='colorTxtFragmentMain'>#ffffff</color>
 
     <color name="overlay_color">#80000000</color>
+
+    <color name="green_check_in_button">#8BC34A</color>
+
 </resources>
