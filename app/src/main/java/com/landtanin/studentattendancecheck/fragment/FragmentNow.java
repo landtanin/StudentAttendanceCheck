@@ -15,6 +15,7 @@ import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
 import com.landtanin.studentattendancecheck.util.TodayModule;
 
 import io.realm.RealmResults;
+import retrofit2.http.HEAD;
 
 import static android.os.SystemClock.currentThreadTimeMillis;
 
@@ -81,25 +82,26 @@ public class FragmentNow extends Fragment {
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         Log.w("WEEKDAY", todayModule.dayOfWeek());
-        Log.w("todayModule", String.valueOf(studentModuleDao));
 
-        b.moduleNameTxt.setText(studentModuleDao.get(0).getName());
-        b.moduleIdTxt.setText(studentModuleDao.get(0).getModuleId());
+        Log.e("todayModule", String.valueOf(studentModuleDao));
 
-        String startTime = studentModuleDao.get(0).getCheckInStart().substring(0,5);
-        String endTime = studentModuleDao.get(0).getCheckInEnd().substring(0,5);
-        b.startTimeTxt.setText(startTime);
-        b.endTimeTxt.setText(endTime);
-        b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
-        b.locationTxt.setText(studentModuleDao.get(0).getRoom());
+        Log.e("todayModule", String.valueOf(studentModuleDao.size()));
+        Log.e("todayModule", String.valueOf(studentModuleDao.get(0).getName()));
 
-        // TODO: SET TIME TO check whether they're stil on time
-//        long currentTime =
-        long currentClock = currentThreadTimeMillis();
-        Log.w("currentClock", String.valueOf(currentClock));
+        if (!studentModuleDao.isEmpty()||studentModuleDao!=null) {
+            b.moduleNameTxt.setText(studentModuleDao.get(0).getName());
+            b.moduleIdTxt.setText(studentModuleDao.get(0).getModuleId());
 
+            String startTime = studentModuleDao.get(0).getCheckInStart().substring(0, 5);
+            String endTime = studentModuleDao.get(0).getCheckInEnd().substring(0, 5);
+            b.startTimeTxt.setText(startTime);
+            b.endTimeTxt.setText(endTime);
+            b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
+            b.locationTxt.setText(studentModuleDao.get(0).getRoom());
+        }else {
+            Log.e("todayModule", "emty");
+        }
 
-        // TODO: set button color and class's status indicator
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
