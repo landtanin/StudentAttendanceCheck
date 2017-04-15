@@ -12,7 +12,6 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class StudentModuleDao extends RealmObject implements RealmModel{
-
     @PrimaryKey
     @SerializedName("_id")
     @Expose

@@ -80,18 +80,24 @@ public class FragmentNow extends Fragment {
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         Log.w("WEEKDAY", todayModule.dayOfWeek());
-        Log.w("todayModule", String.valueOf(studentModuleDao));
+        Log.e("todayModule", String.valueOf(studentModuleDao));
 
-        b.moduleNameTxt.setText(studentModuleDao.get(0).getName());
-        b.moduleIdTxt.setText(studentModuleDao.get(0).getModuleId());
+        Log.e("todayModule", String.valueOf(studentModuleDao.size()));
+        Log.e("todayModule", String.valueOf(studentModuleDao.get(0).getName()));
 
-        String startTime = studentModuleDao.get(0).getCheckInStart().substring(0,5);
-        String endTime = studentModuleDao.get(0).getCheckInEnd().substring(0,5);
-        b.startTimeTxt.setText(startTime);
-        b.endTimeTxt.setText(endTime);
-        b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
-        b.locationTxt.setText(studentModuleDao.get(0).getRoom());
+        if (!studentModuleDao.isEmpty()||studentModuleDao!=null) {
+            b.moduleNameTxt.setText(studentModuleDao.get(0).getName());
+            b.moduleIdTxt.setText(studentModuleDao.get(0).getModuleId());
 
+            String startTime = studentModuleDao.get(0).getCheckInStart().substring(0, 5);
+            String endTime = studentModuleDao.get(0).getCheckInEnd().substring(0, 5);
+            b.startTimeTxt.setText(startTime);
+            b.endTimeTxt.setText(endTime);
+            b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
+            b.locationTxt.setText(studentModuleDao.get(0).getRoom());
+        }else {
+            Log.e("todayModule", "emty");
+        }
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override

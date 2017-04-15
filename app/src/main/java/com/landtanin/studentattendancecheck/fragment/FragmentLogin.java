@@ -36,6 +36,7 @@ import rx.functions.Action1;
 public class FragmentLogin extends Fragment {
 
     FragmentLoginBinding b;
+    ProgressDialog dialog;
     String email, password;
     private static final String tag = "login";
     private ProgressDialog loginProgressDialog;
@@ -85,9 +86,16 @@ public class FragmentLogin extends Fragment {
         b.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: 4/15/2017 AD Progress
+                dialog = new ProgressDialog(getActivity());
+                dialog.setMessage("Wait......");
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
 
                 email = b.edtLoginEmail.getText().toString();
                 password = b.edtLoginPassword.getText().toString();
+                getLogin(); // MOVE TO BACKGROUND
 
 //                new AsyncTask<Void, Void, Void>() {
 //                    @Override
@@ -119,16 +127,15 @@ public class FragmentLogin extends Fragment {
 
                 Log.w("BACKGROUND", "OFF from onPostExecute()");
 
-                getLogin(); // MOVE TO BACKGROUND
+
 
                 //TODO: make sure getLogin is fnished before the id is send to getStudent in link 105
 
                 // if success = 1, intent, else, toast fail
-                RealmResults<User> user = Realm.getDefaultInstance().where(User.class)
-                        .findAll();
+//                User user = Realm.getDefaultInstance().where(User.class).findFirst();
                         // alternative from findAll
 
-                Log.w("LOGIN", user.toString());
+//                Log.w("LOGIN", user.toString());
 
 //                SharedPreferences prefs = getContext().getSharedPreferences("login_state", Context.MODE_PRIVATE);
 //                String loginState = prefs.getString("login_state_var", null);
@@ -145,7 +152,7 @@ public class FragmentLogin extends Fragment {
 //                if (loginState.equals("success")) {
 
 //                    retrieve student data and check whether he or she already registered for any module
-                    getStudent(user.get(0).getStudentId()); // dump student data of this student_id into Realm
+                   // dump student data of this student_id into Realm
 
 //                    RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class)
 //                          .findAll();
@@ -166,7 +173,7 @@ public class FragmentLogin extends Fragment {
 
 //                    prefs.edit().apply();
 
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+
 
 //                    if (studentModuleDao.get(0) != null) {
 //
@@ -182,7 +189,6 @@ public class FragmentLogin extends Fragment {
 //
 //                    }
 
-                    startActivity(intent);
 
 //                } else {
 //
@@ -227,8 +233,9 @@ public class FragmentLogin extends Fragment {
                             realm.copyToRealmOrUpdate(response.getUser());
                             realm.commitTransaction();
 
+                            getStudent(response.getUser().getStudentId());
                         } else {
-
+                            dialog.dismiss();
                             Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
@@ -243,7 +250,7 @@ public class FragmentLogin extends Fragment {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        dialog.dismiss();
                         Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
 
                     }
@@ -257,7 +264,7 @@ public class FragmentLogin extends Fragment {
 
         //TODO: delete fake id
         String studentId = student_id;
-
+        Log.e("todayModule","Test="+studentId);
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
         apiService.loadStudentModule("heyhey", Integer.parseInt(studentId))
@@ -275,6 +282,9 @@ public class FragmentLogin extends Fragment {
                         realm.delete(StudentModuleDao.class); // delete only data of a specific class
                         realm.copyToRealmOrUpdate(response.getData());
                         realm.commitTransaction();
+                        dialog.dismiss();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
 
                         Log.d("getStudent", "call success");
 
@@ -283,7 +293,7 @@ public class FragmentLogin extends Fragment {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        dialog.dismiss();
                         Utils.getInstance().onHoneyToast("STUDENT "+throwable.getLocalizedMessage());
 
                     }
