@@ -12,14 +12,15 @@
         android:id="@+id/fragHomeTabLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
         app:tabPaddingEnd="-1dp"
         android:background="@color/colorPrimary"
-        app:tabSelectedTextColor="@android:color/black"
-        app:tabTextColor="@color/colorPrimaryDark"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/colorDarkWhite"
         android:fillViewport="false"/>
 
     <com.landtanin.studentattendancecheck.view.NonSwipableViewPager

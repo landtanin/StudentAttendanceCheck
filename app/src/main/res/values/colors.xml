@@ -4,11 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorWhite">#FF4081</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorDarkWhite">#aaaaaa</color>
 
     <color name='colorAddModuleListLine'>#000000</color>
     <color name='colorAddModuleListModuletxt'>#000000</color>
     <color name='colorAddModuleListIdtxt'>#000000</color>
 
-    <color name='colorTxtFragmentMain'>#000000</color>
+    <color name='colorTxtFragmentMain'>#ffffff</color>
+
+    <color name="overlay_color">#80000000</color>
 </resources>

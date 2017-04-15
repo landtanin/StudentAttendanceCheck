@@ -11,7 +11,7 @@ import java.util.List;
 
 public class StudentModuleCollectionDao{
 
-    @SerializedName("students")
+    @SerializedName("modules")
     @Expose
     private List<StudentModuleDao> data = null;
 

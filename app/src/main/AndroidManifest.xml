@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.landtanin.studentattendancecheck">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
@@ -26,6 +28,11 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="30622b972a5f3a88b7dbfa7cc6fce4163e600781"/>
+
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyDU2l9X5MXRfIGZnvdpgFk9-CYkqTufXUM"/>-->
+
 
         <activity android:name=".activity.LoginActivity">
             <intent-filter>

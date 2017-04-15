@@ -118,6 +118,7 @@ public class FragmentHome extends Fragment {
 
         b.fragHomeTabLayout.setupWithViewPager(b.fragmentHomeNonSwipViewPager);
         b.fragHomeTabLayout.setClipToPadding(true);
+//        b.fragHomeTabLayout.setTabTextColors(R.color.colorPrimary, R.color.colorWhite);
 
         for(int i = 0; i < b.fragHomeTabLayout.getTabCount(); i++) {
 

@@ -39,12 +39,15 @@ public class StudentModuleDao extends RealmObject implements RealmModel{
     @SerializedName("checkInEnd")
     @Expose
     private String checkInEnd;
+    @SerializedName("room")
+    @Expose
+    private String room;
     @SerializedName("LocLat")
     @Expose
-    private String locLat;
+    private double locLat;
     @SerializedName("LocLng")
     @Expose
-    private String locLng;
+    private double locLng;
     @SerializedName("ModATTRate")
     @Expose
     private String modATTRate;
@@ -122,19 +125,27 @@ public class StudentModuleDao extends RealmObject implements RealmModel{
         this.checkInEnd = checkInEnd;
     }
 
-    public String getLocLat() {
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public double getLocLat() {
         return locLat;
     }
 
-    public void setLocLat(String locLat) {
+    public void setLocLat(double locLat) {
         this.locLat = locLat;
     }
 
-    public String getLocLng() {
+    public double getLocLng() {
         return locLng;
     }
 
-    public void setLocLng(String locLng) {
+    public void setLocLng(double locLng) {
         this.locLng = locLng;
     }
 

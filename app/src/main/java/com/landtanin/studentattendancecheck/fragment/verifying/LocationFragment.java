@@ -1,5 +1,6 @@
 package com.landtanin.studentattendancecheck.fragment.verifying;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.landtanin.studentattendancecheck.R;
 
 
@@ -14,6 +16,9 @@ import com.landtanin.studentattendancecheck.R;
  * Created by nuuneoi on 11/16/2014.
  */
 public class LocationFragment extends Fragment {
+
+    private Location mLastLocation;
+    private GoogleApiClient mGoogleApiClient;
 
     public LocationFragment() {
         super();
@@ -53,6 +58,13 @@ public class LocationFragment extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
+
+//        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+//                .addConnectionCallbacks(getContext())
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
+
     }
 
     @Override
@@ -65,5 +77,6 @@ public class LocationFragment extends Fragment {
     private void onRestoreInstanceState(Bundle savedInstanceState) {
         // Restore Instance (Fragment level's variables) State here
     }
+
 
 }

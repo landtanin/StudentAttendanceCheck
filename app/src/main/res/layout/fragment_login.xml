@@ -7,7 +7,7 @@
               android:layout_height="match_parent">
 
     <LinearLayout
-        android:background="@color/colorPrimary"
+        android:background="@color/colorWhite"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -69,11 +69,13 @@
             android:layout_height="0dp"
             android:layout_width="wrap_content"/>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
             android:text="Login"
             android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/edit_txt_login_width"
             android:layout_height="wrap_content"/>
 
         <View

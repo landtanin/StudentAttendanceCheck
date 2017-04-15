@@ -64,4 +64,10 @@ dependencies {
     compile 'io.realm:android-adapters:1.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     testCompile 'junit:junit:4.12'
+
+    compile 'com.google.android.gms:play-services-maps:10.2.1'
+    compile 'com.google.android.gms:play-services-location:10.2.1'
+
+
+    compile 'com.google.maps.android:android-maps-utils:0.3.4'
 }

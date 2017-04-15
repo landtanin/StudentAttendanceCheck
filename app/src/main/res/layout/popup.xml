@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/popupElement"
+              android:orientation="vertical"
+              android:background="@android:drawable/editbox_background"
+              android:layout_width="@dimen/popup_window_width"
+              android:layout_height="@dimen/popup_window_height">
+
+
+    <ImageView
+        android:src="@drawable/tick_sign"
+        android:layout_gravity="center"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+    <TextView
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="You come to the right place"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"/>
+
+    <TextView
+        android:id="@+id/txtBackToMain"
+        android:textStyle="bold"
+        android:textColor="#0000cc"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        android:text="back to main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
+
+
+
+
+</LinearLayout>
