@@ -4,6 +4,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_list_item_add_module"
+        android:background="@color/colorTimetableWhite"
+        android:elevation="2dp"
         android:orientation="vertical">
 
         <TextView
@@ -66,6 +68,7 @@
             android:textSize="15sp" />
 
         <View
+            android:backgroundTint="@color/colorDarkWhite"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"

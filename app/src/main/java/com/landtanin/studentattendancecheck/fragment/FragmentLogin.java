@@ -25,7 +25,6 @@ import com.landtanin.studentattendancecheck.manager.http.ApiService;
 import com.landtanin.studentattendancecheck.util.Utils;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
@@ -74,7 +73,6 @@ public class FragmentLogin extends Fragment {
     private void init(Bundle savedInstanceState) {
         // Init Fragment level's variable(s) here
 
-
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -83,122 +81,41 @@ public class FragmentLogin extends Fragment {
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
 
-        b.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 4/15/2017 AD Progress
-                dialog = new ProgressDialog(getActivity());
-                dialog.setMessage("Wait......");
-                dialog.setCancelable(false);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.show();
+        SharedPreferences prefs = getContext().getSharedPreferences("login_state", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+        // Add/Edit/Delete
+//        editor.putString("login_state_var", response.getResult());
+//        editor.apply();
+        Log.w("prefs", String.valueOf(prefs.getAll()));
 
-                email = b.edtLoginEmail.getText().toString();
-                password = b.edtLoginPassword.getText().toString();
-                getLogin(); // MOVE TO BACKGROUND
+        if (prefs.getAll().toString().equals("{}")) {
 
-//                new AsyncTask<Void, Void, Void>() {
-//                    @Override
-//                    protected Void doInBackground(Void... params) {
-//
-//                        getLogin();
-//
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(Void aVoid) {
-//                        super.onPostExecute(aVoid);
-//
-//                        RealmResults<StudentLoginStatusDao> studentLoginStatusDao = Realm.getDefaultInstance()
-//                                .where(StudentLoginStatusDao.class)
-//                                .findAllAsync();
-//
-//                        if (studentLoginStatusDao.get(0).getSuccess() == 1) {
-//
-//                            getStudent(studentLoginStatusDao.get(0).getUser().getStudentId());
-//เ
-//                            Log.w("BACKGROUND", "onPostExecute()");
-//
-//                        }
-//
-//                    }
-//                }.execute();
+            b.btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO: 4/15/2017 AD Progress
+                    dialog = new ProgressDialog(getActivity());
+                    dialog.setMessage("Wait......");
+                    dialog.setCancelable(false);
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.show();
 
-                Log.w("BACKGROUND", "OFF from onPostExecute()");
+                    email = b.edtLoginEmail.getText().toString();
+                    password = b.edtLoginPassword.getText().toString();
+                    getLogin(); // MOVE TO BACKGROUND
 
+                    Log.w("BACKGROUND", "OFF from onPostExecute()");
 
+                }
 
-                //TODO: make sure getLogin is fnished before the id is send to getStudent in link 105
+            });
 
-                // if success = 1, intent, else, toast fail
-//                User user = Realm.getDefaultInstance().where(User.class).findFirst();
-                        // alternative from findAll
+        } else if (prefs.getString("login_state_var", null).equals("success")) {
 
-//                Log.w("LOGIN", user.toString());
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
 
-//                SharedPreferences prefs = getContext().getSharedPreferences("login_state", Context.MODE_PRIVATE);
-//                String loginState = prefs.getString("login_state_var", null);
-
-//                while (user.toString().equals("[]")) {
-//
-//                    Log.w("LOGIN", user.toString());
-//                    Log.w("WAIT", "WAIT");
-//                    user = Realm.getDefaultInstance().where(User.class)
-//                            .findAll();
-//
-//                }
-
-//                if (loginState.equals("success")) {
-
-//                    retrieve student data and check whether he or she already registered for any module
-                   // dump student data of this student_id into Realm
-
-//                    RealmResults<StudentModuleDao> studentModuleDao = Realm.getDefaultInstance().where(StudentModuleDao.class)
-//                          .findAll();
-
-//                    Log.w("Mr." + user.get(0).getName() + " first module",
-//                            studentModuleDao.get(0).getName());
-//                    Log.w("STUDENT", studentModuleDao.toString());
-
-//                    if (studentModuleDao.get(0) != null) {
-//
-//                        prefs.edit().putString("registered_or_not", "yes");
-//
-//                    } else {
-//
-//                        prefs.edit().putString("registered_or_not", "no");
-//
-//                    }
-
-//                    prefs.edit().apply();
-
-
-
-//                    if (studentModuleDao.get(0) != null) {
-//
-//                        // he is ...... who study ......
-//                        Log.w("he is " + user.get(0).getName() + " who study ",
-//                                studentModuleDao.get(0).getName());
-//
-//                        intent.putExtra("add_or_not", "not_add");
-//
-//                    } else {
-//
-//                        intent.putExtra("add_or_not", "add");
-//
-//                    }
-
-
-//                } else {
-//
-//                    Utils.getInstance().onHoneyToast("invalid email or password");
-//
-//                }
-
-
-            }
-        });
+        }
 
     }
 
@@ -235,6 +152,7 @@ public class FragmentLogin extends Fragment {
 
                             getStudent(response.getUser().getStudentId());
                         } else {
+                            realm.commitTransaction();
                             dialog.dismiss();
                             Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -250,12 +168,13 @@ public class FragmentLogin extends Fragment {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+
                         dialog.dismiss();
-                        Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
+//                        Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
+                        Log.w("LOGIN CONNECTION PROBLEM", throwable.getLocalizedMessage());
 
                     }
                 });
-
 
     }
 
@@ -285,6 +204,8 @@ public class FragmentLogin extends Fragment {
                         dialog.dismiss();
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
+
+
 
                         Log.d("getStudent", "call success");
 

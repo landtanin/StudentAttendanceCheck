@@ -1,5 +1,8 @@
 package com.landtanin.studentattendancecheck.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +14,6 @@ import com.landtanin.studentattendancecheck.databinding.ActivityMainBinding;
 import com.landtanin.studentattendancecheck.fragment.FragmentHome;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,9 +72,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_logout) {
 
-            realm = Realm.getDefaultInstance();
-            RealmConfiguration realmConfig = realm.getConfiguration();
-            Realm.deleteRealm(realmConfig);
+//            realm = Realm.getDefaultInstance();
+//            RealmConfiguration realmConfig = realm.getConfiguration();
+//            Realm.deleteRealm(realmConfig);
+
+            SharedPreferences prefs = this.getSharedPreferences("login_state", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            // Add/Edit/Delete
+            editor.remove("login_state_var");
+            editor.apply();
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+
+
         }
 
         return super.onOptionsItemSelected(item);

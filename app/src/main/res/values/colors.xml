@@ -5,7 +5,10 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorWhite">#ffffff</color>
-    <color name="colorDarkWhite">#aaaaaa</color>
+    <color name="colorDimWhite">#eeeeee</color>
+    <color name="colorTimetableWhite">#dddddd</color>
+    <color name="colorDarkWhite">#888888</color>
+
 
     <color name='colorAddModuleListLine'>#000000</color>
     <color name='colorAddModuleListModuletxt'>#000000</color>

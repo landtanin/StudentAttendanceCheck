@@ -15,7 +15,6 @@ import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
 import com.landtanin.studentattendancecheck.util.TodayModule;
 
 import io.realm.RealmResults;
-import retrofit2.http.HEAD;
 
 import static android.os.SystemClock.currentThreadTimeMillis;
 
@@ -86,9 +85,9 @@ public class FragmentNow extends Fragment {
         Log.e("todayModule", String.valueOf(studentModuleDao));
 
         Log.e("todayModule", String.valueOf(studentModuleDao.size()));
-        Log.e("todayModule", String.valueOf(studentModuleDao.get(0).getName()));
+//        Log.e("todayModule", String.valueOf(studentModuleDao.get(0).getName()));
 
-        if (!studentModuleDao.isEmpty()||studentModuleDao!=null) {
+        if (!(studentModuleDao.size()==0)) {
             b.moduleNameTxt.setText(studentModuleDao.get(0).getName());
             b.moduleIdTxt.setText(studentModuleDao.get(0).getModuleId());
 
@@ -99,9 +98,21 @@ public class FragmentNow extends Fragment {
             b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
             b.locationTxt.setText(studentModuleDao.get(0).getRoom());
         }else {
-            Log.e("todayModule", "emty");
-        }
 
+            Log.e("todayModule", "empty");
+
+//            b.moduleNameTxt.setVisibility(View.GONE);
+            b.moduleNameTxt.setText("There is no class today :)");
+            b.moduleIdTxt.setVisibility(View.GONE);
+            b.startTimeTxt.setVisibility(View.GONE);
+            b.toTimeTxt.setVisibility(View.GONE);
+            b.endTimeTxt.setVisibility(View.GONE);
+            b.lecturerTxt.setVisibility(View.GONE);
+            b.locationTxt.setVisibility(View.GONE);
+            b.statusBtn.setVisibility(View.GONE);
+            b.statusTxt.setVisibility(View.GONE);
+
+        }
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -36,4 +36,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onStop() {
+
+        finish();
+        super.onStop();
+
+    }
 }

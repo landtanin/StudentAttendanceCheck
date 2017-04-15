@@ -79,13 +79,25 @@ public class MondayFragment extends Fragment {
         //       in onSavedInstanceState
         realm = Realm.getDefaultInstance();
         RealmResults<StudentModuleDao> studentModuleDao = realm.where(StudentModuleDao.class).equalTo("day","Mon",Case.SENSITIVE).findAll();
-        StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
-        b.rvMondayTimeTable.setLayoutManager(rvLayoutManager);
-        mTimeTableListAdapter = new TimeTableListAdapter(getContext(),studentModuleDao ,true);
 
-        b.rvMondayTimeTable.setAdapter(mTimeTableListAdapter);
-        b.rvMondayTimeTable.setHasFixedSize(true);
 
+        Log.w("MONDAY_module", String.valueOf(studentModuleDao.size()));
+
+        if (studentModuleDao.size()!=0) {
+
+            StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
+            b.rvMondayTimeTable.setLayoutManager(rvLayoutManager);
+            mTimeTableListAdapter = new TimeTableListAdapter(getContext(), studentModuleDao, true);
+            b.rvMondayTimeTable.setAdapter(mTimeTableListAdapter);
+            b.rvMondayTimeTable.setHasFixedSize(true);
+
+        } else {
+
+            b.rvMondayTimeTable.setVisibility(View.GONE);
+            b.monNoModuleText.setText("You are free today");
+            b.monNoModuleText.setVisibility(View.VISIBLE);
+
+        }
 //        connectToDataBase();
 
     }
