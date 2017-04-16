@@ -146,11 +146,11 @@ public class FragmentNow extends Fragment {
             // compare with now if it is the last module of the day whether it's end yet
             if (targetingModule == (studentModuleDao.size() - 1)) {
 
-                Date nextModuleEnd = studentModuleDao.get(targetingModule).getCheckInEnd();
+                Date nextModuleEnd = studentModuleDao.get(targetingModule).getEndDate();
                 int nowVSnextModule = timeFormat.format(now)
                         .compareTo(timeFormat.format(nextModuleEnd));
 
-                // if now is before nextModule end, showCurrentStatus, else you're free
+                // if now is before nextModule end and the today is in module period, showCurrentStatus, else you're free
                 if ( (nowVSnextModule <= 0) && ((dateFormat.format(studentModuleDao.get(targetingModule).getStartDate())
                         .compareTo(dateFormat.format(now))) <= 0 ) &&
                         ((dateFormat.format(studentModuleDao.get(targetingModule).getEndDate())
@@ -188,6 +188,7 @@ public class FragmentNow extends Fragment {
 
         }
 
+        // TODO disable this if checkin already
         final int finalTargetingModule = targetingModule;
         new Thread(new Runnable() {
             @Override
@@ -202,7 +203,12 @@ public class FragmentNow extends Fragment {
 
                             @Override
                             public void run() {
+//                                Calendar updateTime =Calendar.getInstance();
+//                                Date nowInButtonManager = c.getTime();
+//                                Log.e("FragmentNow - nowFromThread", String.valueOf(nowInButtonManager));
                                 buttonStatusColorManager(finalTargetingModule);
+//                                Log.e("FragmentNow - finalTargetingModule", String.valueOf(finalTargetingModule));
+
                             }
                         });
                     } catch (Exception e) {
@@ -252,6 +258,7 @@ public class FragmentNow extends Fragment {
     }
 
     private void showCurrentStatus(RealmResults<StudentModuleDao> studentModuleDao, int targetingModule) {
+
         b.moduleNameTxt.setText(studentModuleDao.get(targetingModule).getName());
         b.moduleIdTxt.setText(studentModuleDao.get(targetingModule).getModuleId());
 
@@ -262,12 +269,15 @@ public class FragmentNow extends Fragment {
         b.lecturerTxt.setText(studentModuleDao.get(targetingModule).getDescription());
         b.locationTxt.setText(studentModuleDao.get(targetingModule).getRoom());
         buttonStatusColorManager(targetingModule);
+
     }
 
     private void buttonStatusColorManager(int buttonTargetingModule) {
 
         int min = c.get(Calendar.MINUTE);
         int hour=c.get(Calendar.HOUR);
+        Calendar calendar = Calendar.getInstance();
+        Date nowInButtonManager = calendar.getTime();
 
 //        Resources res = getResources();
 
@@ -292,33 +302,49 @@ public class FragmentNow extends Fragment {
 
         Date checkInStart = studentModuleDao.get(buttonTargetingModule).getCheckInStart();
         Date checkInEnd = studentModuleDao.get(buttonTargetingModule).getCheckInEnd();
+        Date startDate = studentModuleDao.get(buttonTargetingModule).getStartDate();
+        Date endDate = studentModuleDao.get(buttonTargetingModule).getEndDate();
 
-        Log.d("FragmentNow now time", String.valueOf(now));
+        Log.d("FragmentNow now time", String.valueOf(nowInButtonManager));
         Log.d("FragmentNow checkin time", String.valueOf(checkInStart));
 
         // compare time by only consider the date
         // Return value is 0 if both dates are equal.
         // Return value is greater than 0 , if Date is after the date argument.
         // Return value is less than 0, if Date is before the date argument.
-        int dateCompareBeforeResult = timeFormat.format(now).compareTo(timeFormat.format(checkInStart));
-        int dateCompareAfterResult = timeFormat.format(now).compareTo(timeFormat.format(checkInEnd));
+        // result format note (less than, greater than 0 or equal)
+        int checkInCompareBeforeResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(checkInStart)); // ( it's not checkin time yet - GREY, it's checkin time - GREEN )
+        int checkInCompareAfterResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(checkInEnd)); // ( it's still checkin time - GREEN, you're late but it's not end yet - RED)
+        int dateCompareBeforeResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(startDate)); // (, )
+        int dateCompareAfterResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(endDate)); // (you're late but it's not end yet - RED, the module is ended - show new module detail GREY)
 
-        Log.w("dateResult", String.valueOf(dateCompareBeforeResult));
+        Log.w("Fragment now - checkInCompareBeforeResult", String.valueOf(checkInCompareBeforeResult));
+        Log.w("Fragment now - checkInCompareAfterResult", String.valueOf(checkInCompareAfterResult));
+        Log.w("Fragment now - dateCompareBeforeResult", String.valueOf(dateCompareBeforeResult));
+        Log.w("Fragment now - dateCompareAfterResult", String.valueOf(dateCompareAfterResult));
 
         // before checkinstart
-        if (dateCompareBeforeResult<=0) {
+        if (checkInCompareBeforeResult < 0) {
 
 //            b.statusBtn.setBackgroundColor(greyColor);
-            b.statusBtn.setBackgroundColor(getResources().getColor(R.color.colorGrey500));
+            b.statusBtn.setBackgroundColor(greyColor);
             b.statusTxt.setTextColor(greyColor);
             b.statusTxt.setText("check in is not yet available");
 
         }
         // after checkin start, before checkin end
-        else if (dateCompareBeforeResult>0||dateCompareAfterResult<=0) {
+        else if (checkInCompareBeforeResult >=0 && checkInCompareAfterResult < 0) {
 
             b.statusBtn.setBackgroundColor(greenColor);
             b.statusTxt.setTextColor(greenColor);
+            b.statusTxt.setText("check in is available");
+
+        }
+        // late but the module is not end yet
+        else if (checkInCompareAfterResult >=0 && dateCompareAfterResult < 0) {
+
+            b.statusBtn.setBackgroundColor(redColor);
+            b.statusTxt.setTextColor(redColor);
             b.statusTxt.setText("check in is available");
 
         }

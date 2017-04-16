@@ -95,7 +95,7 @@ public class FragmentLogin extends Fragment {
                 public void onClick(View v) {
                     // TODO: 4/15/2017 AD Progress
                     dialog = new ProgressDialog(getActivity());
-                    dialog.setMessage("Wait......");
+                    dialog.setMessage("Please Wait...");
                     dialog.setCancelable(false);
                     dialog.setCanceledOnTouchOutside(false);
                     dialog.show();
