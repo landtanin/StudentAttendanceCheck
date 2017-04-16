@@ -145,12 +145,14 @@ public class FragmentLogin extends Fragment {
                             SharedPreferences.Editor editor = prefs.edit();
                             // Add/Edit/Delete
                             editor.putString("login_state_var", response.getResult());
+                            editor.putString("student_id", response.getUser().getStudentId());
                             editor.apply();
 
                             realm.copyToRealmOrUpdate(response.getUser());
                             realm.commitTransaction();
 
                             getStudent(response.getUser().getStudentId());
+
                         } else {
                             realm.commitTransaction();
                             dialog.dismiss();
@@ -181,12 +183,10 @@ public class FragmentLogin extends Fragment {
     // dump data into Realm
     private void getStudent(String student_id){
 
-        //TODO: delete fake id
-        String studentId = student_id;
-        Log.e("todayModule","Test="+studentId);
+//        Log.e("todayModule","Test="+studentId);
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-        apiService.loadStudentModule("heyhey", Integer.parseInt(studentId))
+        apiService.loadStudentModule("heyhey", Integer.parseInt(student_id))
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())

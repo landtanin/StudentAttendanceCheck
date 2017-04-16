@@ -6,4 +6,8 @@
           android:title="logout"
           app:showAsAction="never"/>
 
+    <item android:id="@+id/action_refresh"
+          android:title="refresh"
+          app:showAsAction="never"/>
+
 </menu>

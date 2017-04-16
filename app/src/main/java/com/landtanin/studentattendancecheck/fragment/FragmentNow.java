@@ -38,6 +38,7 @@ public class FragmentNow extends Fragment {
     private int firstModuleVSsecondModule;
     private SimpleDateFormat timeFormat, dateFormat;
     private int redColor, greenColor, greyColor;
+    private static final int TODAY_IS_END = 1000;
 
     boolean run = true; //set it to false if you want to stop the timer
     Handler mHandler = new Handler();
@@ -117,106 +118,152 @@ public class FragmentNow extends Fragment {
         // if there is any module today
         if (!(studentModuleDao.size()==0)) {
 
+            Date ModuleStartCheckIn = studentModuleDao.get(targetingModule).getCheckInStart();
+            Date ModuleEndCheckIn = studentModuleDao.get(targetingModule).getCheckInEnd();
+            Date ModuleStartDate = studentModuleDao.get(targetingModule).getStartDate();
+            Date ModuleEndDate = studentModuleDao.get(targetingModule).getEndDate();
+
+            int nowVSmodule = timeFormat.format(now).compareTo(timeFormat.format(ModuleEndCheckIn));
+
+            int nowVSstartDay = dateFormat.format(now).compareTo(dateFormat.format(ModuleStartDate));
+            int nowVSendDay = dateFormat.format(now).compareTo(dateFormat.format(ModuleEndDate));
+
             // if there is more than one module
-            if (studentModuleDao.size()>1) {
+            if (studentModuleDao.size() > 1) {
+                Log.i("FragmentNow", "more than one module");
 
                 // find the first one
-                for (int i = 1; i<studentModuleDao.size(); i++) {
+                for (int i = 1; i < studentModuleDao.size(); i++) {
 
-                    Date firstModuleStart = studentModuleDao.get(targetingModule).getCheckInStart();
-                    Date secondModuleStart = studentModuleDao.get(i).getCheckInStart();
+                    Date firstModuleStartCheckIn = studentModuleDao.get(targetingModule).getCheckInStart();
+                    Date firstModuleEndCheckIn = studentModuleDao.get(targetingModule).getCheckInEnd();
+                    Date secondModuleStartCheckIn = studentModuleDao.get(i).getCheckInStart();
+                    Date secondModuleEndCheckIn = studentModuleDao.get(i).getCheckInEnd();
+
+                    Date firstModuleStartDate = studentModuleDao.get(targetingModule).getStartDate();
+                    Date firstModuleEndDate = studentModuleDao.get(targetingModule).getEndDate();
+                    Date secondModuleStartDate = studentModuleDao.get(i).getStartDate();
+                    Date secondModuleEndDate = studentModuleDao.get(i).getEndDate();
                     // Return value is 0 if both dates are equal.
                     // Return value is greater than 0 , if Date is after the date argument.
                     // Return value is less than 0, if Date is before the date argument.
 
-                    firstModuleVSsecondModule = timeFormat.format(firstModuleStart)
-                            .compareTo(timeFormat.format(secondModuleStart));
+                    int nowVSfirst = timeFormat.format(now).compareTo(timeFormat.format(firstModuleEndCheckIn));
+                    int nowVSsecond = timeFormat.format(now).compareTo(timeFormat.format(secondModuleEndCheckIn));
 
-                    // if second is before first
-                    if (firstModuleVSsecondModule>0) {
+                    int nowVSfirstStartDay = dateFormat.format(now).compareTo(dateFormat.format(firstModuleStartDate));
+                    int nowVSfirstEndDay = dateFormat.format(now).compareTo(dateFormat.format(firstModuleEndDate));
+                    int nowVSsecondStartDay = dateFormat.format(now).compareTo(dateFormat.format(secondModuleStartDate));
+                    int nowVSsecondEndDay = dateFormat.format(now).compareTo(dateFormat.format(secondModuleEndDate));
+
+                    // 1
+                    if (((nowVSfirst <= 0) && ((nowVSfirstStartDay > 0) && (nowVSfirstEndDay <= 0)))
+                            && ((nowVSsecond <= 0) && (nowVSsecondStartDay > 0) && (nowVSsecondEndDay <= 0))) {
+
+                        // can use both time of startCheckin or startDate
+                        firstModuleVSsecondModule = timeFormat.format(firstModuleStartCheckIn)
+                                .compareTo(timeFormat.format(secondModuleStartCheckIn));
+
+                        // if second is less or before first
+                        if (firstModuleVSsecondModule > 0) {
+
+                            targetingModule = i;
+
+                        } // else targetingModule remain the same
+
+
+                    }
+                    // 2
+                    else if (((nowVSfirst <= 0) && ((nowVSfirstStartDay > 0) && (nowVSfirstEndDay <= 0)))
+                            && ((nowVSsecond > 0) || (nowVSsecondStartDay <= 0) || (nowVSsecondEndDay > 0))) {
+
+                        Log.i("FragmentNow", "targetingModule remain the same = " + targetingModule);
+                        if ((nowVSsecondStartDay <= 0) || (nowVSsecondEndDay > 0)) {
+                            realmUpdateModStatus(targetingModule, studentModuleDao);
+                        }
+
+                    }
+                    // 3
+                    else if (((nowVSfirst > 0) || ((nowVSfirstStartDay <= 0) || (nowVSfirstEndDay > 0)))
+                            && ((nowVSsecond <= 0) && (nowVSsecondStartDay > 0) && (nowVSsecondEndDay <= 0))) {
 
                         targetingModule = i;
+                        Log.i("FragmentNow", "targetingModule is i = " + targetingModule);
+                        if ((nowVSfirstStartDay <= 0) || (nowVSfirstEndDay > 0)) {
+                            realmUpdateModStatus(i, studentModuleDao);
+                        }
+
+                    } else {
+
+                        targetingModule = TODAY_IS_END;
 
                     }
 
                 } // end find the first one
 
-            }
+                if (targetingModule == TODAY_IS_END) {
 
-            // compare with now if it is the last module of the day whether it's end yet
-            if (targetingModule == (studentModuleDao.size() - 1)) {
-
-                Date nextModuleEnd = studentModuleDao.get(targetingModule).getEndDate();
-                int nowVSnextModule = timeFormat.format(now)
-                        .compareTo(timeFormat.format(nextModuleEnd));
-
-                // if now is before nextModule end and the today is in module period, showCurrentStatus, else you're free
-                if ( (nowVSnextModule <= 0) && ((dateFormat.format(studentModuleDao.get(targetingModule).getStartDate())
-                        .compareTo(dateFormat.format(now))) <= 0 ) &&
-                        ((dateFormat.format(studentModuleDao.get(targetingModule).getEndDate())
-                                .compareTo(dateFormat.format(now))) > 0 ) ) {
-
-                        showCurrentStatus(studentModuleDao, targetingModule);
+                    youAreFreeStatus();
 
                 } else {
 
-                    youAreFreeStatus();
-                    realmUpdateModStatus(targetingModule, studentModuleDao);
+                    Log.i("FragmentNow", "The first module is " + targetingModule);
+                    showCurrentStatus(studentModuleDao, targetingModule);
 
                 }
-//                (nowVSnextModule <=0) ? showCurrentStatus(studentModuleDao, targetingModule) : youAreFreeStatus();
 
-            } else  if ( ((dateFormat.format(studentModuleDao.get(targetingModule).getStartDate())
-                    .compareTo(dateFormat.format(now))) <= 0 ) &&
-                    ((dateFormat.format(studentModuleDao.get(targetingModule).getEndDate())
-                            .compareTo(dateFormat.format(now))) > 0 )) {
 
-                // if this module date is correct
+            }
+            // there's only one module and it's not end
+            else if ((nowVSmodule <= 0) && ((nowVSstartDay > 0) && (nowVSendDay <= 0))) {
+
                 showCurrentStatus(studentModuleDao, targetingModule);
-
 
             } else {
 
                 youAreFreeStatus();
-                realmUpdateModStatus(targetingModule, studentModuleDao);
+                targetingModule = TODAY_IS_END;
+//                realmUpdateModStatus(targetingModule, studentModuleDao);
 
             }
 
         } else {
 
             youAreFreeStatus();
+            targetingModule = TODAY_IS_END;
 
         }
 
         // TODO disable this if checkin already
-        final int finalTargetingModule = targetingModule;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (run) {
-                    try {
+        if (targetingModule!=TODAY_IS_END) {
 
-                        Thread.sleep(20000);
-                        // every 20 secs
+            final int finalTargetingModule = targetingModule;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (run) {
+                        try {
 
-                        mHandler.post(new Runnable() {
+                            Thread.sleep(20000);
+                            // every 20 secs
 
-                            @Override
-                            public void run() {
-//                                Calendar updateTime =Calendar.getInstance();
-//                                Date nowInButtonManager = c.getTime();
-//                                Log.e("FragmentNow - nowFromThread", String.valueOf(nowInButtonManager));
-                                buttonStatusColorManager(finalTargetingModule);
+                            mHandler.post(new Runnable() {
+
+                                @Override
+                                public void run() {
+
+                                    buttonStatusColorManager(finalTargetingModule);
 //                                Log.e("FragmentNow - finalTargetingModule", String.valueOf(finalTargetingModule));
 
-                            }
-                        });
-                    } catch (Exception e) {
+                                }
+                            });
+                        } catch (Exception e) {
+                        }
                     }
                 }
-            }
-        }).start();
+            }).start();
 
+        }
 //        timer();
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
@@ -243,9 +290,9 @@ public class FragmentNow extends Fragment {
     }
 
     private void youAreFreeStatus() {
-        Log.e("todayModule", "empty");
 
-//            b.moduleNameTxt.setVisibility(View.GONE);
+        Log.e("FragmentNow ", "youAreFreeStatus");
+
         b.moduleNameTxt.setText("It's free time :)");
         b.moduleIdTxt.setVisibility(View.GONE);
         b.startTimeTxt.setVisibility(View.GONE);
@@ -254,7 +301,8 @@ public class FragmentNow extends Fragment {
         b.lecturerTxt.setVisibility(View.GONE);
         b.locationTxt.setVisibility(View.GONE);
         b.statusBtn.setVisibility(View.GONE);
-//            b.statusTxt.setVisibility(View.GONE);
+        b.statusTxt.setVisibility(View.GONE);
+
     }
 
     private void showCurrentStatus(RealmResults<StudentModuleDao> studentModuleDao, int targetingModule) {
@@ -345,7 +393,7 @@ public class FragmentNow extends Fragment {
 
             b.statusBtn.setBackgroundColor(redColor);
             b.statusTxt.setTextColor(redColor);
-            b.statusTxt.setText("check in is available");
+            b.statusTxt.setText("better late than never");
 
         }
 //        b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
