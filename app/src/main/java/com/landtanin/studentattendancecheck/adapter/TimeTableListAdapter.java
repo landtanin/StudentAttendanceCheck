@@ -13,6 +13,8 @@ import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.ListItemTimeTableBinding;
 
+import java.text.SimpleDateFormat;
+
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -25,6 +27,8 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 //    private RealmResults<StudentModuleDao> mtimeTableItemList;
     Context mContext;
     ListItemTimeTableBinding b;
+//    int[] endedModule = new int[5]; // TODO create MaximumEndedModulePerday variable
+
 
     public TimeTableListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<StudentModuleDao> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -44,23 +48,51 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        final RecyclerViewHolder itemHolder = (RecyclerViewHolder) holder; // it needs RecyclerViewHolder, not RecyclerView.ViewHolder
-        StudentModuleDao timeTableItem = getData().get(position);
+//        if (endedModule.length>0) {
 
-        itemHolder.moduleNameTxt.setText(timeTableItem.getName());
-        itemHolder.moduleIdTxt.setText(timeTableItem.getModuleId());
-        itemHolder.statusTxt.setText(timeTableItem.getModStatus());
-        itemHolder.timeTxt.setText(timeTableItem.getDay());
+            final RecyclerViewHolder itemHolder = (RecyclerViewHolder) holder; // it needs RecyclerViewHolder, not RecyclerView.ViewHolder
+            StudentModuleDao timeTableItem = getData().get(position);
+
+            itemHolder.moduleNameTxt.setText(timeTableItem.getName());
+            itemHolder.moduleIdTxt.setText(timeTableItem.getModuleId());
+            itemHolder.statusTxt.setText(timeTableItem.getModStatus());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            itemHolder.timeTxt.setText(dateFormat.format(timeTableItem.getCheckInStart()));
 //        ต้องหาค่า LatLng
 
-        itemHolder.locationTxt.setText(timeTableItem.getCheckInStart());
+            itemHolder.locationTxt.setText(timeTableItem.getRoom());
 
+//        }
 
     }
 
     @Override
     public int getItemCount() {
+
+//        int deductAmount = 0;
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        Date now = Calendar.getInstance().getTime();
+//
+//        for (int i = 0; i < getData().size(); i++) {
+//
+//            if (!(((dateFormat.format(getData().get(i).getStartDate())
+//                    .compareTo(dateFormat.format(now))) <= 0 ) &&
+//                    ((dateFormat.format(getData().get(i).getEndDate())
+//                    .compareTo(dateFormat.format(now))) > 0 ))) {
+//
+////                showCurrentStatus(studentModuleDao, targetingModule);
+//                endedModule[i] = i;
+//                deductAmount++;
+//
+//                Log.d("endedModule", String.valueOf(endedModule[1]));
+//                Log.d("deductAmount", String.valueOf(deductAmount));
+//            }
+//
+//        }
+
         return getData().size();
+
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder{

@@ -3,6 +3,8 @@ package com.landtanin.studentattendancecheck.dao;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -25,19 +27,19 @@ public class StudentModuleDao extends RealmObject implements RealmModel{
     private String moduleId;
     @SerializedName("startDate")
     @Expose
-    private String startDate;
+    private Date startDate;
     @SerializedName("endDate")
     @Expose
-    private String endDate;
+    private Date endDate;
     @SerializedName("repeatStatus")
     @Expose
     private String repeatStatus;
     @SerializedName("checkInStart")
     @Expose
-    private String checkInStart;
+    private Date checkInStart;
     @SerializedName("checkInEnd")
     @Expose
-    private String checkInEnd;
+    private Date checkInEnd;
     @SerializedName("room")
     @Expose
     private String room;
@@ -84,19 +86,19 @@ public class StudentModuleDao extends RealmObject implements RealmModel{
         this.moduleId = moduleId;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -108,19 +110,19 @@ public class StudentModuleDao extends RealmObject implements RealmModel{
         this.repeatStatus = repeatStatus;
     }
 
-    public String getCheckInStart() {
+    public Date getCheckInStart() {
         return checkInStart;
     }
 
-    public void setCheckInStart(String checkInStart) {
+    public void setCheckInStart(Date checkInStart) {
         this.checkInStart = checkInStart;
     }
 
-    public String getCheckInEnd() {
+    public Date getCheckInEnd() {
         return checkInEnd;
     }
 
-    public void setCheckInEnd(String checkInEnd) {
+    public void setCheckInEnd(Date checkInEnd) {
         this.checkInEnd = checkInEnd;
     }
 

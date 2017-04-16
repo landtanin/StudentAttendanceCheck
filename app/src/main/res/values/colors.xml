@@ -9,6 +9,10 @@
     <color name="colorTimetableWhite">#dddddd</color>
     <color name="colorDarkWhite">#888888</color>
 
+    <color name="colorGreen500">#4CAF50</color>
+    <color name="colorRed500">#F44336</color>
+    <color name="colorGrey500">#9E9E9E</color>
+
 
     <color name='colorAddModuleListLine'>#000000</color>
     <color name='colorAddModuleListModuletxt'>#000000</color>

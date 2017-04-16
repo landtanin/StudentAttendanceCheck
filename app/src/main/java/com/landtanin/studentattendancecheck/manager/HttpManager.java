@@ -52,9 +52,19 @@ public class HttpManager {
                     .connectTimeout(10, TimeUnit.MINUTES)
                     .build();
 
+            Gson gson2 = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(BASE_URL)
+////                .baseUrl("https://nuuneoi.com/courses/500px/")
+//                .addConverterFactory(GsonConverterFactory.create(gson2))
+//                .build();
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson2))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(client)
                     .build();

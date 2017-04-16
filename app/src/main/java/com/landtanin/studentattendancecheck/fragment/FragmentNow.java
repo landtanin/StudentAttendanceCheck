@@ -1,19 +1,28 @@
 package com.landtanin.studentattendancecheck.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.landtanin.studentattendancecheck.R;
+import com.landtanin.studentattendancecheck.activity.CheckInActivity;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
 import com.landtanin.studentattendancecheck.util.TodayModule;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static android.os.SystemClock.currentThreadTimeMillis;
@@ -23,7 +32,15 @@ import static android.os.SystemClock.currentThreadTimeMillis;
  */
 public class FragmentNow extends Fragment {
 
-    FragmentNowBinding b;
+    private FragmentNowBinding b;
+    private Calendar c;
+    private Date now;
+    private int firstModuleVSsecondModule;
+    private SimpleDateFormat timeFormat, dateFormat;
+    private int redColor, greenColor, greyColor;
+
+    boolean run = true; //set it to false if you want to stop the timer
+    Handler mHandler = new Handler();
 
     public FragmentNow() {
         super();
@@ -77,42 +94,124 @@ public class FragmentNow extends Fragment {
 //                .where(StudentModuleDao.class)
 //                .equalTo("day",weekDay.trim(), Case.SENSITIVE).findAll();
 //                .equalTo("day","Wed", Case.SENSITIVE).findAll();
+
+        c = Calendar.getInstance();
+        now = c.getTime();
+        timeFormat = new SimpleDateFormat("HH:mm:ss");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        redColor = ContextCompat.getColor(getActivity(), R.color.colorRed500);
+        greenColor = ContextCompat.getColor(getActivity(), R.color.colorGreen500);
+        greyColor = ContextCompat.getColor(getActivity(), R.color.colorGrey500);
+
+
+        int targetingModule = 0;
+
+        // get today module
         TodayModule todayModule = new TodayModule();
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         Log.w("WEEKDAY", todayModule.dayOfWeek());
+        Log.d("todayModule", String.valueOf(studentModuleDao));
+        Log.d("todayModule SIZE", String.valueOf(studentModuleDao.size()));
 
-        Log.e("todayModule", String.valueOf(studentModuleDao));
-
-        Log.e("todayModule", String.valueOf(studentModuleDao.size()));
-//        Log.e("todayModule", String.valueOf(studentModuleDao.get(0).getName()));
-
+        // if there is any module today
         if (!(studentModuleDao.size()==0)) {
-            b.moduleNameTxt.setText(studentModuleDao.get(0).getName());
-            b.moduleIdTxt.setText(studentModuleDao.get(0).getModuleId());
 
-            String startTime = studentModuleDao.get(0).getCheckInStart().substring(0, 5);
-            String endTime = studentModuleDao.get(0).getCheckInEnd().substring(0, 5);
-            b.startTimeTxt.setText(startTime);
-            b.endTimeTxt.setText(endTime);
-            b.lecturerTxt.setText(studentModuleDao.get(0).getDescription());
-            b.locationTxt.setText(studentModuleDao.get(0).getRoom());
-        }else {
+            // if there is more than one module
+            if (studentModuleDao.size()>1) {
 
-            Log.e("todayModule", "empty");
+                // find the first one
+                for (int i = 1; i<studentModuleDao.size(); i++) {
 
-//            b.moduleNameTxt.setVisibility(View.GONE);
-            b.moduleNameTxt.setText("There is no class today :)");
-            b.moduleIdTxt.setVisibility(View.GONE);
-            b.startTimeTxt.setVisibility(View.GONE);
-            b.toTimeTxt.setVisibility(View.GONE);
-            b.endTimeTxt.setVisibility(View.GONE);
-            b.lecturerTxt.setVisibility(View.GONE);
-            b.locationTxt.setVisibility(View.GONE);
-            b.statusBtn.setVisibility(View.GONE);
-            b.statusTxt.setVisibility(View.GONE);
+                    Date firstModuleStart = studentModuleDao.get(targetingModule).getCheckInStart();
+                    Date secondModuleStart = studentModuleDao.get(i).getCheckInStart();
+                    // Return value is 0 if both dates are equal.
+                    // Return value is greater than 0 , if Date is after the date argument.
+                    // Return value is less than 0, if Date is before the date argument.
+
+                    firstModuleVSsecondModule = timeFormat.format(firstModuleStart)
+                            .compareTo(timeFormat.format(secondModuleStart));
+
+                    // if second is before first
+                    if (firstModuleVSsecondModule>0) {
+
+                        targetingModule = i;
+
+                    }
+
+                } // end find the first one
+
+            }
+
+            // compare with now if it is the last module of the day whether it's end yet
+            if (targetingModule == (studentModuleDao.size() - 1)) {
+
+                Date nextModuleEnd = studentModuleDao.get(targetingModule).getCheckInEnd();
+                int nowVSnextModule = timeFormat.format(now)
+                        .compareTo(timeFormat.format(nextModuleEnd));
+
+                // if now is before nextModule end, showCurrentStatus, else you're free
+                if ( (nowVSnextModule <= 0) && ((dateFormat.format(studentModuleDao.get(targetingModule).getStartDate())
+                        .compareTo(dateFormat.format(now))) <= 0 ) &&
+                        ((dateFormat.format(studentModuleDao.get(targetingModule).getEndDate())
+                                .compareTo(dateFormat.format(now))) > 0 ) ) {
+
+                        showCurrentStatus(studentModuleDao, targetingModule);
+
+                } else {
+
+                    youAreFreeStatus();
+                    realmUpdateModStatus(targetingModule, studentModuleDao);
+
+                }
+//                (nowVSnextModule <=0) ? showCurrentStatus(studentModuleDao, targetingModule) : youAreFreeStatus();
+
+            } else  if ( ((dateFormat.format(studentModuleDao.get(targetingModule).getStartDate())
+                    .compareTo(dateFormat.format(now))) <= 0 ) &&
+                    ((dateFormat.format(studentModuleDao.get(targetingModule).getEndDate())
+                            .compareTo(dateFormat.format(now))) > 0 )) {
+
+                // if this module date is correct
+                showCurrentStatus(studentModuleDao, targetingModule);
+
+
+            } else {
+
+                youAreFreeStatus();
+                realmUpdateModStatus(targetingModule, studentModuleDao);
+
+            }
+
+        } else {
+
+            youAreFreeStatus();
 
         }
+
+        final int finalTargetingModule = targetingModule;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (run) {
+                    try {
+
+                        Thread.sleep(20000);
+                        // every 20 secs
+
+                        mHandler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                buttonStatusColorManager(finalTargetingModule);
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }).start();
+
+//        timer();
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,13 +221,134 @@ public class FragmentNow extends Fragment {
                 Log.w("currentClock", String.valueOf(currentClock));
 
 //                Log.w("todayModuleClick", String.valueOf(studentModuleDao));
-//                Intent intent = new Intent(getActivity(), CheckInActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), CheckInActivity.class);
+                startActivity(intent);
 
             }
         });
 
     }
+
+    private void realmUpdateModStatus(int targetingModule, RealmResults<StudentModuleDao> studentModuleDao) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(studentModuleDao).get(targetingModule).setModStatus("no more class");
+        realm.commitTransaction();
+    }
+
+    private void youAreFreeStatus() {
+        Log.e("todayModule", "empty");
+
+//            b.moduleNameTxt.setVisibility(View.GONE);
+        b.moduleNameTxt.setText("It's free time :)");
+        b.moduleIdTxt.setVisibility(View.GONE);
+        b.startTimeTxt.setVisibility(View.GONE);
+        b.toTimeTxt.setVisibility(View.GONE);
+        b.endTimeTxt.setVisibility(View.GONE);
+        b.lecturerTxt.setVisibility(View.GONE);
+        b.locationTxt.setVisibility(View.GONE);
+        b.statusBtn.setVisibility(View.GONE);
+//            b.statusTxt.setVisibility(View.GONE);
+    }
+
+    private void showCurrentStatus(RealmResults<StudentModuleDao> studentModuleDao, int targetingModule) {
+        b.moduleNameTxt.setText(studentModuleDao.get(targetingModule).getName());
+        b.moduleIdTxt.setText(studentModuleDao.get(targetingModule).getModuleId());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        b.startTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getCheckInStart()));
+        b.endTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getCheckInEnd()));
+
+        b.lecturerTxt.setText(studentModuleDao.get(targetingModule).getDescription());
+        b.locationTxt.setText(studentModuleDao.get(targetingModule).getRoom());
+        buttonStatusColorManager(targetingModule);
+    }
+
+    private void buttonStatusColorManager(int buttonTargetingModule) {
+
+        int min = c.get(Calendar.MINUTE);
+        int hour=c.get(Calendar.HOUR);
+
+//        Resources res = getResources();
+
+//        int redColor = res.getColor(R.color.colorRed500);
+//        int greenColor = getResources().getColor(R.color.colorGreen500);
+
+
+        Log.w("timer now", String.valueOf(c.getTime()));
+//                                b.statusTxt.setText("do");
+
+        TodayModule todayModule = new TodayModule();
+        RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
+
+        // get now and checkInStart ready
+//        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+        // TODO : is the check in is available?
+        // case 1: next module is not yet available, now is before check in start - grey
+        // case 2: first module is end, second module is not yet available - grey
+        // case 3: they're already check in - blue
+        // case 4: avalable, now is after checkin start but before checkin enc
+
+        Date checkInStart = studentModuleDao.get(buttonTargetingModule).getCheckInStart();
+        Date checkInEnd = studentModuleDao.get(buttonTargetingModule).getCheckInEnd();
+
+        Log.d("FragmentNow now time", String.valueOf(now));
+        Log.d("FragmentNow checkin time", String.valueOf(checkInStart));
+
+        // compare time by only consider the date
+        // Return value is 0 if both dates are equal.
+        // Return value is greater than 0 , if Date is after the date argument.
+        // Return value is less than 0, if Date is before the date argument.
+        int dateCompareBeforeResult = timeFormat.format(now).compareTo(timeFormat.format(checkInStart));
+        int dateCompareAfterResult = timeFormat.format(now).compareTo(timeFormat.format(checkInEnd));
+
+        Log.w("dateResult", String.valueOf(dateCompareBeforeResult));
+
+        // before checkinstart
+        if (dateCompareBeforeResult<=0) {
+
+//            b.statusBtn.setBackgroundColor(greyColor);
+            b.statusBtn.setBackgroundColor(getResources().getColor(R.color.colorGrey500));
+            b.statusTxt.setTextColor(greyColor);
+            b.statusTxt.setText("check in is not yet available");
+
+        }
+        // after checkin start, before checkin end
+        else if (dateCompareBeforeResult>0||dateCompareAfterResult<=0) {
+
+            b.statusBtn.setBackgroundColor(greenColor);
+            b.statusTxt.setTextColor(greenColor);
+            b.statusTxt.setText("check in is available");
+
+        }
+//        b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
+    }
+
+//    public void timer() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (run) {
+//                    try {
+//                        Thread.sleep(20000);
+//                        mHandler.post(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                Calendar c = Calendar.getInstance();
+//                                int min = c.get(Calendar.MINUTE);
+//                                int hour=c.get(Calendar.HOUR);
+//                                Log.w("timer now", String.valueOf(c));
+//
+////                                b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                    }
+//                }
+//            }
+//        }).start();}
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

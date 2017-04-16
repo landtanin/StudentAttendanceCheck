@@ -233,9 +233,4 @@ public class FragmentLogin extends Fragment {
         // Restore Instance (Fragment level's variables) State here
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
 }
