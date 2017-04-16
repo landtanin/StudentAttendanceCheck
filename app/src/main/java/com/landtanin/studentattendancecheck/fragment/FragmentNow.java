@@ -39,6 +39,9 @@ public class FragmentNow extends Fragment {
     private SimpleDateFormat timeFormat, dateFormat;
     private int redColor, greenColor, greyColor;
     private static final int TODAY_IS_END = 1000;
+    private static final int STATUS_ACTIVE = 1;
+    private static final int STATUS_INACTIVE = 2;
+    private static final int STATUS_NO_MORE = 3;
 
     boolean run = true; //set it to false if you want to stop the timer
     Handler mHandler = new Handler();
@@ -96,13 +99,69 @@ public class FragmentNow extends Fragment {
 //                .equalTo("day",weekDay.trim(), Case.SENSITIVE).findAll();
 //                .equalTo("day","Wed", Case.SENSITIVE).findAll();
 
+        redColor = ContextCompat.getColor(getActivity(), R.color.colorRed500);
+        greenColor = ContextCompat.getColor(getActivity(), R.color.colorGreen500);
+        greyColor = ContextCompat.getColor(getActivity(), R.color.colorGrey500);
+
+        int targetingModule = updateNow();
+
+        // TODO disable this if checkin already
+        buttonStatusUpdate(targetingModule);
+//        timer();
+
+        b.statusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                long currentClock = currentThreadTimeMillis();
+                Log.w("currentClock", String.valueOf(currentClock));
+
+//                Log.w("todayModuleClick", String.valueOf(studentModuleDao));
+                Intent intent = new Intent(getActivity(), CheckInActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+    }
+
+    private void buttonStatusUpdate(int targetingModule) {
+        if (targetingModule!=TODAY_IS_END) {
+
+            final int finalTargetingModule = targetingModule;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (run) {
+                        try {
+
+                            Thread.sleep(20000);
+                            // every 20 secs
+
+                            mHandler.post(new Runnable() {
+
+                                @Override
+                                public void run() {
+
+                                    buttonStatusColorManager(finalTargetingModule);
+//                                Log.e("FragmentNow - finalTargetingModule", String.valueOf(finalTargetingModule));
+
+                                }
+                            });
+                        } catch (Exception e) {
+                        }
+                    }
+                }
+            }).start();
+
+        }
+    }
+
+    private int updateNow() {
         c = Calendar.getInstance();
         now = c.getTime();
         timeFormat = new SimpleDateFormat("HH:mm:ss");
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        redColor = ContextCompat.getColor(getActivity(), R.color.colorRed500);
-        greenColor = ContextCompat.getColor(getActivity(), R.color.colorGreen500);
-        greyColor = ContextCompat.getColor(getActivity(), R.color.colorGrey500);
 
 
         int targetingModule = 0;
@@ -179,7 +238,7 @@ public class FragmentNow extends Fragment {
 
                         Log.i("FragmentNow", "targetingModule remain the same = " + targetingModule);
                         if ((nowVSsecondStartDay <= 0) || (nowVSsecondEndDay > 0)) {
-                            realmUpdateModStatus(targetingModule, studentModuleDao);
+                            realmUpdateModStatus(targetingModule, studentModuleDao, STATUS_NO_MORE);
                         }
 
                     }
@@ -190,7 +249,7 @@ public class FragmentNow extends Fragment {
                         targetingModule = i;
                         Log.i("FragmentNow", "targetingModule is i = " + targetingModule);
                         if ((nowVSfirstStartDay <= 0) || (nowVSfirstEndDay > 0)) {
-                            realmUpdateModStatus(i, studentModuleDao);
+                            realmUpdateModStatus(i, studentModuleDao, STATUS_NO_MORE);
                         }
 
                     } else {
@@ -233,60 +292,31 @@ public class FragmentNow extends Fragment {
             targetingModule = TODAY_IS_END;
 
         }
-
-        // TODO disable this if checkin already
-        if (targetingModule!=TODAY_IS_END) {
-
-            final int finalTargetingModule = targetingModule;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (run) {
-                        try {
-
-                            Thread.sleep(20000);
-                            // every 20 secs
-
-                            mHandler.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-
-                                    buttonStatusColorManager(finalTargetingModule);
-//                                Log.e("FragmentNow - finalTargetingModule", String.valueOf(finalTargetingModule));
-
-                                }
-                            });
-                        } catch (Exception e) {
-                        }
-                    }
-                }
-            }).start();
-
-        }
-//        timer();
-
-        b.statusBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                long currentClock = currentThreadTimeMillis();
-                Log.w("currentClock", String.valueOf(currentClock));
-
-//                Log.w("todayModuleClick", String.valueOf(studentModuleDao));
-                Intent intent = new Intent(getActivity(), CheckInActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
+        return targetingModule;
     }
 
-    private void realmUpdateModStatus(int targetingModule, RealmResults<StudentModuleDao> studentModuleDao) {
+    private void realmUpdateModStatus(int targetingModule, RealmResults<StudentModuleDao> studentModuleDao, int status) {
+
+        String modStatus = null;
+        switch (status) {
+            case STATUS_ACTIVE:
+                modStatus = "active";
+                break;
+            case STATUS_INACTIVE:
+                modStatus = "in active";
+                break;
+            case STATUS_NO_MORE:
+                modStatus = "no more class";
+                break;
+            default:
+                break;
+        }
+
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(studentModuleDao).get(targetingModule).setModStatus("no more class");
+        realm.copyToRealmOrUpdate(studentModuleDao).get(targetingModule).setModStatus(modStatus);
         realm.commitTransaction();
+
     }
 
     private void youAreFreeStatus() {
@@ -311,8 +341,8 @@ public class FragmentNow extends Fragment {
         b.moduleIdTxt.setText(studentModuleDao.get(targetingModule).getModuleId());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        b.startTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getCheckInStart()));
-        b.endTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getCheckInEnd()));
+        b.startTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getStartDate()));
+        b.endTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getEndDate()));
 
         b.lecturerTxt.setText(studentModuleDao.get(targetingModule).getDescription());
         b.locationTxt.setText(studentModuleDao.get(targetingModule).getRoom());
@@ -327,20 +357,8 @@ public class FragmentNow extends Fragment {
         Calendar calendar = Calendar.getInstance();
         Date nowInButtonManager = calendar.getTime();
 
-//        Resources res = getResources();
-
-//        int redColor = res.getColor(R.color.colorRed500);
-//        int greenColor = getResources().getColor(R.color.colorGreen500);
-
-
-        Log.w("timer now", String.valueOf(c.getTime()));
-//                                b.statusTxt.setText("do");
-
         TodayModule todayModule = new TodayModule();
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
-
-        // get now and checkInStart ready
-//        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
         // TODO : is the check in is available?
         // case 1: next module is not yet available, now is before check in start - grey
@@ -378,6 +396,7 @@ public class FragmentNow extends Fragment {
             b.statusBtn.setBackgroundColor(greyColor);
             b.statusTxt.setTextColor(greyColor);
             b.statusTxt.setText("check in is not yet available");
+            realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_INACTIVE);
 
         }
         // after checkin start, before checkin end
@@ -386,6 +405,7 @@ public class FragmentNow extends Fragment {
             b.statusBtn.setBackgroundColor(greenColor);
             b.statusTxt.setTextColor(greenColor);
             b.statusTxt.setText("check in is available");
+            realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_ACTIVE);
 
         }
         // late but the module is not end yet
@@ -394,35 +414,18 @@ public class FragmentNow extends Fragment {
             b.statusBtn.setBackgroundColor(redColor);
             b.statusTxt.setTextColor(redColor);
             b.statusTxt.setText("better late than never");
+            realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_ACTIVE);
+
+        }
+        // module is end, refresh for next module, set to grey
+        else if (dateCompareAfterResult >= 0) {
+
+            updateNow();
+            realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_INACTIVE);
 
         }
 //        b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
     }
-
-//    public void timer() {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (run) {
-//                    try {
-//                        Thread.sleep(20000);
-//                        mHandler.post(new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                Calendar c = Calendar.getInstance();
-//                                int min = c.get(Calendar.MINUTE);
-//                                int hour=c.get(Calendar.HOUR);
-//                                Log.w("timer now", String.valueOf(c));
-//
-////                                b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
-//                            }
-//                        });
-//                    } catch (Exception e) {
-//                    }
-//                }
-//            }
-//        }).start();}
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
