@@ -2,9 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
+        android:id="@+id/time_table_list_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_list_item_add_module"
-        android:background="@color/colorTimetableWhite"
+        android:background="@color/colorIndigo50"
         android:elevation="2dp"
         android:orientation="vertical">
 
@@ -68,9 +69,9 @@
             android:textSize="15sp" />
 
         <View
-            android:backgroundTint="@color/colorDarkWhite"
+            android:backgroundTint="@color/colorAddModuleListLine"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0.8dp"
             android:layout_alignParentBottom="true"
             android:background="@color/colorAddModuleListLine" />
 

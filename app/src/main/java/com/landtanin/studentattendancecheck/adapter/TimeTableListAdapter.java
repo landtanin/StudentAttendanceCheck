@@ -3,6 +3,7 @@ package com.landtanin.studentattendancecheck.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 //    private RealmResults<StudentModuleDao> mtimeTableItemList;
     Context mContext;
     ListItemTimeTableBinding b;
+    int redColor, greenColor, greyColor, indegoColor;
 //    int[] endedModule = new int[5]; // TODO create MaximumEndedModulePerday variable
 
 
@@ -38,6 +40,10 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        redColor = ContextCompat.getColor(parent.getContext(), R.color.colorPink100);
+        greenColor = ContextCompat.getColor(parent.getContext(), R.color.colorGreen100);
+        greyColor = ContextCompat.getColor(parent.getContext(), R.color.colorGrey100);
+        indegoColor = ContextCompat.getColor(parent.getContext(), R.color.colorIndigo50);
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_time_table, parent, false);
         return new RecyclerViewHolder(itemView);
 
@@ -56,6 +62,12 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
             itemHolder.moduleNameTxt.setText(timeTableItem.getName());
             itemHolder.moduleIdTxt.setText(timeTableItem.getModuleId());
             itemHolder.statusTxt.setText(timeTableItem.getModStatus());
+
+            if (timeTableItem.getModStatus().equals("active")) {
+                itemHolder.itemView.setBackgroundColor(greenColor);
+            } else if (timeTableItem.getModStatus().equals("inactive")) {
+                itemHolder.itemView.setBackgroundColor(indegoColor);
+            }
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
             itemHolder.timeTxt.setText(dateFormat.format(timeTableItem.getCheckInStart()));

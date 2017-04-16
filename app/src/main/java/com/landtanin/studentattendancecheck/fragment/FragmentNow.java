@@ -303,7 +303,7 @@ public class FragmentNow extends Fragment {
                 modStatus = "active";
                 break;
             case STATUS_INACTIVE:
-                modStatus = "in active";
+                modStatus = "inactive";
                 break;
             case STATUS_NO_MORE:
                 modStatus = "no more class";
