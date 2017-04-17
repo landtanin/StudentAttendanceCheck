@@ -28,7 +28,8 @@
 
             <TextView
                 android:id="@+id/txtToolbarMainActivity"
-                android:text="@string/txt_home_toolbar"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@android:color/white"
                 android:gravity="left"
                 android:textSize="@dimen/txt_toolbar_main_activity"
