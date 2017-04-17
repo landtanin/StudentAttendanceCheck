@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
 
             SharedPreferences prefs = this.getSharedPreferences("login_state", Context.MODE_PRIVATE);
-            String student_id = prefs.getString("student_id", null);
+            int student_id = prefs.getInt("student_id", 0);
             ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-            apiService.loadStudentModule("heyhey", Integer.parseInt(student_id))
+            apiService.loadStudentModule("heyhey", student_id)
                     .asObservable()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void call(Throwable throwable) {
                             dialog.dismiss();
-                            Utils.getInstance().onHoneyToast("STUDENT "+throwable.getLocalizedMessage());
+                            Utils.getInstance().onHoneyToast("MainActivity STUDENT "+throwable.getLocalizedMessage());
 
                         }
                     });

@@ -156,7 +156,8 @@ public class FragmentLogin extends Fragment {
                             // Add/Edit/Delete
                             editor.putString("login_state_var", response.getResult());
                             editor.putString("name", response.getUser().getName());
-                            editor.putString("student_id", response.getUser().getStudentId());
+                            editor.putInt("student_id", response.getUser().getStudentId());
+                            Log.d("FragmentLogin", String.valueOf(response.getUser().getStudentId()));
                             editor.apply();
 
                             realm.copyToRealmOrUpdate(response.getUser());
@@ -192,12 +193,12 @@ public class FragmentLogin extends Fragment {
     }
 
     // dump data into Realm
-    private void getStudent(String student_id){
+    private void getStudent(int student_id){
 
 //        Log.e("todayModule","Test="+studentId);
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-        apiService.loadStudentModule("heyhey", Integer.parseInt(student_id))
+        apiService.loadStudentModule("heyhey", student_id)
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())

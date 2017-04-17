@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StudentAttendanceCheck</string>
+    <string name="app_name">UoN CheckIn</string>
 
     <string name="btn_name_add_module">done</string>
 

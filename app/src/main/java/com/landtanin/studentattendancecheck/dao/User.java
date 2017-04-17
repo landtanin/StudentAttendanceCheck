@@ -20,7 +20,7 @@ public class User extends RealmObject implements RealmModel{
 
     @SerializedName("student_id")
     @Expose
-    private String studentId;
+    private int studentId;
     @SerializedName("email")
     @Expose
     private String email;
@@ -36,11 +36,11 @@ public class User extends RealmObject implements RealmModel{
         this.name = name;
     }
 
-    public String getStudentId() {
+    public int getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(String studentId) {
+    public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
 
