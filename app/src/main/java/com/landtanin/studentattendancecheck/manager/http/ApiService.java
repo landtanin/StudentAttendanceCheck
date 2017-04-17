@@ -35,6 +35,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("studentModuleGet.php")
     Observable<StudentModuleCollectionDao> loadStudentModule(@Field("bla") String bla,@Query("student_id") int id);
+    // TODO for add module
+    Observable<StudentModuleCollectionDao> addStudentModule(@Field("bla") String bla);
 //    Observable<StudentModuleCollectionDao> loadStudentModule(@Query("student_id") int id);
 
 

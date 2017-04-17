@@ -39,50 +39,14 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
+        android:text="start and end"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_lecture_now_fragment"
+        android:textAlignment="center"
+        android:id="@+id/moduleTimeTxt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-
-
-        <TextView
-            android:text="Start"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/txt_time_now_fragment"
-            android:id="@+id/startTimeTxt"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            />
-
-        <TextView
-            android:text=" to "
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/txt_time_now_fragment"
-            android:id="@+id/toTimeTxt"
-            android:layout_weight="0.3"
-            android:layout_width="0dp"
-            android:textAlignment="center"
-            android:layout_height="wrap_content"
-            />
-
-        <TextView
-            android:text="Stop"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/txt_time_now_fragment"
-            android:id="@+id/endTimeTxt"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="left"
-            />
-
-
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
 
 

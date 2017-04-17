@@ -103,8 +103,6 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
                 if (checkInBounds.contains(studentLocation)) {
 
                     Toast.makeText(CheckInActivity.this, "INBOUND", Toast.LENGTH_SHORT).show();
-
-                    // TODO: pop up you're in the right place
                     initiatePopupWindow();
 
 
@@ -182,13 +180,40 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling for permission request
+
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
+            if (ContextCompat.checkSelfPermission(CheckInActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(CheckInActivity.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+                    Log.w("CheckInActivity onMapReady: ", "show an explanation");
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+
+                } else {
+
+                    // No explanation needed, we can request the permission.
+
+                    ActivityCompat.requestPermissions(CheckInActivity.this,
+                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                            12345);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
 
             Log.w("CheckInActivity onConnected: ", "permission request");
             return;
@@ -243,7 +268,7 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
 
@@ -321,13 +346,40 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
         if (mGoogleApiClient.isConnected()) {
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
+
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
                 //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
                 //                                          int[] grantResults)
                 // to handle the case where the user grants the permission. See the documentation
                 // for ActivityCompat#requestPermissions for more details.
+                if (ContextCompat.checkSelfPermission(CheckInActivity.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(CheckInActivity.this,
+                            Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+                        Log.w("CheckInActivity onMapReady: ", "show an explanation");
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+
+                        ActivityCompat.requestPermissions(CheckInActivity.this,
+                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                12345);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                }
+
                 return;
             }
 

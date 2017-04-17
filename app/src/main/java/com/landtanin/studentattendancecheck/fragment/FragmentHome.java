@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.databinding.FragmentHomeBinding;
@@ -135,7 +134,7 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Toast.makeText(getContext(), "Tab has been unselected", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

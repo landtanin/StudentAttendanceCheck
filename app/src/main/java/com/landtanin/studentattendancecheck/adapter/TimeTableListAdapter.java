@@ -28,9 +28,7 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 //    private RealmResults<StudentModuleDao> mtimeTableItemList;
     Context mContext;
     ListItemTimeTableBinding b;
-    int redColor, greenColor, greyColor, indegoColor;
-//    int[] endedModule = new int[5]; // TODO create MaximumEndedModulePerday variable
-
+    int redColor, greenColor, greyColor, indegoColor, statusTxtGreenColor, blackColor;
 
     public TimeTableListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<StudentModuleDao> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -40,10 +38,14 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         redColor = ContextCompat.getColor(parent.getContext(), R.color.colorPink100);
-        greenColor = ContextCompat.getColor(parent.getContext(), R.color.colorGreen100);
-        greyColor = ContextCompat.getColor(parent.getContext(), R.color.colorGrey100);
+        greenColor = ContextCompat.getColor(parent.getContext(), R.color.colorRealGreen100);
+        statusTxtGreenColor = ContextCompat.getColor(parent.getContext(), R.color.colorActiveStatus);
+        greyColor = ContextCompat.getColor(parent.getContext(), R.color.colorGrey500);
         indegoColor = ContextCompat.getColor(parent.getContext(), R.color.colorIndigo50);
+        blackColor = ContextCompat.getColor(parent.getContext(), android.R.color.black);
+
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_time_table, parent, false);
         return new RecyclerViewHolder(itemView);
 
@@ -65,13 +67,20 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 
             if (timeTableItem.getModStatus().equals("active")) {
                 itemHolder.itemView.setBackgroundColor(greenColor);
+                itemHolder.statusTxt.setTextColor(statusTxtGreenColor);
             } else if (timeTableItem.getModStatus().equals("inactive")) {
                 itemHolder.itemView.setBackgroundColor(indegoColor);
+                itemHolder.statusTxt.setTextColor(blackColor);
+            } else if (timeTableItem.getModStatus().equals("no more class")) {
+                itemHolder.itemView.setBackgroundColor(greyColor);
+                itemHolder.statusTxt.setTextColor(blackColor);
             }
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            itemHolder.timeTxt.setText(dateFormat.format(timeTableItem.getCheckInStart()));
-//        ต้องหาค่า LatLng
+
+            SimpleDateFormat currentTimeFormat = new SimpleDateFormat("HH:mm");
+            String timeStr = currentTimeFormat.format(timeTableItem.getStartDate())
+                + " - " + currentTimeFormat.format(timeTableItem.getEndDate());
+            itemHolder.timeTxt.setText(timeStr);
 
             itemHolder.locationTxt.setText(timeTableItem.getRoom());
 

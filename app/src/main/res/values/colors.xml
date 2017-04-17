@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <color name="colorPrimary">#335C85</color>
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorPrimaryDark">#104070</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorAccent">#EC407A</color>
 
     <color name="colorWhite">#ffffff</color>
     <color name="colorDimWhite">#eeeeee</color>
@@ -14,9 +17,13 @@
     <color name="colorGrey500">#9E9E9E</color>
 
     <color name="colorGreen100">#DCEDC8</color>
+    <color name="colorRealGreen100">#C8E6C9</color>
+    <color name="colorActiveStatus">#2E7D32</color>
     <color name="colorPink100">#FFCDD2</color>
     <color name="colorGrey100">#F5F5F5</color>
-    <color name="colorIndigo50">#E8EAF6</color>
+    <!--<color name="colorIndigo50">#C5CAE9</color>-->
+    <!--<color name="colorIndigo50">#c7d6e5</color>-->
+    <color name="colorIndigo50">#eeeeee</color>
 
     <color name='colorAddModuleListLine'>#aaaaaa</color>
     <color name='colorAddModuleListModuletxt'>#000000</color>

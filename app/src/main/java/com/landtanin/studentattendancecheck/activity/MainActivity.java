@@ -113,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
             String student_id = prefs.getString("student_id", null);
             ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-
-            // TODO this line could cause crash
             apiService.loadStudentModule("heyhey", Integer.parseInt(student_id))
                     .asObservable()
                     .observeOn(AndroidSchedulers.mainThread())
@@ -146,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-
 
         }
 

@@ -11,18 +11,24 @@
 
         <TextView
             android:id="@+id/moduleNameTxt"
+            android:ems="9"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_left_txt_add_module"
             android:layout_marginTop="@dimen/margin_top_module_txt_add_module"
-            android:text="sample module text"
+            android:text="sample module textadfasfdadfasdfadfaasdffadsfadsfa"
             android:textColor="@color/colorAddModuleListModuletxt"
             android:textSize="@dimen/txt_module_add_module_list" />
 
         <TextView
             android:id="@+id/moduleIdTxt"
+            android:ems="9"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -40,7 +46,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_right_right_views_lists"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:text="status"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
@@ -62,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginRight="@dimen/margin_right_right_views_lists"
             android:text="location"
             android:textColor="@android:color/black"

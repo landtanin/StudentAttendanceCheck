@@ -37,16 +37,16 @@ public class FragmentNow extends Fragment {
     private int firstModuleVSsecondModule, targetingModule;
     private SimpleDateFormat timeFormat, dateFormat;
     private int redColor, greenColor, greyColor, indegoColor;
+    private int buttonStatus = 0;
+    private boolean fromCheckInAct = false;
+    boolean run = true; //set it to false to stop the timer
+    Handler mHandler = new Handler();
+
     private static final int TODAY_IS_END = 1000;
     private static final int STATUS_ACTIVE = 1;
     private static final int STATUS_INACTIVE = 2;
     private static final int STATUS_NO_MORE = 3;
     private static final int STATUS_CHECKED = 4;
-    private int buttonStatus = 0;
-    private boolean fromCheckInAct = false;
-
-    boolean run = true; //set it to false if you want to stop the timer
-    Handler mHandler = new Handler();
 
     public FragmentNow() {
         super();
@@ -110,8 +110,10 @@ public class FragmentNow extends Fragment {
 
         int initTargetingModule = updateNow();
 
-        if (initTargetingModule!=TODAY_IS_END) {
+        if (initTargetingModule != TODAY_IS_END) {
             buttonStatusUpdate(initTargetingModule);
+        } else {
+            Log.i("FragmentNow", "stop clock");
         }
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
@@ -228,21 +230,21 @@ public class FragmentNow extends Fragment {
                     // Return value is greater than 0 , if Date is after the date argument.
                     // Return value is less than 0, if Date is before the date argument.
 
-                    int nowVSfirst = timeFormat.format(now).compareTo(timeFormat.format(firstModuleEndCheckIn));
-                    int nowVSsecond = timeFormat.format(now).compareTo(timeFormat.format(secondModuleEndCheckIn));
+                    int nowVSfirst = timeFormat.format(now).compareTo(timeFormat.format(firstModuleEndDate));
+                    int nowVSsecond = timeFormat.format(now).compareTo(timeFormat.format(secondModuleEndDate));
 
                     int nowVSfirstStartDay = dateFormat.format(now).compareTo(dateFormat.format(firstModuleStartDate));
                     int nowVSfirstEndDay = dateFormat.format(now).compareTo(dateFormat.format(firstModuleEndDate));
                     int nowVSsecondStartDay = dateFormat.format(now).compareTo(dateFormat.format(secondModuleStartDate));
                     int nowVSsecondEndDay = dateFormat.format(now).compareTo(dateFormat.format(secondModuleEndDate));
 
-                    // 1
+                    // 1 first not, second not end
                     if (((nowVSfirst <= 0) && ((nowVSfirstStartDay > 0) && (nowVSfirstEndDay <= 0)))
                             && ((nowVSsecond <= 0) && (nowVSsecondStartDay > 0) && (nowVSsecondEndDay <= 0))) {
 
                         // can use both time of startCheckin or startDate
-                        firstModuleVSsecondModule = timeFormat.format(firstModuleStartCheckIn)
-                                .compareTo(timeFormat.format(secondModuleStartCheckIn));
+                        firstModuleVSsecondModule = timeFormat.format(firstModuleStartDate)
+                                .compareTo(timeFormat.format(secondModuleStartDate));
 
                         // if second is less or before first
                         if (firstModuleVSsecondModule > 0) {
@@ -252,7 +254,7 @@ public class FragmentNow extends Fragment {
                         } // else targetingModule remain the same
 
                     }
-                    // 2
+                    // 2 first not, second end
                     else if (((nowVSfirst <= 0) && ((nowVSfirstStartDay > 0) && (nowVSfirstEndDay <= 0)))
                             && ((nowVSsecond > 0) || (nowVSsecondStartDay <= 0) || (nowVSsecondEndDay > 0))) {
 
@@ -262,7 +264,7 @@ public class FragmentNow extends Fragment {
                         }
 
                     }
-                    // 3
+                    // 3 first end, second not
                     else if (((nowVSfirst > 0) || ((nowVSfirstStartDay <= 0) || (nowVSfirstEndDay > 0)))
                             && ((nowVSsecond <= 0) && (nowVSsecondStartDay > 0) && (nowVSsecondEndDay <= 0))) {
 
@@ -272,9 +274,16 @@ public class FragmentNow extends Fragment {
                             realmUpdateModStatus(i, studentModuleDao, STATUS_NO_MORE);
                         }
 
-                    } else {
+                    }// 4 first end, second end
+                    else if ((nowVSfirst > 0) && ((nowVSsecond > 0))) {
 
+                        Log.i("FragmentNow", "both end");
                         targetingModule = TODAY_IS_END;
+
+                    }// 5 unknown case
+                    else {
+
+                        Toast.makeText(getContext(), "FragmentNow, Unknown Case", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -292,7 +301,6 @@ public class FragmentNow extends Fragment {
 
                 }
 
-
             }
 
             // there's only one module and it's not end
@@ -305,20 +313,21 @@ public class FragmentNow extends Fragment {
             } else {
 
                 Log.i("FragmentNow", "youAreFree the only one module is ended");
-                youAreFreeStatus();
                 targetingModule = TODAY_IS_END;
+                youAreFreeStatus();
 //                realmUpdateModStatus(targetingModule, studentModuleDao);
 
             }
 
         } else {
 
-            youAreFreeStatus();
             Log.i("FragmentNow", "youAreFree today has no module");
             targetingModule = TODAY_IS_END;
+            youAreFreeStatus();
 
         }
 
+        Log.i("FragmentNow", "leave updateNow(), targetingModule = " + targetingModule);
         return targetingModule;
     }
 
@@ -352,9 +361,7 @@ public class FragmentNow extends Fragment {
 
         b.moduleNameTxt.setText("It's free time :)");
         b.moduleIdTxt.setVisibility(View.GONE);
-        b.startTimeTxt.setVisibility(View.GONE);
-        b.toTimeTxt.setVisibility(View.GONE);
-        b.endTimeTxt.setVisibility(View.GONE);
+        b.moduleTimeTxt.setVisibility(View.GONE);
         b.lecturerTxt.setVisibility(View.GONE);
         b.locationTxt.setVisibility(View.GONE);
         b.statusBtn.setVisibility(View.GONE);
@@ -367,12 +374,13 @@ public class FragmentNow extends Fragment {
         b.moduleNameTxt.setText(studentModuleDao.get(targetingModule).getName());
         b.moduleIdTxt.setText(studentModuleDao.get(targetingModule).getModuleId());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        b.startTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getStartDate()));
-        b.endTimeTxt.setText(dateFormat.format(studentModuleDao.get(targetingModule).getEndDate()));
+        SimpleDateFormat currentTimeFormat = new SimpleDateFormat("HH:mm");
+        String timeStr = "From " + currentTimeFormat.format(studentModuleDao.get(targetingModule).getStartDate())
+                + " to " + currentTimeFormat.format(studentModuleDao.get(targetingModule).getEndDate());
 
-        b.lecturerTxt.setText(studentModuleDao.get(targetingModule).getDescription());
-        b.locationTxt.setText(studentModuleDao.get(targetingModule).getRoom());
+        b.moduleTimeTxt.setText(timeStr);
+        b.lecturerTxt.setText("with " + studentModuleDao.get(targetingModule).getDescription());
+        b.locationTxt.setText("at " + studentModuleDao.get(targetingModule).getRoom());
         buttonStatusColorManager(targetingModule);
 
     }
@@ -387,12 +395,10 @@ public class FragmentNow extends Fragment {
         TodayModule todayModule = new TodayModule();
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
-        // TODO : is the check in is available?
         // case 1: next module is not yet available, now is before check in start - grey
         // case 2: first module is end, second module is not yet available - grey
         // case 3: they're already check in - blue
         // case 4: avalable, now is after checkin start but before checkin enc
-
 
         Date checkInStart = studentModuleDao.get(buttonTargetingModule).getCheckInStart();
         Date checkInEnd = studentModuleDao.get(buttonTargetingModule).getCheckInEnd();
@@ -420,10 +426,10 @@ public class FragmentNow extends Fragment {
         // before checkinstart
         if (checkInCompareBeforeResult < 0) {
 
-//            b.statusBtn.setBackgroundColor(greyColor);
             b.statusBtn.setBackgroundColor(greyColor);
             b.statusTxt.setTextColor(greyColor);
-            b.statusTxt.setText("check in is not yet available");
+            b.statusTxt.setText("check will start at " +
+                    timeFormat.format(studentModuleDao.get(buttonTargetingModule).getCheckInStart()));
             realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_INACTIVE);
             buttonStatus = STATUS_INACTIVE;
 
@@ -443,7 +449,8 @@ public class FragmentNow extends Fragment {
 
                 b.statusBtn.setBackgroundColor(greenColor);
                 b.statusTxt.setTextColor(greenColor);
-                b.statusTxt.setText("check in is available");
+                b.statusTxt.setText("check in will end at " +
+                        timeFormat.format(studentModuleDao.get(buttonTargetingModule).getCheckInEnd()));
                 buttonStatus = STATUS_ACTIVE;
 
             }

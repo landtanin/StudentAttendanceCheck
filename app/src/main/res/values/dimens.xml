@@ -17,12 +17,12 @@
     <dimen name="txt_check_in_btn_now_fragment">15sp</dimen>
     <dimen name="txt_status_now_fragment">18sp</dimen>
 
-    <dimen name="height_list_item_add_module">62dp</dimen>
+    <dimen name="height_list_item_add_module">76dp</dimen>
 
-    <dimen name="margin_top_module_txt_add_module">9dp</dimen>
-    <dimen name="margin_bottom_id_txt_add_module">8dp</dimen>
-    <dimen name="margin_left_txt_add_module">8dp</dimen>
-    <dimen name="margin_right_right_views_lists">8dp</dimen>
+    <dimen name="margin_top_module_txt_add_module">10dp</dimen>
+    <dimen name="margin_bottom_id_txt_add_module">18dp</dimen>
+    <dimen name="margin_left_txt_add_module">12dp</dimen>
+    <dimen name="margin_right_right_views_lists">12dp</dimen>
 
     <dimen name="btn_check_in_height">50dp</dimen>
     <dimen name="btn_check_in_width">150dp</dimen>

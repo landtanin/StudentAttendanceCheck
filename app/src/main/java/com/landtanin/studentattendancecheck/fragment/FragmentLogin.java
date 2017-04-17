@@ -93,7 +93,6 @@ public class FragmentLogin extends Fragment {
             b.btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 4/15/2017 AD Progress
                     dialog = new ProgressDialog(getActivity());
                     dialog.setMessage("Please Wait...");
                     dialog.setCancelable(false);
@@ -132,7 +131,6 @@ public class FragmentLogin extends Fragment {
     }
 
     private void getLogin() {
-
 
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)

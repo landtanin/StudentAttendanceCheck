@@ -80,7 +80,8 @@ public class FragmentTimeTable extends Fragment {
         for(int i = 0; i < b.fragTimeTableTabLayout.getTabCount(); i++) {
 
             TabLayout.Tab tab = b.fragTimeTableTabLayout.getTabAt(i);
-            tab.setText(fragmentTimeTablePagerAdapter.tabString[i]);
+            tab.setText(fragmentTimeTablePagerAdapter.tabString[i] + "   ");
+
 
         }
 
@@ -146,9 +147,7 @@ public class FragmentTimeTable extends Fragment {
 
         private SmartFragmentStatePagerAdapter adapterViewPager;
 
-
         public String[] tabString = getResources().getStringArray(R.array.date);
-
         public FragmentTimeTablePagerAdapter(FragmentManager fm) {
             super(fm);
         }
