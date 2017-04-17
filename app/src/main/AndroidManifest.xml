@@ -29,9 +29,9 @@
             android:name="io.fabric.ApiKey"
             android:value="30622b972a5f3a88b7dbfa7cc6fce4163e600781"/>
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="AIzaSyDU2l9X5MXRfIGZnvdpgFk9-CYkqTufXUM"/>-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDU2l9X5MXRfIGZnvdpgFk9-CYkqTufXUM"/>
 
 
         <activity android:name=".activity.LoginActivity">

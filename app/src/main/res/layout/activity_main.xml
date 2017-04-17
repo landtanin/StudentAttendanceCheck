@@ -26,33 +26,16 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtToolbarMainActivity"
+                android:text="@string/txt_home_toolbar"
+                android:textColor="@android:color/white"
+                android:gravity="left"
+                android:textSize="@dimen/txt_toolbar_main_activity"
+                android:textStyle="bold"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.12"/>
-
-                <TextView
-                    android:id="@+id/txtToolbarMainActivity"
-                    android:text="@string/txt_home_toolbar"
-                    android:textColor="@android:color/white"
-                    android:textAlignment="center"
-
-                    android:textSize="@dimen/txt_toolbar_main_activity"
-                    android:layout_weight="0.5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.15"/>
-
-            </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
 

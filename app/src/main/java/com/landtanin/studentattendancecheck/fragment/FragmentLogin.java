@@ -110,10 +110,22 @@ public class FragmentLogin extends Fragment {
 
             });
 
-        } else if (prefs.getString("login_state_var", null).equals("success")) {
+        } else if (prefs.getString("login_state_var", null) != null) {
 
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
+            if (prefs.getString("login_state_var", null).equals("success")) {
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+
+            } else {
+
+                Log.e("FragmentLogin", "SharePref, login_state_var != success");
+
+            }
+
+        } else {
+
+            Log.e("FragmentLogin", "SharePref, login_state_var == null");
 
         }
 
@@ -145,6 +157,7 @@ public class FragmentLogin extends Fragment {
                             SharedPreferences.Editor editor = prefs.edit();
                             // Add/Edit/Delete
                             editor.putString("login_state_var", response.getResult());
+                            editor.putString("name", response.getUser().getName());
                             editor.putString("student_id", response.getUser().getStudentId());
                             editor.apply();
 

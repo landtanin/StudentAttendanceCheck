@@ -65,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initInstance() {
 
+        SharedPreferences prefs = this.getSharedPreferences("login_state", Context.MODE_PRIVATE);
+        String userName = prefs.getString("name", null);
         setSupportActionBar(b.mainActivityToolbar);
+        b.txtToolbarMainActivity.setText("Hi, " + userName);
 
     }
 
@@ -89,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = prefs.edit();
             // Add/Edit/Delete
             editor.remove("login_state_var");
+            editor.remove("name");
             editor.remove("student_id");
             editor.apply();
 
@@ -109,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
             String student_id = prefs.getString("student_id", null);
             ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
+
+            // TODO this line could cause crash
             apiService.loadStudentModule("heyhey", Integer.parseInt(student_id))
                     .asObservable()
                     .observeOn(AndroidSchedulers.mainThread())
@@ -127,8 +133,6 @@ public class MainActivity extends AppCompatActivity {
                             dialog.dismiss();
                             Intent intent = new Intent(MainActivity.this, MainActivity.class);
                             startActivity(intent);
-
-
 
                             Log.d("getStudent", "call success");
 
@@ -152,30 +156,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
 
-        // TODO: check if there's data in the database using SharePreference, delete fakeBol
-//        String add_or_not = getIntent().getStringExtra("add_or_not");
 
-//        SharedPreferences prefs = getSharedPreferences("login_state", Context.MODE_PRIVATE);
-//        String loginState = prefs.getString("registered_or_not", null);
-//
-//        if (loginState.equals("no")) {
-//
-//            // TODO: go to add module
-//
-//            super.onResume();
-//
-//        } else if (loginState.equals("yes")) {
-//
-//            MainFragment mainFragment = (MainFragment)
-//                    getSupportFragmentManager().findFragmentByTag("MainFragment");
-//            FragmentHome fragmentHome = (FragmentHome)
-//                    getSupportFragmentManager().findFragmentByTag("FragmentHome");
-//            getSupportFragmentManager().beginTransaction()
-//                    .attach(fragmentHome)
-//                    .detach(mainFragment)
-//                    .commit();
-//
-//        }
         super.onResume();
     }
 
