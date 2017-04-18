@@ -131,8 +131,9 @@ public class MainActivity extends AppCompatActivity {
                             dialog.dismiss();
                             Intent intent = new Intent(MainActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
 
-                            Log.d("getStudent", "call success");
+                            Log.d("MainActivity getStudent", "call success");
 
                         }
 

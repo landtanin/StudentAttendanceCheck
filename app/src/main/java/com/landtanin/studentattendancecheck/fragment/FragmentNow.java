@@ -113,7 +113,7 @@ public class FragmentNow extends Fragment {
         if (initTargetingModule != TODAY_IS_END) {
             buttonStatusUpdate(initTargetingModule);
         } else {
-            Log.i("FragmentNow", "stop clock");
+            Log.i("FragmentNow", "clock stopped");
         }
 
         b.statusBtn.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +175,7 @@ public class FragmentNow extends Fragment {
             }).start();
 
         } else {
-            Log.i("FragmentNow buttonStatusUpdate", " " + TODAY_IS_END);
+            Log.i("FragmentNow else buttonStatusUpdate", " " + TODAY_IS_END);
         }
     }
 
@@ -327,7 +327,9 @@ public class FragmentNow extends Fragment {
 
         }
 
+        targetingModule = TODAY_IS_END;
         Log.i("FragmentNow", "leave updateNow(), targetingModule = " + targetingModule);
+        // TODO put youAreFreeStatus() here?
         return targetingModule;
     }
 
@@ -387,6 +389,11 @@ public class FragmentNow extends Fragment {
 
     private void buttonStatusColorManager(int buttonTargetingModule) {
 
+        if (buttonTargetingModule == TODAY_IS_END) {
+            Log.i("FragmentNow buttonStatusColorManager, return if targetingModule ", String.valueOf(buttonTargetingModule));
+            return;
+        }
+
         int min = c.get(Calendar.MINUTE);
         int hour=c.get(Calendar.HOUR);
         Calendar calendar = Calendar.getInstance();
@@ -400,6 +407,7 @@ public class FragmentNow extends Fragment {
         // case 3: they're already check in - blue
         // case 4: avalable, now is after checkin start but before checkin enc
 
+        Log.i("FragmentNow buttonStatusColorManager: targetingModule ", String.valueOf(buttonTargetingModule));
         Date checkInStart = studentModuleDao.get(buttonTargetingModule).getCheckInStart();
         Date checkInEnd = studentModuleDao.get(buttonTargetingModule).getCheckInEnd();
         Date startDate = studentModuleDao.get(buttonTargetingModule).getStartDate();
