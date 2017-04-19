@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             editor.remove("login_state_var");
             editor.remove("name");
             editor.remove("student_id");
+            editor.remove("checked_state");
             editor.apply();
 
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);

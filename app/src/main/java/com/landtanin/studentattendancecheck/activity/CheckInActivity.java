@@ -36,9 +36,15 @@ import com.google.maps.android.SphericalUtil;
 import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.ActivityCheckInBinding;
+import com.landtanin.studentattendancecheck.manager.HttpManager;
+import com.landtanin.studentattendancecheck.manager.http.ApiService;
 import com.landtanin.studentattendancecheck.util.TodayModule;
 
 import io.realm.RealmResults;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CheckInActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
@@ -48,10 +54,11 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
     private double douMyLat, moduleLat, douMyLng, moduleLng;
     private LatLngBounds checkInBounds;
     private PopupWindow mPopupWindow;
-
+    private String module_id;
     private MarkerOptions marker;
     private GoogleMap map;
     private String className = "class";
+    private final String TAG = "CheckInActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,8 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        module_id = studentModuleDao.get(targetingModule).getModuleId();
 
         b.clickToAddModuleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +162,20 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
         editor.putBoolean("checked_state", true);
         editor.apply();
 
+        Log.d(TAG, "initiatePopupWindow: " + prefs.getInt("student_id", 0) + module_id);
+        ApiService apiService = HttpManager.getInstance().create(ApiService.class);
+        apiService.attendanceUpdate("checked", prefs.getInt("student_id", 0), module_id).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i(TAG, "onResponse: " + response.body());
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i(TAG, "onFailure: " + t.toString());
+                Toast.makeText(CheckInActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
