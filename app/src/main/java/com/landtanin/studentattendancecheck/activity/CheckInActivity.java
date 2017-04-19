@@ -3,6 +3,7 @@ package com.landtanin.studentattendancecheck.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
@@ -71,6 +72,7 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         int targetingModule = getIntent().getExtras().getInt("moduleItem");
+        Log.i("CheckInActivity initInstance", String.valueOf(targetingModule));
         moduleLat = studentModuleDao.get(targetingModule).getLocLat();
         moduleLng = studentModuleDao.get(targetingModule).getLocLng();
         className = studentModuleDao.get(targetingModule).getRoom();
@@ -146,13 +148,22 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
 //        mPopupWindow.setAnimationStyle(R.anim.zoom_fade_in);
         mPopupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
+        SharedPreferences prefs = this.getSharedPreferences("login_state", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("checked_state", true);
+        editor.apply();
+
+
+
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(CheckInActivity.this, MainActivity.class);
-                intent.putExtra("checked", true);
-                startActivity(intent);
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("checked", true);
+                setResult(RESULT_OK, returnIntent);
+                finish();
 
             }
         });

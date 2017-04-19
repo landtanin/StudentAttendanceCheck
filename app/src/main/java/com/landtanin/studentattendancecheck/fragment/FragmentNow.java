@@ -1,6 +1,8 @@
 package com.landtanin.studentattendancecheck.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +28,8 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by nuuneoi on 11/16/2014.
  */
@@ -41,7 +45,7 @@ public class FragmentNow extends Fragment {
     private boolean fromCheckInAct = false;
     boolean run = true; //set it to false to stop the timer
     Handler mHandler = new Handler();
-
+    private SharedPreferences prefs;
     private static final int TODAY_IS_END = 1000;
     private static final int STATUS_ACTIVE = 1;
     private static final int STATUS_INACTIVE = 2;
@@ -101,54 +105,92 @@ public class FragmentNow extends Fragment {
 //                .equalTo("day",weekDay.trim(), Case.SENSITIVE).findAll();
 //                .equalTo("day","Wed", Case.SENSITIVE).findAll();
 
-        fromCheckInAct = getActivity().getIntent().getBooleanExtra("checked", false);
+//        fromCheckInAct = getActivity().getIntent().getBooleanExtra("checked", false);
+        prefs = getActivity().getSharedPreferences("login_state", Context.MODE_PRIVATE);
+
+//        Log.i("FragmentNow boolean", String.valueOf(prefs.getBoolean("checked_state", false)));
+//        if (prefs.getBoolean("checked_state", false)) {
+//
+//            fromCheckInAct = true;
+//            Log.e("FragmentNow init if", String.valueOf(fromCheckInAct));
+//
+//        } else {
+//            fromCheckInAct = false;
+//            Log.e("FragmentNow init else", String.valueOf(fromCheckInAct));
+//        }
 
         redColor = ContextCompat.getColor(getActivity(), R.color.colorRed500);
         greenColor = ContextCompat.getColor(getActivity(), R.color.colorGreen500);
         greyColor = ContextCompat.getColor(getActivity(), R.color.colorGrey500);
         indegoColor = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
 
-        int initTargetingModule = updateNow();
+        updateNow();
+//        int initTargetingModule = updateNow();
 
-        if (initTargetingModule != TODAY_IS_END) {
-            buttonStatusUpdate(initTargetingModule);
-        } else {
-            Log.i("FragmentNow", "clock stopped");
-        }
+//        if (initTargetingModule != TODAY_IS_END) {
 
-        b.statusBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            buttonStatusUpdate();
+            // buttonStatusUpdate -> updateNow -> youAreFree/showCurrent -> buttonStatusColorManager
 
-                switch (buttonStatus) {
-                    case STATUS_ACTIVE:
-                        Intent intent = new Intent(getActivity(), CheckInActivity.class);
-                        intent.putExtra("moduleItem", targetingModule);
-                        startActivity(intent);
-                        break;
-                    case STATUS_INACTIVE:
-                        Toast.makeText(getContext(), "check in is not available", Toast.LENGTH_SHORT).show();
-                        break;
-                    case STATUS_CHECKED:
-                        Toast.makeText(getContext(), "you are in", Toast.LENGTH_SHORT).show();
-                        break;
+            if (targetingModule!=TODAY_IS_END) {
 
-                    default:
-                        break;
-                }
-//                Log.w("todayModuleClick", String.valueOf(studentModuleDao));
+                Log.i("FragmentNow", "clock is running");
+                b.statusBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        switch (buttonStatus) {
+                            case STATUS_ACTIVE:
+                                Intent intent = new Intent(getActivity(), CheckInActivity.class);
+                                intent.putExtra("moduleItem", targetingModule);
+                                startActivityForResult(intent, 11111);
+
+                                //TODO intentOnActivityResult
+                                break;
+                            case STATUS_INACTIVE:
+                                Toast.makeText(getContext(), "check in is not available", Toast.LENGTH_SHORT).show();
+                                break;
+                            case STATUS_CHECKED:
+                                Toast.makeText(getContext(), "you are in", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    }
+                });
 
             }
-        });
 
+//        } else {
+//
+//            Log.i("FragmentNow", "clock is stopped");
+//
+//        }
 
     }
 
-    private void buttonStatusUpdate(int targetingModule) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if (targetingModule != TODAY_IS_END) {
+        if (requestCode == 11111) {
+            if (resultCode == RESULT_OK) {
 
-            final int finalTargetingModule = targetingModule;
+                fromCheckInAct = data.getBooleanExtra("checked", false);
+                Log.e("FragmentNow onActivityResult fromCheckInAct", String.valueOf(fromCheckInAct));
+                updateNow();
+
+            }
+        }
+    }
+
+    private void buttonStatusUpdate() {
+
+//        if (targetingModule != TODAY_IS_END) {
+
+//            final int finalTargetingModule = targetingModule;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -163,8 +205,12 @@ public class FragmentNow extends Fragment {
                                 @Override
                                 public void run() {
 
-                                    buttonStatusColorManager(finalTargetingModule);
-//                                Log.e("FragmentNow - finalTargetingModule", String.valueOf(finalTargetingModule));
+                                    updateNow();
+                                    boolean show = prefs.getBoolean("checked_state", false);
+                                    Log.e("FragmentNow prefs track", String.valueOf(show));
+                                    Log.e("FragmentNow fromCheckInAct track", String.valueOf(fromCheckInAct));
+                                    buttonStatusColorManager(targetingModule);
+                                    Log.e("FragmentNow - finalTargetingModule", String.valueOf(targetingModule));
 
                                 }
                             });
@@ -174,9 +220,9 @@ public class FragmentNow extends Fragment {
                 }
             }).start();
 
-        } else {
-            Log.i("FragmentNow else buttonStatusUpdate", " " + TODAY_IS_END);
-        }
+//        } else {
+//            Log.i("FragmentNow else buttonStatusUpdate", " " + TODAY_IS_END);
+//        }
     }
 
     private int updateNow() {
@@ -185,7 +231,9 @@ public class FragmentNow extends Fragment {
         timeFormat = new SimpleDateFormat("HH:mm:ss");
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+
         targetingModule = 0;
+
 
         // get today module
         TodayModule todayModule = new TodayModule();
@@ -249,6 +297,7 @@ public class FragmentNow extends Fragment {
                         // if second is less or before first
                         if (firstModuleVSsecondModule > 0) {
 
+                            realmUpdateModStatus(targetingModule, studentModuleDao, STATUS_INACTIVE);
                             targetingModule = i;
 
                         } // else targetingModule remain the same
@@ -257,6 +306,8 @@ public class FragmentNow extends Fragment {
                     // 2 first not, second end
                     else if (((nowVSfirst <= 0) && ((nowVSfirstStartDay > 0) && (nowVSfirstEndDay <= 0)))
                             && ((nowVSsecond > 0) || (nowVSsecondStartDay <= 0) || (nowVSsecondEndDay > 0))) {
+
+                        realmUpdateModStatus(i, studentModuleDao, STATUS_INACTIVE);
 
                         Log.i("FragmentNow", "targetingModule remain the same = " + targetingModule);
                         if ((nowVSsecondStartDay <= 0) || (nowVSsecondEndDay > 0)) {
@@ -268,6 +319,7 @@ public class FragmentNow extends Fragment {
                     else if (((nowVSfirst > 0) || ((nowVSfirstStartDay <= 0) || (nowVSfirstEndDay > 0)))
                             && ((nowVSsecond <= 0) && (nowVSsecondStartDay > 0) && (nowVSsecondEndDay <= 0))) {
 
+                        realmUpdateModStatus(targetingModule, studentModuleDao, STATUS_INACTIVE);
                         targetingModule = i;
                         Log.i("FragmentNow", "targetingModule is i = " + targetingModule);
                         if ((nowVSfirstStartDay <= 0) || (nowVSfirstEndDay > 0)) {
@@ -277,8 +329,10 @@ public class FragmentNow extends Fragment {
                     }// 4 first end, second end
                     else if ((nowVSfirst > 0) && ((nowVSsecond > 0))) {
 
-                        Log.i("FragmentNow", "both end");
+                        realmUpdateModStatus(targetingModule, studentModuleDao, STATUS_INACTIVE);
+                        realmUpdateModStatus(i, studentModuleDao, STATUS_INACTIVE);
                         targetingModule = TODAY_IS_END;
+                        Log.i("FragmentNow", "both end, targetingModule = " + targetingModule);
 
                     }// 5 unknown case
                     else {
@@ -292,6 +346,7 @@ public class FragmentNow extends Fragment {
                 if (targetingModule == TODAY_IS_END) {
 
                     Log.i("FragmentNow", "youAreFree if TODAY_IS_END");
+
                     youAreFreeStatus();
 
                 } else {
@@ -301,6 +356,10 @@ public class FragmentNow extends Fragment {
 
                 }
 
+                Log.i("FragmentNow", "leave updateNow() with many module, targetingModule = " + targetingModule);
+                // TODO put youAreFreeStatus() here?
+                return targetingModule;
+
             }
 
             // there's only one module and it's not end
@@ -309,28 +368,36 @@ public class FragmentNow extends Fragment {
                 Log.i("FragmentNow", String.valueOf(nowVSmoduleEndDate) + nowVSstartDay + nowVSendDay);
                 Log.i("FragmentNow", "there's only one module and it's not end");
                 showCurrentStatus(studentModuleDao, targetingModule);
+                Log.i("FragmentNow", "leave updateNow() with one module not end, targetingModule = " + targetingModule);
+                // TODO put youAreFreeStatus() here?
+                return targetingModule;
 
             } else {
 
                 Log.i("FragmentNow", "youAreFree the only one module is ended");
+                realmUpdateModStatus(targetingModule, studentModuleDao, STATUS_INACTIVE);
                 targetingModule = TODAY_IS_END;
                 youAreFreeStatus();
-//                realmUpdateModStatus(targetingModule, studentModuleDao);
+                Log.i("FragmentNow", "leave updateNow() with one module end, targetingModule = " + targetingModule);
+                // TODO put youAreFreeStatus() here?
+                return targetingModule;
 
             }
 
-        } else {
+
+        }
+        // if there's no module
+        else {
 
             Log.i("FragmentNow", "youAreFree today has no module");
             targetingModule = TODAY_IS_END;
             youAreFreeStatus();
+            Log.i("FragmentNow", "leave updateNow() with no module, targetingModule = " + targetingModule);
+            // TODO put youAreFreeStatus() here?
+            return targetingModule;
 
         }
 
-        targetingModule = TODAY_IS_END;
-        Log.i("FragmentNow", "leave updateNow(), targetingModule = " + targetingModule);
-        // TODO put youAreFreeStatus() here?
-        return targetingModule;
     }
 
     private void realmUpdateModStatus(int targetingModule, RealmResults<StudentModuleDao> studentModuleDao, int status) {
@@ -389,18 +456,30 @@ public class FragmentNow extends Fragment {
 
     private void buttonStatusColorManager(int buttonTargetingModule) {
 
+        TodayModule todayModule = new TodayModule();
+        RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
+
         if (buttonTargetingModule == TODAY_IS_END) {
-            Log.i("FragmentNow buttonStatusColorManager, return if targetingModule ", String.valueOf(buttonTargetingModule));
+
+//            if (fromCheckInAct) {
+            if(prefs.getBoolean("checked_state",false)){
+                Log.i("FragmentNow", "prefs set to false");
+//                SharedPreferences prefs = getActivity().getSharedPreferences("login_state", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.remove("checked_state");
+                editor.apply();
+            }
+//            fromCheckInAct = false;
+
+            buttonStatus = STATUS_INACTIVE;
             return;
+
         }
 
         int min = c.get(Calendar.MINUTE);
         int hour=c.get(Calendar.HOUR);
         Calendar calendar = Calendar.getInstance();
         Date nowInButtonManager = calendar.getTime();
-
-        TodayModule todayModule = new TodayModule();
-        RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         // case 1: next module is not yet available, now is before check in start - grey
         // case 2: first module is end, second module is not yet available - grey
@@ -421,10 +500,14 @@ public class FragmentNow extends Fragment {
         // Return value is greater than 0 , if Date is after the date argument.
         // Return value is less than 0, if Date is before the date argument.
         // result format note (less than, greater than 0 or equal)
-        int checkInCompareBeforeResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(checkInStart)); // ( it's not checkin time yet - GREY, it's checkin time - GREEN )
-        int checkInCompareAfterResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(checkInEnd)); // ( it's still checkin time - GREEN, you're late but it's not end yet - RED)
-        int dateCompareBeforeResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(startDate)); // (, )
-        int dateCompareAfterResult = timeFormat.format(nowInButtonManager).compareTo(timeFormat.format(endDate)); // (you're late but it's not end yet - RED, the module is ended - show new module detail GREY)
+        int checkInCompareBeforeResult = timeFormat.format(nowInButtonManager)
+                .compareTo(timeFormat.format(checkInStart)); // ( it's not checkin time yet - GREY, it's checkin time - GREEN )
+        int checkInCompareAfterResult = timeFormat.format(nowInButtonManager)
+                .compareTo(timeFormat.format(checkInEnd)); // ( it's still checkin time - GREEN, you're late but it's not end yet - RED)
+        int dateCompareBeforeResult = timeFormat.format(nowInButtonManager)
+                .compareTo(timeFormat.format(startDate)); // (, )
+        int dateCompareAfterResult = timeFormat.format(nowInButtonManager)
+                .compareTo(timeFormat.format(endDate)); // (you're late but it's not end yet - RED, the module is ended - show new module detail GREY)
 
         Log.w("Fragment now - checkInCompareBeforeResult", String.valueOf(checkInCompareBeforeResult));
         Log.w("Fragment now - checkInCompareAfterResult", String.valueOf(checkInCompareAfterResult));
@@ -434,8 +517,16 @@ public class FragmentNow extends Fragment {
         // before checkinstart
         if (checkInCompareBeforeResult < 0) {
 
+            Log.i("FragmentNow", "prefs set to false");
+//                SharedPreferences prefs = getActivity().getSharedPreferences("login_state", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("checked_state");
+            editor.apply();
+            Log.v("FragmentNow buttonStatusColorManager", "set grey, pref track" + prefs.getBoolean("checked_state", false));
+
             b.statusBtn.setBackgroundColor(greyColor);
             b.statusTxt.setTextColor(greyColor);
+            b.statusBtn.setText("check-in");
             b.statusTxt.setText("check will start at " +
                     timeFormat.format(studentModuleDao.get(buttonTargetingModule).getCheckInStart()));
             realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_INACTIVE);
@@ -445,11 +536,12 @@ public class FragmentNow extends Fragment {
         // after checkin start, before checkin end
         else if (checkInCompareBeforeResult >=0 && checkInCompareAfterResult < 0) {
 
-            if (fromCheckInAct) {
+//            if (fromCheckInAct) {
 
+            if(prefs.getBoolean("checked_state",false)){
                 b.statusBtn.setBackgroundColor(indegoColor);
                 b.statusTxt.setTextColor(indegoColor);
-                b.statusBtn.setText("CHECKED");
+                b.statusBtn.setText("checked");
                 b.statusTxt.setText("you are in");
                 buttonStatus = STATUS_CHECKED;
 
@@ -457,6 +549,7 @@ public class FragmentNow extends Fragment {
 
                 b.statusBtn.setBackgroundColor(greenColor);
                 b.statusTxt.setTextColor(greenColor);
+                b.statusBtn.setText("check-in");
                 b.statusTxt.setText("check in will end at " +
                         timeFormat.format(studentModuleDao.get(buttonTargetingModule).getCheckInEnd()));
                 buttonStatus = STATUS_ACTIVE;
@@ -469,11 +562,12 @@ public class FragmentNow extends Fragment {
         // late but the module is not end yet
         else if (checkInCompareAfterResult >=0 && dateCompareAfterResult < 0) {
 
-            if (fromCheckInAct) {
+            //            if (fromCheckInAct) {
+            if (prefs.getBoolean("checked_state",false)) {
 
                 b.statusBtn.setBackgroundColor(indegoColor);
                 b.statusTxt.setTextColor(indegoColor);
-                b.statusBtn.setText("CHECKED");
+                b.statusBtn.setText("check-in");
                 b.statusTxt.setText("you are in");
                 buttonStatus = STATUS_CHECKED;
 
@@ -481,6 +575,7 @@ public class FragmentNow extends Fragment {
 
                 b.statusBtn.setBackgroundColor(redColor);
                 b.statusTxt.setTextColor(redColor);
+                b.statusBtn.setText("check-in");
                 b.statusTxt.setText("better late than never");
                 buttonStatus = STATUS_ACTIVE;
 
@@ -493,11 +588,22 @@ public class FragmentNow extends Fragment {
         // module is end, refresh for next module, set to grey
         else if (dateCompareAfterResult >= 0) {
 
-            fromCheckInAct = false;
+//            if (fromCheckInAct) {
+            if(prefs.getBoolean("checked_state",false)){
+                Log.i("FragmentNow", "prefs set to false");
+//                SharedPreferences prefs = getActivity().getSharedPreferences("login_state", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.remove("checked_state");
+                editor.apply();
+            }
+//            fromCheckInAct = false;
+
             buttonStatus = STATUS_INACTIVE;
-            updateNow();
             realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_INACTIVE);
-            buttonStatus = STATUS_INACTIVE;
+            if (targetingModule!=TODAY_IS_END) {
+                Log.i("FragmentNow", "updateNow in buttonStatusColorManager");
+                updateNow();
+            }
 
         }
 //        b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
