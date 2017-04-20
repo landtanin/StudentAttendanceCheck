@@ -38,7 +38,6 @@ public class FragmentLogin extends Fragment {
     ProgressDialog dialog;
     String email, password;
     private static final String tag = "login";
-    private ProgressDialog loginProgressDialog;
 
     public FragmentLogin() {
         super();
@@ -184,7 +183,7 @@ public class FragmentLogin extends Fragment {
                     public void call(Throwable throwable) {
 
                         dialog.dismiss();
-//                        Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
+                        Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
                         Log.w("LOGIN CONNECTION PROBLEM", throwable.getLocalizedMessage());
 
                     }

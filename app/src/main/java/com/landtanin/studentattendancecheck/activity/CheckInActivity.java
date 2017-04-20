@@ -38,7 +38,7 @@ import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.ActivityCheckInBinding;
 import com.landtanin.studentattendancecheck.manager.HttpManager;
 import com.landtanin.studentattendancecheck.manager.http.ApiService;
-import com.landtanin.studentattendancecheck.util.TodayModule;
+import com.landtanin.studentattendancecheck.manager.TodayModule;
 
 import io.realm.RealmResults;
 import okhttp3.ResponseBody;
@@ -75,7 +75,7 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
 
         setSupportActionBar(b.checkInActivityToolbar);
 
-        TodayModule todayModule = new TodayModule();
+        TodayModule todayModule = TodayModule.getInstance();
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         int targetingModule = getIntent().getExtras().getInt("moduleItem");

@@ -19,7 +19,9 @@ import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.activity.CheckInActivity;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
-import com.landtanin.studentattendancecheck.util.TodayModule;
+import com.landtanin.studentattendancecheck.manager.HttpManager;
+import com.landtanin.studentattendancecheck.manager.http.ApiService;
+import com.landtanin.studentattendancecheck.manager.TodayModule;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,6 +29,10 @@ import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -51,6 +57,7 @@ public class FragmentNow extends Fragment {
     private static final int STATUS_INACTIVE = 2;
     private static final int STATUS_NO_MORE = 3;
     private static final int STATUS_CHECKED = 4;
+    private static final String TAG = "FragmentNow";
 
     public FragmentNow() {
         super();
@@ -231,12 +238,10 @@ public class FragmentNow extends Fragment {
         timeFormat = new SimpleDateFormat("HH:mm:ss");
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-
         targetingModule = 0;
 
-
         // get today module
-        TodayModule todayModule = new TodayModule();
+        TodayModule todayModule = TodayModule.getInstance();
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         Log.d("FragmentNow WEEKDAY", todayModule.dayOfWeek());
@@ -402,6 +407,8 @@ public class FragmentNow extends Fragment {
 
     private void realmUpdateModStatus(int targetingModule, RealmResults<StudentModuleDao> studentModuleDao, int status) {
 
+//        updateEndStatus(studentModuleDao);
+
         String modStatus = null;
         switch (status) {
             case STATUS_ACTIVE:
@@ -456,7 +463,7 @@ public class FragmentNow extends Fragment {
 
     private void buttonStatusColorManager(int buttonTargetingModule) {
 
-        TodayModule todayModule = new TodayModule();
+        TodayModule todayModule = TodayModule.getInstance();
         RealmResults<StudentModuleDao> studentModuleDao = todayModule.getTodayModule();
 
         if (buttonTargetingModule == TODAY_IS_END) {
@@ -468,6 +475,9 @@ public class FragmentNow extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.remove("checked_state");
                 editor.apply();
+
+//                updateEndStatus(studentModuleDao);
+
             }
 //            fromCheckInAct = false;
 
@@ -595,6 +605,8 @@ public class FragmentNow extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.remove("checked_state");
                 editor.apply();
+
+//                updateEndStatus(studentModuleDao);
             }
 //            fromCheckInAct = false;
 
@@ -607,6 +619,23 @@ public class FragmentNow extends Fragment {
 
         }
 //        b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
+    }
+
+    private void updateEndStatus(RealmResults<StudentModuleDao> studentModuleDao) {
+
+        ApiService apiService = HttpManager.getInstance().create(ApiService.class);
+        apiService.attendanceUpdate("end", prefs.getInt("student_id", 0), studentModuleDao.get(0).getModuleId()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i(TAG, "onResponse: " + response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i(TAG, "onFailure: " + t.toString());
+                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

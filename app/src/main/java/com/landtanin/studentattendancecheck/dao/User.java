@@ -13,7 +13,6 @@ import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject implements RealmModel{
 
-    @PrimaryKey
     @SerializedName("name")
     @Expose
     private String name;
@@ -24,6 +23,8 @@ public class User extends RealmObject implements RealmModel{
     @SerializedName("email")
     @Expose
     private String email;
+
+    @PrimaryKey
     @SerializedName("unique_id")
     @Expose
     private String uniqueId;

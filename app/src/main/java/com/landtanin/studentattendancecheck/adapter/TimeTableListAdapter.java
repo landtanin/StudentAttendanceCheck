@@ -58,7 +58,7 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 
 //        if (endedModule.length>0) {
 
-            final RecyclerViewHolder itemHolder = (RecyclerViewHolder) holder; // it needs RecyclerViewHolder, not RecyclerView.ViewHolder
+            RecyclerViewHolder itemHolder = (RecyclerViewHolder) holder; // it needs RecyclerViewHolder, not RecyclerView.ViewHolder
             StudentModuleDao timeTableItem = getData().get(position);
 
             itemHolder.moduleNameTxt.setText(timeTableItem.getName());

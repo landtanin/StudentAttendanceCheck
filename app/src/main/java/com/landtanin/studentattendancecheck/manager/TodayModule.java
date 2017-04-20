@@ -1,4 +1,6 @@
-package com.landtanin.studentattendancecheck.util;
+package com.landtanin.studentattendancecheck.manager;
+
+import android.content.Context;
 
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 
@@ -16,8 +18,19 @@ import io.realm.RealmResults;
 
 public class TodayModule {
 
-    public TodayModule() {
+    private static TodayModule instance;
 
+    public static TodayModule getInstance() {
+        if (instance == null) {
+            instance = new TodayModule();
+        }
+        return instance;
+    }
+
+    private Context mContext;
+
+    private TodayModule() {
+        mContext = Contextor.getInstance().getContext();
     }
 
     public RealmResults<StudentModuleDao> getTodayModule() {

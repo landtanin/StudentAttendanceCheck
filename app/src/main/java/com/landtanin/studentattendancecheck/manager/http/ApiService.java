@@ -22,7 +22,7 @@ public interface ApiService {
     // in @Field "email" and "password" need to be matched with the php code of the api
 
     @FormUrlEncoded
-    @POST("new_login/index.php")
+    @POST("studentLogin/index.php")
     Observable<StudentModuleCollectionDao> studentLoginCheck
             (@Field("tag") String tag,
              @Field("email") String email,
@@ -43,7 +43,7 @@ public interface ApiService {
     @POST("studentModuleGet.php")
     Observable<StudentModuleCollectionDao> loadStudentModule(@Field("bla") String bla,@Query("student_id") int id);
     // TODO for add module
-    Observable<StudentModuleCollectionDao> addStudentModule(@Field("bla") String bla);
+//    Observable<StudentModuleCollectionDao> addStudentModule(@Field("bla") String bla);
 //    Observable<StudentModuleCollectionDao> loadStudentModule(@Query("student_id") int id);
 
 
