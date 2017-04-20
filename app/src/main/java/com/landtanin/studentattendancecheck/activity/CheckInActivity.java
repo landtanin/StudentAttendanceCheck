@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
@@ -146,7 +147,12 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
         View layout = inflater.inflate(R.layout.popup, (ViewGroup) findViewById(R.id.popupElement));
         layout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_fade_in));
 
-        mPopupWindow = new PopupWindow(layout, 800, 1200, true);
+        Resources res = getResources();
+        int width = (int) res.getDimension(R.dimen.popup_window_width);
+        int Height = (int) res.getDimension(R.dimen.popup_window_height);
+
+//        mPopupWindow = new PopupWindow(layout, 800, 1200, true);
+        mPopupWindow = new PopupWindow(layout, width, Height, true);
 
 //        mPopupWindow.setAnimationStyle();
         mPopupWindow.setTouchable(true);
