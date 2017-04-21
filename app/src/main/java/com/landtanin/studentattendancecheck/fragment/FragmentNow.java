@@ -455,7 +455,7 @@ public class FragmentNow extends Fragment {
                 + " to " + currentTimeFormat.format(studentModuleDao.get(targetingModule).getEndDate());
 
         b.moduleTimeTxt.setText(timeStr);
-        b.lecturerTxt.setText("with " + studentModuleDao.get(targetingModule).getDescription());
+        b.lecturerTxt.setText("with " + studentModuleDao.get(targetingModule).getLecturer());
         b.locationTxt.setText("at " + studentModuleDao.get(targetingModule).getRoom());
         buttonStatusColorManager(targetingModule);
 
@@ -474,6 +474,7 @@ public class FragmentNow extends Fragment {
 //                SharedPreferences prefs = getActivity().getSharedPreferences("login_state", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.remove("checked_state");
+                editor.remove("checked_or_late");
                 editor.apply();
 
 //                updateEndStatus(studentModuleDao);
@@ -531,6 +532,7 @@ public class FragmentNow extends Fragment {
 //                SharedPreferences prefs = getActivity().getSharedPreferences("login_state", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.remove("checked_state");
+            editor.remove("checked_or_late");
             editor.apply();
             Log.v("FragmentNow buttonStatusColorManager", "set grey, pref track" + prefs.getBoolean("checked_state", false));
 
@@ -549,6 +551,7 @@ public class FragmentNow extends Fragment {
 //            if (fromCheckInAct) {
 
             if(prefs.getBoolean("checked_state",false)){
+
                 b.statusBtn.setBackgroundColor(indegoColor);
                 b.statusTxt.setTextColor(indegoColor);
                 b.statusBtn.setText("checked");
@@ -557,6 +560,9 @@ public class FragmentNow extends Fragment {
 
             } else {
 
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("checked_or_late", "checked");
+                editor.apply();
                 b.statusBtn.setBackgroundColor(greenColor);
                 b.statusTxt.setTextColor(greenColor);
                 b.statusBtn.setText("check-in");
@@ -583,6 +589,9 @@ public class FragmentNow extends Fragment {
 
             } else {
 
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("checked_or_late", "late");
+                editor.apply();
                 b.statusBtn.setBackgroundColor(redColor);
                 b.statusTxt.setTextColor(redColor);
                 b.statusBtn.setText("check-in");
@@ -603,6 +612,7 @@ public class FragmentNow extends Fragment {
                 Log.i("FragmentNow", "prefs set to false");
 //                SharedPreferences prefs = getActivity().getSharedPreferences("login_state", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
+                editor.remove("checked_or_late");
                 editor.remove("checked_state");
                 editor.apply();
 

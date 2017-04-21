@@ -98,6 +98,8 @@ public class FragmentLogin extends Fragment {
                     dialog.setCanceledOnTouchOutside(false);
                     dialog.show();
 
+//                    Toast.makeText(getContext(), "button clicked", Toast.LENGTH_SHORT).show();
+
                     email = b.edtLoginEmail.getText().toString();
                     password = b.edtLoginPassword.getText().toString();
                     getLogin(); // MOVE TO BACKGROUND
@@ -124,6 +126,7 @@ public class FragmentLogin extends Fragment {
         } else {
 
             Log.e("FragmentLogin", "SharePref, login_state_var == null");
+            Toast.makeText(getContext(), "Problem with SharedPref", Toast.LENGTH_SHORT).show();
 
         }
 

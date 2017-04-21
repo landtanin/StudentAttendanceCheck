@@ -61,6 +61,7 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
     private String className = "class";
     private final String TAG = "CheckInActivity";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,9 +169,17 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
         editor.putBoolean("checked_state", true);
         editor.apply();
 
+        String status = "end";
+
+        if (prefs.getString("checked_or_late", "end").equals("checked")) {
+            status = prefs.getString("checked_or_late", "end");
+        }else if (prefs.getString("checked_or_late", "end").equals("late")) {
+            status = prefs.getString("checked_or_late", "end");
+        }
+
         Log.d(TAG, "initiatePopupWindow: " + prefs.getInt("student_id", 0) + module_id);
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
-        apiService.attendanceUpdate("checked", prefs.getInt("student_id", 0), module_id).enqueue(new Callback<ResponseBody>() {
+        apiService.attendanceUpdate(status, prefs.getInt("student_id", 0), module_id).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.i(TAG, "onResponse: " + response.body());
