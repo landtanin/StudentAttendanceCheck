@@ -1,11 +1,15 @@
 package com.landtanin.studentattendancecheck.fragment;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +25,6 @@ import com.landtanin.studentattendancecheck.manager.SmartFragmentStatePagerAdapt
 public class FragmentHome extends Fragment {
 
     FragmentHomeBinding b;
-
 
     public FragmentHome() {
         super();
@@ -109,6 +112,47 @@ public class FragmentHome extends Fragment {
 //        });
 //
 //        b.homeFragmentSlidingTabLayout.setViewPager(b.homeFragmentViewPager);
+
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.GET_PERMISSIONS
+//                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//
+//            ActivityCompat.requestPermissions(getActivity(),
+//                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+//                    12345);
+//
+//        }
+
+        String provider = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+        if(!provider.contains("gps")){ //if gps is disabled
+
+            // Setting Dialog Title
+            alertDialog.setTitle("Location service requires");
+
+            // Setting Dialog Message
+            alertDialog.setMessage("This app requires the Location service to identify device's location. Do you want to go to settings menu?");
+
+            // On pressing Settings button
+            alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog,int which) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    getContext().startActivity(intent);
+                }
+            });
+
+            // on pressing cancel button
+            alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            // Showing Alert Message
+            alertDialog.show();
+
+        }
 
         FragmentHomePagerAdapter fragmentHomePagerAdapter = new FragmentHomePagerAdapter(getChildFragmentManager());
 
