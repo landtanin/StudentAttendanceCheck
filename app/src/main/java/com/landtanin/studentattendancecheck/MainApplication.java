@@ -53,12 +53,12 @@ public class MainApplication extends Application {
                     .deleteRealmIfMigrationNeeded()
                     .build();
             Realm.setDefaultConfiguration(config);
-            Log.e("initListener: " + e.getMessage(),e.toString());
+            Log.e("MainApplication initListener: " + e.getMessage(),e.toString());
         }
         finally {
             Realm.init(this);
             Realm.getDefaultInstance().setAutoRefresh(true);
-            Log.e("TaninTest: ", Realm.getDefaultInstance().getPath() );
+            Log.e("MainApplication TaninTest: ", Realm.getDefaultInstance().getPath() );
         }
 
 

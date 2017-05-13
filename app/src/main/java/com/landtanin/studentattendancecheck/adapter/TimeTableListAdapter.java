@@ -25,15 +25,14 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModuleDao,RecyclerView.ViewHolder>{
 
-//    private RealmResults<StudentModuleDao> mtimeTableItemList;
     Context mContext;
-    ListItemTimeTableBinding b;
     int redColor, greenColor, greyColor, indegoColor, statusTxtGreenColor, blackColor;
 
-    public TimeTableListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<StudentModuleDao> data, boolean autoUpdate) {
+    public TimeTableListAdapter(@NonNull Context context,
+                                @Nullable OrderedRealmCollection<StudentModuleDao> data,
+                                boolean autoUpdate) {
         super(context, data, autoUpdate);
         mContext = context;
-
     }
 
     @Override
@@ -51,7 +50,6 @@ public class TimeTableListAdapter extends RealmRecyclerViewAdapter<StudentModule
 
 //        b = DataBindingUtil.inflate(inflater, R.layout
     }
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {

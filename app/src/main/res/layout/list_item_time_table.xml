@@ -6,8 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_list_item_add_module"
         android:background="@color/colorIndigo50"
-        android:elevation="2dp"
-        android:orientation="vertical">
+        android:elevation="2dp">
 
         <TextView
             android:id="@+id/moduleNameTxt"

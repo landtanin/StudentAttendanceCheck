@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,17 +76,19 @@ public class MondayFragment extends Fragment {
         // Init 'View' instance(s) with rootView.findViewById here
         // Note: State of variable initialized here could not be saved
         //       in onSavedInstanceState
+//        Log.w("MONDAY_module", String.valueOf(moduleToShow.size()));
+
         realm = Realm.getDefaultInstance();
-        RealmResults<StudentModuleDao> studentModuleDao = realm.where(StudentModuleDao.class).equalTo("day","Mon",Case.SENSITIVE).findAll();
+        RealmResults<StudentModuleDao> moduleToShow =
+                realm.where(StudentModuleDao.class).equalTo("day","Mon",Case.SENSITIVE).findAll();
 
+        if (moduleToShow.size()!=0) { // If there is any module to show
 
-        Log.w("MONDAY_module", String.valueOf(studentModuleDao.size()));
-
-        if (studentModuleDao.size()!=0) {
-
-            StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
+            LinearLayoutManager rvLayoutManager =
+                    new LinearLayoutManager(getContext());
             b.rvMondayTimeTable.setLayoutManager(rvLayoutManager);
-            mTimeTableListAdapter = new TimeTableListAdapter(getContext(), studentModuleDao, true);
+            TimeTableListAdapter mTimeTableListAdapter =
+                    new TimeTableListAdapter(getContext(), moduleToShow, true);
             b.rvMondayTimeTable.setAdapter(mTimeTableListAdapter);
             b.rvMondayTimeTable.setHasFixedSize(true);
 
@@ -98,6 +99,8 @@ public class MondayFragment extends Fragment {
             b.monNoModuleText.setVisibility(View.VISIBLE);
 
         }
+
+
 //        connectToDataBase();
 
     }

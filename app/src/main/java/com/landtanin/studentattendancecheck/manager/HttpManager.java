@@ -100,13 +100,13 @@ public class HttpManager {
 
             String bodyString = response.body().string();
 
-            //Logข้อมูลทั้งหมด
+            // Log add data
 
             Log.e( "intercept bodyString: ", bodyString);
             try {
                 JSONObject jsonObject = new JSONObject(bodyString);
 
-////                Logข้อมูลJsonทั้งหมด
+////                Log all JSON data
                 //  Log.e(TAG,gson.toJson(jsonObject));
 
             } catch (JSONException e) {

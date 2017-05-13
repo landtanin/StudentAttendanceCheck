@@ -70,12 +70,10 @@ public class FragmentTimeTable extends Fragment {
         //       in onSavedInstanceState
 
 
-        FragmentTimeTablePagerAdapter fragmentTimeTablePagerAdapter = new FragmentTimeTablePagerAdapter(getChildFragmentManager());
-
+        FragmentTimeTablePagerAdapter fragmentTimeTablePagerAdapter =
+                new FragmentTimeTablePagerAdapter(getChildFragmentManager());
         b.fragmentTimeTableViewPager.setAdapter(fragmentTimeTablePagerAdapter);
-
         b.fragTimeTableTabLayout.setupWithViewPager(b.fragmentTimeTableViewPager);
-//        b.fragTimeTableTabLayout.setClipToPadding(true);
 
         for(int i = 0; i < b.fragTimeTableTabLayout.getTabCount(); i++) {
 

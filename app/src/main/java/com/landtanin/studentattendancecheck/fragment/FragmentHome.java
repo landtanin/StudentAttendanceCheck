@@ -113,23 +113,13 @@ public class FragmentHome extends Fragment {
 //
 //        b.homeFragmentSlidingTabLayout.setViewPager(b.homeFragmentViewPager);
 
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.GET_PERMISSIONS
-//                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//
-//
-//            ActivityCompat.requestPermissions(getActivity(),
-//                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-//                    12345);
-//
-//        }
-
         String provider = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
         if(!provider.contains("gps")){ //if gps is disabled
 
             // Setting Dialog Title
-            alertDialog.setTitle("Location service requires");
+            alertDialog.setTitle("Location service is required");
 
             // Setting Dialog Message
             alertDialog.setMessage("This app requires the Location service to identify device's location. Do you want to go to settings menu?");
@@ -154,14 +144,14 @@ public class FragmentHome extends Fragment {
 
         }
 
-        FragmentHomePagerAdapter fragmentHomePagerAdapter = new FragmentHomePagerAdapter(getChildFragmentManager());
+        FragmentHomePagerAdapter fragmentHomePagerAdapter =
+                new FragmentHomePagerAdapter(getChildFragmentManager());
 
         b.fragmentHomeNonSwipViewPager.setAdapter(fragmentHomePagerAdapter);
         b.fragmentHomeNonSwipViewPager.setOffscreenPageLimit(2);
 
         b.fragHomeTabLayout.setupWithViewPager(b.fragmentHomeNonSwipViewPager);
         b.fragHomeTabLayout.setClipToPadding(true);
-//        b.fragHomeTabLayout.setTabTextColors(R.color.colorPrimary, R.color.colorWhite);
 
         for(int i = 0; i < b.fragHomeTabLayout.getTabCount(); i++) {
 
@@ -203,7 +193,6 @@ public class FragmentHome extends Fragment {
     public class FragmentHomePagerAdapter extends SmartFragmentStatePagerAdapter {
 
         private SmartFragmentStatePagerAdapter adapterViewPager;
-
 
         public String[] tabString = {"NOW", "TIME TABLE"};
 

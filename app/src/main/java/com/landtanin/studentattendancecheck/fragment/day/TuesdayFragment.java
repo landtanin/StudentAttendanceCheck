@@ -4,7 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +79,7 @@ public class TuesdayFragment extends Fragment {
 
         if (studentModuleDao.size()!=0) {
 
-            StaggeredGridLayoutManager rvLayoutManager = new StaggeredGridLayoutManager(1, 1);
+            LinearLayoutManager rvLayoutManager = new LinearLayoutManager(getContext());
             b.rvTuesdayTimeTable.setLayoutManager(rvLayoutManager);
             mTimeTableListAdapter = new TimeTableListAdapter(getContext(), studentModuleDao, true);
             b.rvTuesdayTimeTable.setAdapter(mTimeTableListAdapter);

@@ -115,7 +115,9 @@ public class MainActivity extends AppCompatActivity {
             int student_id = prefs.getInt("student_id", 0);
             ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-            apiService.loadStudentModule("heyhey", student_id)
+
+//            apiService.loadStudentModule("heyhey", student_id)
+            apiService.loadStudentModule(student_id)
                     .asObservable()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())

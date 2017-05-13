@@ -19,8 +19,6 @@ import com.landtanin.studentattendancecheck.R;
 import com.landtanin.studentattendancecheck.activity.CheckInActivity;
 import com.landtanin.studentattendancecheck.dao.StudentModuleDao;
 import com.landtanin.studentattendancecheck.databinding.FragmentNowBinding;
-import com.landtanin.studentattendancecheck.manager.HttpManager;
-import com.landtanin.studentattendancecheck.manager.http.ApiService;
 import com.landtanin.studentattendancecheck.manager.TodayModule;
 
 import java.text.SimpleDateFormat;
@@ -29,10 +27,6 @@ import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -216,7 +210,10 @@ public class FragmentNow extends Fragment {
                                     boolean show = prefs.getBoolean("checked_state", false);
                                     Log.e("FragmentNow prefs track", String.valueOf(show));
                                     Log.e("FragmentNow fromCheckInAct track", String.valueOf(fromCheckInAct));
+
                                     buttonStatusColorManager(targetingModule);
+                                    // this could be delete as it's already declared in updateNow()
+
                                     Log.e("FragmentNow - finalTargetingModule", String.valueOf(targetingModule));
 
                                 }
@@ -407,8 +404,6 @@ public class FragmentNow extends Fragment {
 
     private void realmUpdateModStatus(int targetingModule, RealmResults<StudentModuleDao> studentModuleDao, int status) {
 
-//        updateEndStatus(studentModuleDao);
-
         String modStatus = null;
         switch (status) {
             case STATUS_ACTIVE:
@@ -447,6 +442,13 @@ public class FragmentNow extends Fragment {
 
     private void showCurrentStatus(RealmResults<StudentModuleDao> studentModuleDao, int targetingModule) {
 
+        b.moduleIdTxt.setVisibility(View.VISIBLE);
+        b.moduleTimeTxt.setVisibility(View.VISIBLE);
+        b.lecturerTxt.setVisibility(View.VISIBLE);
+        b.locationTxt.setVisibility(View.VISIBLE);
+        b.statusBtn.setVisibility(View.VISIBLE);
+        b.statusTxt.setVisibility(View.VISIBLE);
+
         b.moduleNameTxt.setText(studentModuleDao.get(targetingModule).getName());
         b.moduleIdTxt.setText(studentModuleDao.get(targetingModule).getModuleId());
 
@@ -476,8 +478,6 @@ public class FragmentNow extends Fragment {
                 editor.remove("checked_state");
                 editor.remove("checked_or_late");
                 editor.apply();
-
-//                updateEndStatus(studentModuleDao);
 
             }
 //            fromCheckInAct = false;
@@ -539,7 +539,7 @@ public class FragmentNow extends Fragment {
             b.statusBtn.setBackgroundColor(greyColor);
             b.statusTxt.setTextColor(greyColor);
             b.statusBtn.setText("check-in");
-            b.statusTxt.setText("check will start at " +
+            b.statusTxt.setText("check in will start at " +
                     timeFormat.format(studentModuleDao.get(buttonTargetingModule).getCheckInStart()));
             realmUpdateModStatus(buttonTargetingModule, studentModuleDao, STATUS_INACTIVE);
             buttonStatus = STATUS_INACTIVE;
@@ -616,7 +616,6 @@ public class FragmentNow extends Fragment {
                 editor.remove("checked_state");
                 editor.apply();
 
-//                updateEndStatus(studentModuleDao);
             }
 //            fromCheckInAct = false;
 
@@ -629,23 +628,6 @@ public class FragmentNow extends Fragment {
 
         }
 //        b.statusTxt.setText(String.valueOf(hour)+":"+String.valueOf(min));
-    }
-
-    private void updateEndStatus(RealmResults<StudentModuleDao> studentModuleDao) {
-
-        ApiService apiService = HttpManager.getInstance().create(ApiService.class);
-        apiService.attendanceUpdate("end", prefs.getInt("student_id", 0), studentModuleDao.get(0).getModuleId()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i(TAG, "onResponse: " + response.body());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t.toString());
-                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

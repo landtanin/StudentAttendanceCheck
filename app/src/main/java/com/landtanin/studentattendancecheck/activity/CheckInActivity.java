@@ -106,24 +106,21 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
 
                 LatLng moduleLocation = new LatLng(moduleLat, moduleLng);
                 LatLng studentLocation = new LatLng(douMyLat, douMyLng);
-                checkInBounds = toBounds(moduleLocation, 432);
+//                checkInBounds = toBounds(moduleLocation, 432);
+                checkInBounds = toBounds(moduleLocation, 43);
                 // 432 is the smallest radius from house to Coates
 
                 Log.w("module Location", String.valueOf(moduleLocation));
                 Log.w("student Location", String.valueOf(studentLocation));
 
 //                if (checkInBounds.contains(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()))) {
+
                 if (checkInBounds.contains(studentLocation)) {
-
-                    Toast.makeText(CheckInActivity.this, "INBOUND", Toast.LENGTH_SHORT).show();
                     initiatePopupWindow();
-
-
                 } else {
-
                     Toast.makeText(CheckInActivity.this, "OUTBOUND", Toast.LENGTH_SHORT).show();
-
                 }
+
 
             }
         });

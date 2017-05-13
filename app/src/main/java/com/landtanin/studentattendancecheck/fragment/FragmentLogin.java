@@ -90,6 +90,7 @@ public class FragmentLogin extends Fragment {
         if (prefs.getAll().toString().equals("{}")) {
 
             b.btnLogin.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     dialog = new ProgressDialog(getActivity());
@@ -125,8 +126,17 @@ public class FragmentLogin extends Fragment {
 
         } else {
 
-            Log.e("FragmentLogin", "SharePref, login_state_var == null");
-            Toast.makeText(getContext(), "Problem with SharedPref", Toast.LENGTH_SHORT).show();
+            Log.e("FragmentLogin", "SharePref = " + String.valueOf(prefs.getAll()));
+//            Toast.makeText(getContext(), "Problem with SharedPref", Toast.LENGTH_SHORT).show();
+
+            SharedPreferences.Editor editor = prefs.edit();
+            // Add/Edit/Delete
+            editor.remove("login_state_var");
+            editor.remove("name");
+            editor.remove("student_id");
+            editor.remove("checked_state");
+            editor.remove("checked_or_late");
+            editor.apply();
 
         }
 
@@ -186,8 +196,9 @@ public class FragmentLogin extends Fragment {
                     public void call(Throwable throwable) {
 
                         dialog.dismiss();
-                        Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
+//                        Utils.getInstance().onHoneyToast("LOGIN "+throwable.getLocalizedMessage());
                         Log.w("LOGIN CONNECTION PROBLEM", throwable.getLocalizedMessage());
+
 
                     }
                 });
@@ -200,7 +211,8 @@ public class FragmentLogin extends Fragment {
 //        Log.e("todayModule","Test="+studentId);
         ApiService apiService = HttpManager.getInstance().create(ApiService.class);
 //        apiService.loadStudentModule(Authorization,Content_Type,developer.getMemberID(),TopicId)
-        apiService.loadStudentModule("heyhey", student_id)
+//        apiService.loadStudentModule("heyhey", student_id)
+        apiService.loadStudentModule(student_id)
                 .asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Utils.getInstance().defaultSubscribeScheduler())
@@ -218,9 +230,6 @@ public class FragmentLogin extends Fragment {
                         dialog.dismiss();
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
-
-
-
                         Log.d("getStudent", "call success");
 
                     }
