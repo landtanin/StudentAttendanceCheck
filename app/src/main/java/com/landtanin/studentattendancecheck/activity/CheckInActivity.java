@@ -107,7 +107,7 @@ public class CheckInActivity extends AppCompatActivity implements GoogleApiClien
                 LatLng moduleLocation = new LatLng(moduleLat, moduleLng);
                 LatLng studentLocation = new LatLng(douMyLat, douMyLng);
 //                checkInBounds = toBounds(moduleLocation, 432);
-                checkInBounds = toBounds(moduleLocation, 43);
+                checkInBounds = toBounds(moduleLocation, 1000);
                 // 432 is the smallest radius from house to Coates
 
                 Log.w("module Location", String.valueOf(moduleLocation));

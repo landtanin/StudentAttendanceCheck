@@ -34,7 +34,6 @@
 
 
         <EditText
-
             android:layout_gravity="center_horizontal"
             android:hint="Email"
             android:id="@+id/edt_login_email"

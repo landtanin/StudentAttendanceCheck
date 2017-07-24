@@ -248,6 +248,12 @@ public class FragmentNow extends Fragment {
         // if there is any module today
         if (!(studentModuleDao.size()==0)) {
 
+            if ((targetingModule+1) > studentModuleDao.size()) {
+
+                targetingModule = 0;
+
+            }
+
             Date ModuleStartCheckIn = studentModuleDao.get(targetingModule).getCheckInStart();
             Date ModuleEndCheckIn = studentModuleDao.get(targetingModule).getCheckInEnd();
             Date ModuleStartDate = studentModuleDao.get(targetingModule).getStartDate();
@@ -339,6 +345,7 @@ public class FragmentNow extends Fragment {
                     }// 5 unknown case
                     else {
 
+                        // TODO : then do something not just toast!!
                         Toast.makeText(getContext(), "FragmentNow, Unknown Case", Toast.LENGTH_SHORT).show();
 
                     }
@@ -583,7 +590,7 @@ public class FragmentNow extends Fragment {
 
                 b.statusBtn.setBackgroundColor(indegoColor);
                 b.statusTxt.setTextColor(indegoColor);
-                b.statusBtn.setText("check-in");
+                b.statusBtn.setText("checked");
                 b.statusTxt.setText("you are in");
                 buttonStatus = STATUS_CHECKED;
 
